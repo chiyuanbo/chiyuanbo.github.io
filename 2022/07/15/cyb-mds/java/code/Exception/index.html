@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Exception"><meta name="keywords" content="Code,Java"><meta name="author"><meta name="copyright"><title>Exception | YB-CHI</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '6.2.0'
+} </script><meta name="generator" content="Hexo 6.2.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Unsupported-major-minor-version-52-0"><span class="toc-number">1.</span> <span class="toc-text">Unsupported major.minor version 52.0</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88"><span class="toc-number">2.</span> <span class="toc-text">空指针</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8hive%E8%BF%9E%E6%8E%A5%E6%97%B6FileNotFoundException"><span class="toc-number">3.</span> <span class="toc-text">连接服务器使用hive连接时FileNotFoundException</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E6%93%8D%E4%BD%9Cphoenix%E8%BF%9E%E6%8E%A5%E9%9C%80%E8%A6%81%E9%85%8D%E7%BD%AEhost%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">Java操作phoenix连接需要配置host文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fat-jar%E6%89%93%E5%8C%85"><span class="toc-number">5.</span> <span class="toc-text">fat-jar打包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8Chive%E6%9F%A5%E8%AF%A2%E6%97%B6-Error-while-processing-statement-FAILED-Execution-Error-return-code-1-from-org-apache-hadoop-hive-ql-exec-mr-MapRedTask"><span class="toc-number">6.</span> <span class="toc-text">执行hive查询时 Error while processing statement: FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.mr.MapRedTask</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hive%E6%9F%A5%E8%AF%A2%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0-%E6%89%BE%E4%B8%8D%E5%88%B0COUNT%E8%BF%99%E4%B8%AA%E5%88%97"><span class="toc-number">7.</span> <span class="toc-text">hive查询聚合函数 找不到COUNT这个列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#maven%E9%85%8D%E7%BD%AEojdbc"><span class="toc-number">8.</span> <span class="toc-text">maven配置ojdbc</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center"></div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">74</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">36</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YB-CHI</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">Exception</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-07-15</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">1k</span><span class="post-meta__separator">|</span><span>阅读时长: 5 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p>
+<p>[toc]</p>
+<h4 id="Unsupported-major-minor-version-52-0"><a href="#Unsupported-major-minor-version-52-0" class="headerlink" title="Unsupported major.minor version 52.0"></a>Unsupported major.minor version 52.0</h4><p>Java虚拟机报错，jdk版本不匹配，右键项目properties</p>
+<p><img src="https://wx2.sinaimg.cn/large/be1594fagy1fytivfw95lj20r70jbgqd.jpg" alt="image"></p>
+<p><img src="https://wx4.sinaimg.cn/large/be1594fagy1fytiw5izp1j20jh07smxq.jpg" alt="image"><br>当时jre7是灰色的，是不可用的，show all runtimes后选择jre8版本可以解决，或者等会再打开这个界面，会出现原来的版本jre7</p>
+<h4 id="空指针"><a href="#空指针" class="headerlink" title="空指针"></a>空指针</h4><p>今天出了个空指针的错，给String泛型的list添加(0+””)竟然给报错，经检查，是声明list的时候没有给它开辟空间，list添加0+””不会报错，会把0添加进去。</p>
+<h4 id="连接服务器使用hive连接时FileNotFoundException"><a href="#连接服务器使用hive连接时FileNotFoundException" class="headerlink" title="连接服务器使用hive连接时FileNotFoundException"></a>连接服务器使用hive连接时FileNotFoundException</h4><pre><code>log4j:ERROR setFile(null,true) call failed.
+java.io.FileNotFoundException: /home/yarn/hadoop-2.6.0/logs/flume-hadoop/flume-hadoop.log (Permission denied)
+    at java.io.FileOutputStream.open(Native Method)
+    at java.io.FileOutputStream.&lt;init&gt;(FileOutputStream.java:221)
+    at java.io.FileOutputStream.&lt;init&gt;(FileOutputStream.java:142)
+    at org.apache.log4j.FileAppender.setFile(FileAppender.java:294)
+    at org.apache.log4j.FileAppender.activateOptions(FileAppender.java:165)
+    at org.apache.log4j.DailyRollingFileAppender.activateOptions(DailyRollingFileAppender.java:223)
+    at org.apache.log4j.config.PropertySetter.activate(PropertySetter.java:307)
+    at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:172)
+    at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:104)
+    at org.apache.log4j.PropertyConfigurator.parseAppender(PropertyConfigurator.java:842)
+    at org.apache.log4j.PropertyConfigurator.parseCategory(PropertyConfigurator.java:768)
+    at org.apache.log4j.PropertyConfigurator.configureRootCategory(PropertyConfigurator.java:648)
+    at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:514)
+    at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:580)
+    at org.apache.log4j.helpers.OptionConverter.selectAndConfigure(OptionConverter.java:526)
+    at org.apache.log4j.LogManager.&lt;clinit&gt;(LogManager.java:127)
+    at org.slf4j.impl.Log4jLoggerFactory.getLogger(Log4jLoggerFactory.java:66)
+    at org.slf4j.LoggerFactory.getLogger(LoggerFactory.java:270)
+    at org.apache.commons.logging.impl.SLF4JLogFactory.getInstance(SLF4JLogFactory.java:155)
+    at org.apache.commons.logging.impl.SLF4JLogFactory.getInstance(SLF4JLogFactory.java:132)
+    at org.apache.commons.logging.LogFactory.getLog(LogFactory.java:657)
+    at org.apache.hadoop.util.VersionInfo.&lt;clinit&gt;(VersionInfo.java:37)
+log4j:ERROR Either File or DatePattern options are not set for appender [File].
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/yarn/hadoop-2.6.0/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+</code></pre>
+<p>这个是因为使用的用户的权限不够<br>noClassFound一般是jar包依赖</p>
+<h4 id="Java操作phoenix连接需要配置host文件"><a href="#Java操作phoenix连接需要配置host文件" class="headerlink" title="Java操作phoenix连接需要配置host文件"></a>Java操作phoenix连接需要配置host文件</h4><p>url：C:\Windows\System32\drivers\etc</p>
+<p>连接hivejdbc的时候一个报错</p>
+<p><img src="https://wx2.sinaimg.cn/large/be1594fagy1fytizces9rj20y70793zd.jpg" alt="image"><br>一番查找之后发现是phoenix-4.6.0-HBase-1.1-client.jar导致的</p>
+<h4 id="fat-jar打包"><a href="#fat-jar打包" class="headerlink" title="fat-jar打包"></a>fat-jar打包</h4><p>用fat-jar打成jar包放在服务器上运行，有可能会丢失依赖的jar包导致程序运行出错，或者不报错却查不出数据，使用eclipse本身自带的打jar工具，右键export,选择Java里的runnable JAR file</p>
+<p><img src="https://wx2.sinaimg.cn/large/be1594fagy1fytizw6csrj20gu0fa765.jpg" alt="image"><br>改变项目路径的时候，需要把新的路径–build path–use as source folder<br>build的路径会成为固定路径 比如com.baidu.demo<br>如果只有com包就build，.java的package为baidu.demo</p>
+<p>上传maven项目时</p>
+<pre><code>-Dmaven.multiModuleProjectDirectory system property is not set. Check $M2_HOME environment variable and mvn script match.
+.添加M2_HOME的环境变量
+2.Preference-&gt;Java-&gt;Installed JREs-&gt;Edit 选择一个jdk,
+添加  -Dmaven.multiModuleProjectDirectory=$M2_HOME
+
+-Dmaven.multiModuleProjectDirectory=$M2_HOME
+</code></pre>
+<p><img src="https://wx3.sinaimg.cn/large/be1594fagy1fytj0j4y3wj20hz0fltag.jpg" alt="image"></p>
+<h4 id="执行hive查询时-Error-while-processing-statement-FAILED-Execution-Error-return-code-1-from-org-apache-hadoop-hive-ql-exec-mr-MapRedTask"><a href="#执行hive查询时-Error-while-processing-statement-FAILED-Execution-Error-return-code-1-from-org-apache-hadoop-hive-ql-exec-mr-MapRedTask" class="headerlink" title="执行hive查询时 Error while processing statement: FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.mr.MapRedTask"></a>执行hive查询时 Error while processing statement: FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.mr.MapRedTask</h4><pre><code>java.sql.SQLException: Error while processing statement: FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.mr.MapRedTask
+    at org.apache.hive.jdbc.HiveStatement.execute(HiveStatement.java:296)
+    at org.apache.hive.jdbc.HiveStatement.executeQuery(HiveStatement.java:392)
+    at org.apache.hive.jdbc.HivePreparedStatement.executeQuery(HivePreparedStatement.java:109)
+    at com.sgcc.epri.dcloud.dm_hive_datacheck.query.HiveQuery.queryHiveLoadCount(HiveQuery.java:39)
+    at com.sgcc.epri.dcloud.dm_hive_datacheck.common.ReadExcelAndCompare.readLoad(ReadExcelAndCompare.java:90)
+    at com.sgcc.epri.dcloud.dm_hive_datacheck.main.MainLoad_Forecast.main(MainLoad_Forecast.java:14)
+</code></pre>
+<p><img src="https://wx1.sinaimg.cn/large/be1594fagy1fytj11j1l6j20uh072dgt.jpg" alt="image"><br>这是hdfs没有空间了</p>
+<h4 id="hive查询聚合函数-找不到COUNT这个列"><a href="#hive查询聚合函数-找不到COUNT这个列" class="headerlink" title="hive查询聚合函数 找不到COUNT这个列"></a>hive查询聚合函数 找不到COUNT这个列</h4><p>使用count &#x3D; rs.getString(1);来取 不要用count &#x3D; rs.getString(“COUNT”);</p>
+<pre><code>select count(1) as COUNT from fjudm4.hbase_md_load_bus_fc_96lc_submit_balance where date = &#39;2016-01-01&#39;
+java.sql.SQLException
+        at org.apache.hadoop.hive.jdbc.HiveBaseResultSet.findColumn(HiveBaseResultSet.java:81)
+        at org.apache.hadoop.hive.jdbc.HiveBaseResultSet.getString(HiveBaseResultSet.java:484)
+        at com.sgcc.epri.dcloud.dm_hive_datacheck.query.HiveQuery.queryHiveLoadCount(HiveQuery.java:47)
+        at com.sgcc.epri.dcloud.dm_hive_datacheck.common.ReadExcelAndCompare.readLoad(ReadExcelAndCompare.java:120)
+        at com.sgcc.epri.dcloud.dm_hive_datacheck.main.MainLoad_ForecastCount.main(MainLoad_ForecastCount.java:16)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:606)
+        at org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader.main(JarRsrcLoader.java:58)
+</code></pre>
+<h4 id="maven配置ojdbc"><a href="#maven配置ojdbc" class="headerlink" title="maven配置ojdbc"></a>maven配置ojdbc</h4><p>因为ojdbc是收费的！(&#x2F;哭)只能自己下载ojdbc对应的版本jar包，在当前路径打开dos，比如我是在桌面，我执行命令将它安装到本地仓库</p>
+<pre><code>mvn install:install-file -DgroupId=com.Oracle -DartifactId=ojdbc14 -Dversion=10.2.0.2.0 -Dpackaging=jar -Dfile=C:\Users\Administrator\Desktop\ojdbc14-10.2.0.2.0.jar
+</code></pre>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined"></a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yb-chi.top/2022/07/15/cyb-mds/java/code/Exception/">https://yb-chi.top/2022/07/15/cyb-mds/java/code/Exception/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yb-chi.top">YB-CHI</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Code/">Code</a><a class="post-meta__tags" href="/tags/Java/">Java</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2022/07/15/cyb-mds/java/jvm/JVM%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%8C%20Part%204%20%E2%80%95%E2%80%95%20C4%20%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"><i class="fa fa-chevron-left">  </i><span>JVM性能优化， Part 4  ―― C4 垃圾回收</span></a></div><div class="next-post pull-right"><a href="/2022/07/15/cyb-mds/java/code/Java%20%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E7%9A%84%209%20%E4%B8%AA%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"><span>Java 异常处理的 9 个最佳实践</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2016 - 2022 By null</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
