@@ -8,7 +8,7 @@
     noSupport: '浏览器不支持'
   },
   hexoVersion: '6.2.0'
-} </script><meta name="generator" content="Hexo 6.2.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Caffeine%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">Caffeine介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="toc-number">2.</span> <span class="toc-text">引入依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%8A%A0%E8%BD%BD%E7%AD%96%E7%95%A5"><span class="toc-number">3.</span> <span class="toc-text">缓存加载策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5"><span class="toc-number">4.</span> <span class="toc-text">缓存淘汰策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%B7%E6%96%B0%E6%9C%BA%E5%88%B6"><span class="toc-number">5.</span> <span class="toc-text">刷新机制</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">YB-CHI</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">85</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">41</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YB-CHI</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">Caffeine缓存</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-07-20</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">354</span><span class="post-meta__separator">|</span><span>阅读时长: 1 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p>
+} </script><meta name="generator" content="Hexo 6.2.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Caffeine%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">Caffeine介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="toc-number">2.</span> <span class="toc-text">引入依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Caffeine%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E"><span class="toc-number">3.</span> <span class="toc-text">Caffeine配置说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E8%AF%B4%E6%98%8E"><span class="toc-number">4.</span> <span class="toc-text">注解说明</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#EnableCaching"><span class="toc-number">4.1.</span> <span class="toc-text">@EnableCaching</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Cacheable"><span class="toc-number">4.2.</span> <span class="toc-text">@Cacheable</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CachePut"><span class="toc-number">4.3.</span> <span class="toc-text">@CachePut</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CacheEvict"><span class="toc-number">4.4.</span> <span class="toc-text">@CacheEvict</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Caching"><span class="toc-number">4.5.</span> <span class="toc-text">@Caching</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E6%88%98"><span class="toc-number">5.</span> <span class="toc-text">实战</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">YB-CHI</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">98</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">44</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YB-CHI</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">Caffeine缓存</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-07-20</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">1.7k</span><span class="post-meta__separator">|</span><span>阅读时长: 7 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p>
 <p>[toc]</p>
 <h4 id="Caffeine介绍"><a href="#Caffeine介绍" class="headerlink" title="Caffeine介绍"></a>Caffeine介绍</h4><p>Caffeine是基于Java 1.8的高性能本地缓存库，由Guava改进而来，而且在Spring5开始的默认缓存实现就将Caffeine代替原来的Google Guava，官方说明指出，其缓存命中率已经接近最优值。实际上Caffeine这样的本地缓存和ConcurrentMap很像，即支持并发，并且支持O(1)时间复杂度的数据存取。二者的主要区别在于：</p>
 <p>ConcurrentMap将存储所有存入的数据，直到你显式将其移除；<br>Caffeine将通过给定的配置，自动移除“不常用”的数据，以保持内存的合理占用。<br>因此，一种更好的理解方式是：Cache是一种带有存储和移除策略的Map。</p>
@@ -17,20 +17,178 @@
 <p>集成springboot</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-cache&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 
+<h4 id="Caffeine配置说明"><a href="#Caffeine配置说明" class="headerlink" title="Caffeine配置说明"></a>Caffeine配置说明</h4><table>
+<thead>
+<tr>
+<th>参数</th>
+<th align="center">类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>initialCapacity</td>
+<td align="center">integer</td>
+<td>初始的缓存空间大小</td>
+</tr>
+<tr>
+<td>maximumSize</td>
+<td align="center">long</td>
+<td>缓存的最大条数</td>
+</tr>
+<tr>
+<td>maximumWeight</td>
+<td align="center">long</td>
+<td>缓存的最大权重</td>
+</tr>
+<tr>
+<td>expireAfterAccess</td>
+<td align="center">duration</td>
+<td>最后一次写入或访问后，指定经过多长的时间过期</td>
+</tr>
+<tr>
+<td>expireAfterWrite</td>
+<td align="center">duration</td>
+<td>最后一次写入后，指定经过多长的时间缓存过期</td>
+</tr>
+<tr>
+<td>refreshAfterWrite</td>
+<td align="center">duration</td>
+<td>创建缓存或者最近一次更新缓存后，经过指定的时间间隔后刷新缓存</td>
+</tr>
+<tr>
+<td>weakKeys</td>
+<td align="center">boolean</td>
+<td>打开 key 的弱引用</td>
+</tr>
+<tr>
+<td>weakValues</td>
+<td align="center">boolean</td>
+<td>打开 value 的弱引用</td>
+</tr>
+<tr>
+<td>softValues</td>
+<td align="center">boolean</td>
+<td>打开 value 的软引用</td>
+</tr>
+<tr>
+<td>recordStats</td>
+<td align="center">-</td>
+<td>开发统计功能</td>
+</tr>
+</tbody></table>
+<p><strong>注意：</strong></p>
+<ul>
+<li><code>weakValues</code> 和 <code>softValues</code> 不可以同时使用。</li>
+<li><code>maximumSize</code> 和 <code>maximumWeight</code> 不可以同时使用。</li>
+<li><code>expireAfterWrite</code> 和 <code>expireAfterAccess</code> 同时存在时，以 <code>expireAfterWrite</code> 为准。</li>
+</ul>
+<h4 id="注解说明"><a href="#注解说明" class="headerlink" title="注解说明"></a>注解说明</h4><ul>
+<li>@EnableCaching：开启基于注解的缓存-</li>
+<li>@Cacheable：表示该方法支持缓存。当调用被注解的方法时，如果对应的键已经存在缓存，则不再执行方法体，而从缓存中直接返回。当方法返回null时，将不进行缓存操作。</li>
+<li>@CachePut：表示执行该方法后，其值将作为最新结果更新到缓存中，每次都会执行该方法。</li>
+<li>@CacheEvict：表示执行该方法后，将触发缓存清除操作。</li>
+<li>@Caching：用于组合前三个注解</li>
+</ul>
+<h5 id="EnableCaching"><a href="#EnableCaching" class="headerlink" title="@EnableCaching"></a>@EnableCaching</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cache.annotation.EnableCaching;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringbootCacheApplication</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(SpringbootCacheApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h5 id="Cacheable"><a href="#Cacheable" class="headerlink" title="@Cacheable"></a>@Cacheable</h5><ul>
+<li>cacheNames&#x2F;value：指定缓存组件的名字，数组形式</li>
+<li>key：缓存数据使用的key，确定缓存可以用唯一key进行指定；eg：编写SpEL； #id，参数id的值 ,，#a0(第一个参数)， #p0(和a0的一样的意义) ，#root.args[0]</li>
+<li>keyGenerator：key的生成器；可以自己指定key的生成器的组件id（注意： <strong>key&#x2F;keyGenerator：二选一使用</strong>;不能同时使用）</li>
+<li>cacheManager：指定缓存管理器；或者cacheResolver指定获取解析器</li>
+<li>condition：指定符合条件的情况下才缓存；使用SpEl表达式，eg：condition &#x3D; “#a0&gt;1”：第一个参数的值&gt;1的时候才进行缓存</li>
+<li>unless:否定缓存；当unless指定的条件为true，方法的返回值就不会被缓存；eg：unless &#x3D; “#a0！&#x3D;2”:如果第一个参数的值不是2，结果不缓存；</li>
+<li>sync：是否使用异步模式</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable(</span></span><br><span class="line"><span class="meta">    value = &#123;&quot;emp&quot;&#125;, </span></span><br><span class="line"><span class="meta">    /*keyGenerator = &quot;myKeyGenerator&quot;,*/</span></span><br><span class="line"><span class="meta">    key = &quot;#id&quot;,</span></span><br><span class="line"><span class="meta">    condition = &quot;#a0&gt;=1&quot;,</span></span><br><span class="line"><span class="meta">    unless = &quot;#a0!=2&quot;</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="keyword">public</span> Employee <span class="title function_">getEmp</span><span class="params">(Integer id)</span> &#123;</span><br><span class="line">    <span class="type">Employee</span> <span class="variable">employee</span> <span class="operator">=</span> <span class="built_in">this</span>.employeeMapper.getEmpById(id);</span><br><span class="line">    LOG.info(<span class="string">&quot;查询&#123;&#125;号员工数据&quot;</span>,id);</span><br><span class="line">    <span class="keyword">return</span> employee;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="缓存加载策略"><a href="#缓存加载策略" class="headerlink" title="缓存加载策略"></a>缓存加载策略</h4><ol>
-<li>Cache手动创建</li>
-<li>Loading Cache自动创建</li>
-<li>Async Cache异步获取</li>
-</ol>
-<h4 id="缓存淘汰策略"><a href="#缓存淘汰策略" class="headerlink" title="缓存淘汰策略"></a>缓存淘汰策略</h4><ol>
-<li>大小 （LFU算法进行淘汰）</li>
-<li>权重 （大小与权重 只能二选一）</li>
-<li>时间</li>
-<li>引用</li>
-</ol>
-<h4 id="刷新机制"><a href="#刷新机制" class="headerlink" title="刷新机制"></a>刷新机制</h4><p><code>refreshAfterWrite()</code>表示x秒后自动刷新缓存的策略可以配合淘汰策略使用，注意的是刷新机制只支持LoadingCache和AsyncLoadingCache</p>
+<p>这里也可以使用自定义的keyGenerator，使用属性keyGenerator &#x3D; “myKeyGenerator</p>
+<p>定义一个@Bean类，将KeyGenerator添加到Spring容器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CacheConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(value = &#123;&quot;myKeyGenerator&quot;&#125;)</span></span><br><span class="line">    <span class="keyword">public</span> KeyGenerator <span class="title function_">keyGenerator</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">KeyGenerator</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> Object <span class="title function_">generate</span><span class="params">(Object target, Method method, Object... params)</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> method.getName()+<span class="string">&quot;[&quot;</span>+ Arrays.asList(params).toString()+<span class="string">&quot;]&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="CachePut"><a href="#CachePut" class="headerlink" title="@CachePut"></a>@CachePut</h5><p>@CachePut注解也是一个用来缓存的注解，不过缓存和@Cacheable有明显的区别是<strong>既调用方法，又更新缓存数据</strong>，也就是执行方法操作之后再来同步更新缓存，所以这个主键常用于更新操作，也可以用于查询，主键属性和@Cacheable有很多类似的，详情参看@CachePut源码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">*  <span class="doctag">@CachePut</span>：既调用方法，又更新缓存数据；同步更新缓存</span></span><br><span class="line"><span class="comment">*  修改了数据，同时更新缓存</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@CachePut(value = &#123;&quot;emp&quot;&#125;, key = &quot;#result.id&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Employee <span class="title function_">updateEmp</span><span class="params">(Employee employee)</span>&#123;</span><br><span class="line">    employeeMapper.updateEmp(employee);</span><br><span class="line">    LOG.info(<span class="string">&quot;更新&#123;&#125;号员工数据&quot;</span>,employee.getId());</span><br><span class="line">    <span class="keyword">return</span> employee;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="CacheEvict"><a href="#CacheEvict" class="headerlink" title="@CacheEvict"></a>@CacheEvict</h5><ul>
+<li>key：指定要清除的数据</li>
+<li>allEntries &#x3D; true：指定清除这个缓存中所有的数据</li>
+<li>beforeInvocation &#x3D; false：默认代表缓存清除操作是在方法执行之后执行</li>
+<li>beforeInvocation &#x3D; true：代表清除缓存操作是在方法运行之前执行</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CacheEvict(value = &#123;&quot;emp&quot;&#125;, beforeInvocation = true,key=&quot;#id&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">deleteEmp</span><span class="params">(Integer id)</span>&#123;</span><br><span class="line">    employeeMapper.deleteEmpById(id);</span><br><span class="line">    <span class="comment">//int i = 10/0;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Caching"><a href="#Caching" class="headerlink" title="@Caching"></a>@Caching</h5><p>@Caching 用于定义复杂的缓存规则，可以集成@Cacheable和 @CachePut</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @Caching 定义复杂的缓存规则</span></span><br><span class="line">   <span class="meta">@Caching(</span></span><br><span class="line"><span class="meta">           cacheable = &#123;</span></span><br><span class="line"><span class="meta">                   @Cacheable(/*value=&#123;&quot;emp&quot;&#125;,*/key = &quot;#lastName&quot;)</span></span><br><span class="line"><span class="meta">           &#125;,</span></span><br><span class="line"><span class="meta">           put = &#123;</span></span><br><span class="line"><span class="meta">                   @CachePut(/*value=&#123;&quot;emp&quot;&#125;,*/key = &quot;#result.id&quot;),</span></span><br><span class="line"><span class="meta">                   @CachePut(/*value=&#123;&quot;emp&quot;&#125;,*/key = &quot;#result.email&quot;)</span></span><br><span class="line"><span class="meta">           &#125;</span></span><br><span class="line"><span class="meta">   )</span></span><br><span class="line">   <span class="keyword">public</span> Employee <span class="title function_">getEmpByLastName</span><span class="params">(String lastName)</span>&#123;</span><br><span class="line">       <span class="keyword">return</span> employeeMapper.getEmpByLastName(lastName);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>附录拓展：SpEL表达式用法</strong></p>
+<p>Cache SpEL available metadata</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>位置</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>methodName</td>
+<td>root对象</td>
+<td>当前被调用的方法名</td>
+<td>#root.methodname</td>
+</tr>
+<tr>
+<td>method</td>
+<td>root对象</td>
+<td>当前被调用的方法</td>
+<td>#root.method.name</td>
+</tr>
+<tr>
+<td>target</td>
+<td>root对象</td>
+<td>当前被调用的目标对象实例</td>
+<td>#root.target</td>
+</tr>
+<tr>
+<td>targetClass</td>
+<td>root对象</td>
+<td>当前被调用的目标对象的类</td>
+<td>#root.targetClass</td>
+</tr>
+<tr>
+<td>args</td>
+<td>root对象</td>
+<td>当前被调用的方法的参数列表</td>
+<td>#root.args[0]</td>
+</tr>
+<tr>
+<td>caches</td>
+<td>root对象</td>
+<td>当前方法调用使用的缓存列表</td>
+<td>#root.caches[0].name</td>
+</tr>
+<tr>
+<td>argument Name</td>
+<td>执行上下文(avaluation context)</td>
+<td>当前被调用的方法的参数，如findArtisan(Artisan artisan),可以通过#artsian.id获得参数</td>
+<td>#artsian.id</td>
+</tr>
+<tr>
+<td>result</td>
+<td>执行上下文(evaluation context)</td>
+<td>方法执行后的返回值（仅当方法执行后的判断有效，如 unless cacheEvict的beforeInvocation&#x3D;false）</td>
+<td>#result</td>
+</tr>
+</tbody></table>
+<h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><p><strong>@Cacheable</strong>,查询用户功能,走了缓存就不走方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable(value = &quot;user&quot;, key = &quot;#user.id&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getUserById</span><span class="params">(User user)</span> &#123;</span><br><span class="line">        <span class="type">User</span> <span class="variable">userByUserId</span> <span class="operator">=</span> userMapper.findUserByUserId(user.getId());</span><br><span class="line">        System.out.println(<span class="string">&quot;走了数据库:&quot;</span> + user.getId());</span><br><span class="line">        <span class="keyword">return</span> userByUserId;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>@CachePut</strong>,注册用户功能,走方法也更新缓存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CachePut(value = &quot;user&quot;, key = &quot;#user.id&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">register</span><span class="params">(User user)</span> &#123;</span><br><span class="line">    user.setCreateTime(<span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">    user.setStatus(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    <span class="comment">//查询是否有相同用户名的用户</span></span><br><span class="line">    List&lt;User&gt; userList = userMapper.findByUsername(user.getUserName());</span><br><span class="line">    <span class="keyword">if</span> (userList.size() &gt; <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">//将密码进行加密操作</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">encodePassword</span> <span class="operator">=</span> passwordEncoder.encode(user.getPassword());</span><br><span class="line">    user.setPassword(encodePassword);</span><br><span class="line">    userMapper.register(user);</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>@CacheEvict</strong>,标记用户删除状态,删除指定缓存,默认缓存清除操作是在方法执行之后执行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CacheEvict(value = &quot;user&quot;, key = &quot;#user.id&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">markUserDelByUserId</span><span class="params">(User user)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;删除id:&quot;</span> + user.getId());</span><br><span class="line">        userMapper.markUserDelByUserId(user.getId());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 </div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">YB-CHI</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yb-chi.top/2022/07/20/cyb-mds/java/code/Caffeine/">https://yb-chi.top/2022/07/20/cyb-mds/java/code/Caffeine/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yb-chi.top">YB-CHI</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Code/">Code</a><a class="post-meta__tags" href="/tags/Java/">Java</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2022/07/22/cyb-mds/module/Redis/Redis-1-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><i class="fa fa-chevron-left">  </i><span>Redis-1-数据结构</span></a></div><div class="next-post pull-right"><a href="/2022/07/20/cyb-mds/java/spring/springboot%20security%E4%BD%BF%E7%94%A8/"><span>Springboot Security使用</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2016 - 2022 By YB-CHI</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
   $('#nav').addClass('is-mobile')
   $('footer').addClass('is-mobile')
