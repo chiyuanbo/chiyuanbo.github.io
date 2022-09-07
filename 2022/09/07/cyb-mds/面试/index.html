@@ -1,0 +1,810 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="面试"><meta name="keywords" content="面试"><meta name="author" content="YB-CHI"><meta name="copyright" content="YB-CHI"><title>面试 | YB-CHI</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '6.2.0'
+} </script><meta name="generator" content="Hexo 6.2.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#ES"><span class="toc-number">1.</span> <span class="toc-text">ES</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFES%EF%BC%8C%E4%BD%A0%E5%AF%B9ES%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%8C"><span class="toc-number">1.1.</span> <span class="toc-text">什么是ES，你对ES的理解，</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ES%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%AB"><span class="toc-number">1.2.</span> <span class="toc-text">ES为什么快</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-number">1.3.</span> <span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Elasticsearch-%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%E5%A4%9A%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E-%E5%A6%82%E4%BD%95%E8%B0%83%E4%BC%98-%E9%83%A8%E7%BD%B2"><span class="toc-number">1.4.</span> <span class="toc-text">Elasticsearch 索引数据多了怎么办,如何调优,部署</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Elasticsearch%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0master%E9%80%89%E4%B8%BE%E7%9A%84"><span class="toc-number">1.5.</span> <span class="toc-text">Elasticsearch是如何实现master选举的</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%8B-Elasticsearch-%E7%B4%A2%E5%BC%95%E6%96%87%E6%A1%A3%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.6.</span> <span class="toc-text">详细描述一下 Elasticsearch 索引文档的过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Elasticsearch-%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E8%A3%82%E8%84%91%E9%97%AE%E9%A2%98"><span class="toc-number">1.7.</span> <span class="toc-text">Elasticsearch 如何避免裂脑问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Elasticsearch%E7%9A%84%E4%B8%89%E7%A7%8D%E5%88%86%E9%A1%B5%E6%96%B9%E5%BC%8F"><span class="toc-number">1.8.</span> <span class="toc-text">Elasticsearch的三种分页方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Elasticsearch%E4%BF%AE%E6%94%B9%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.9.</span> <span class="toc-text">Elasticsearch修改索引结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Elasticsearch%E5%BA%94%E8%AF%A5%E8%AE%BE%E7%BD%AE%E5%A4%9A%E5%B0%91%E5%88%86%E7%89%87"><span class="toc-number">1.10.</span> <span class="toc-text">Elasticsearch应该设置多少分片</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MYSQL"><span class="toc-number">2.</span> <span class="toc-text">MYSQL</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MYSQL%E5%BC%95%E6%93%8E"><span class="toc-number">2.1.</span> <span class="toc-text">MYSQL引擎</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MySQL%E7%9A%84InnoDB%E5%92%8CMyISAM%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.2.</span> <span class="toc-text">MySQL的InnoDB和MyISAM的区别:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MYSQL%E6%9C%89%E5%87%A0%E7%A7%8D%E7%B4%A2%E5%BC%95"><span class="toc-number">2.3.</span> <span class="toc-text">MYSQL有几种索引</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%A7%92%E5%BA%A6"><span class="toc-number">2.3.1.</span> <span class="toc-text">从数据结构角度</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BB%8E%E7%89%A9%E7%90%86%E5%AD%98%E5%82%A8%E8%A7%92%E5%BA%A6"><span class="toc-number">2.3.2.</span> <span class="toc-text">从物理存储角度</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BB%8E%E9%80%BB%E8%BE%91%E8%A7%92%E5%BA%A6"><span class="toc-number">2.3.3.</span> <span class="toc-text">从逻辑角度</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MYSQL%E4%BC%98%E5%8C%96"><span class="toc-number">2.4.</span> <span class="toc-text">MYSQL优化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MYSQL%E4%BC%98%E5%8C%96-1"><span class="toc-number">2.5.</span> <span class="toc-text">MYSQL优化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Mysql-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="toc-number">2.6.</span> <span class="toc-text">Mysql 主从复制</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ORACLE%E5%92%8CMYSQL%E5%8C%BA%E5%88%AB"><span class="toc-number">2.7.</span> <span class="toc-text">ORACLE和MYSQL区别</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AE%8F%E8%A7%82%E4%B8%8A"><span class="toc-number">2.7.1.</span> <span class="toc-text">一、宏观上:</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%BE%AE%E8%A7%82%E4%B8%8A"><span class="toc-number">2.7.2.</span> <span class="toc-text">二、微观上:</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mysql%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84%E8%AF%A6%E7%BB%86%E8%AE%B2%E8%AE%B2%EF%BC%88%E5%9B%9E%E8%A1%A8%EF%BC%89"><span class="toc-number">2.8.</span> <span class="toc-text">mysql索引结构详细讲讲（回表）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mysql%E7%9A%84%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E5%92%8C%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%B8%80%E8%B5%B7%E5%90%97"><span class="toc-number">2.9.</span> <span class="toc-text">mysql的数据文件和索引文件存在一起吗</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mysql%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">2.10.</span> <span class="toc-text">mysql底层存储的数据结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mysql%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9B-tree%E5%81%9A%E7%B4%A2%E5%BC%95"><span class="toc-number">2.11.</span> <span class="toc-text">mysql为什么选择B+tree做索引</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ClickHouse"><span class="toc-number">3.</span> <span class="toc-text">ClickHouse</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%E4%B8%8BCK"><span class="toc-number">3.1.</span> <span class="toc-text">简单介绍下CK</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ClickHouse%E6%9C%89%E5%93%AA%E4%BA%9B%E8%A1%A8%E5%BC%95%E6%93%8E"><span class="toc-number">3.2.</span> <span class="toc-text">ClickHouse有哪些表引擎</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MergeTree%E7%89%B9%E7%82%B9"><span class="toc-number">3.3.</span> <span class="toc-text">MergeTree特点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ClickHouse%E4%B8%BA%E4%BD%95%E5%A6%82%E6%AD%A4%E4%B9%8B%E5%BF%AB"><span class="toc-number">3.4.</span> <span class="toc-text">ClickHouse为何如此之快</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ck%E5%92%8Cmysql%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.5.</span> <span class="toc-text">ck和mysql的区别</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#REDIS"><span class="toc-number">4.</span> <span class="toc-text">REDIS</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#REDIS%E9%9B%86%E7%BE%A4%E5%8E%9F%E7%90%86"><span class="toc-number">4.1.</span> <span class="toc-text">REDIS集群原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Redis-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E3%80%81%E5%93%A8%E5%85%B5%E5%92%8C%E9%9B%86%E7%BE%A4%E4%B8%89%E8%80%85%E5%8C%BA%E5%88%AB"><span class="toc-number">4.2.</span> <span class="toc-text">Redis 主从复制、哨兵和集群三者区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#REDIS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">4.3.</span> <span class="toc-text">REDIS数据类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Redis%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Hash%E5%86%B2%E7%AA%81%E7%9A%84"><span class="toc-number">4.4.</span> <span class="toc-text">Redis如何解决Hash冲突的</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#REDIS%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">4.5.</span> <span class="toc-text">REDIS缓存雪崩</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#REDIS%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="toc-number">4.6.</span> <span class="toc-text">REDIS缓存击穿</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#REDIS%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-number">4.7.</span> <span class="toc-text">REDIS缓存穿透</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Redis%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">4.8.</span> <span class="toc-text">Redis的持久化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">4.9.</span> <span class="toc-text">Redis实现消息队列</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Redis%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5"><span class="toc-number">4.10.</span> <span class="toc-text">Redis淘汰策略</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KAFKA"><span class="toc-number">5.</span> <span class="toc-text">KAFKA</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#KAFKA%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">5.1.</span> <span class="toc-text">KAFKA是什么</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8KAFKA"><span class="toc-number">5.2.</span> <span class="toc-text">为什么要使用KAFKA</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KAFKA%E4%B8%BA%E4%BB%80%E4%B9%88%E5%86%99%E5%85%A5%E7%A3%81%E7%9B%98%E5%BF%AB"><span class="toc-number">5.3.</span> <span class="toc-text">KAFKA为什么写入磁盘快</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Kafka%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="toc-number">5.4.</span> <span class="toc-text">Kafka零拷贝</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Kafka%E5%88%9B%E5%BB%BAtopic%E5%BA%94%E8%AF%A5%E7%BB%99%E5%A4%9A%E5%B0%91%E4%B8%AApartition"><span class="toc-number">5.5.</span> <span class="toc-text">Kafka创建topic应该给多少个partition</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KAFKA%E4%B8%A2%E6%95%B0%E6%8D%AE%E5%90%97"><span class="toc-number">5.6.</span> <span class="toc-text">KAFKA丢数据吗</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HW-LEO-LW-LSO%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="toc-number">5.7.</span> <span class="toc-text">HW,LEO,LW,LSO名词解释</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFISR"><span class="toc-number">5.8.</span> <span class="toc-text">什么是ISR</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Kafka-%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E9%A1%BA%E5%BA%8F"><span class="toc-number">5.9.</span> <span class="toc-text">Kafka 分布式的情况下，如何保证消息的顺序?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Kafka%E5%88%86%E5%8C%BA%E7%AD%96%E7%95%A5"><span class="toc-number">5.10.</span> <span class="toc-text">Kafka分区策略</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Kafka-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%B2%BE%E7%A1%AE%E4%B8%80%E6%AC%A1-%E7%94%9F%E4%BA%A7%E8%80%85%E6%96%B9%E9%9D%A2-%EF%BC%9F"><span class="toc-number">5.11.</span> <span class="toc-text">Kafka 怎么实现精确一次(生产者方面)？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Kafka-%E6%80%8E%E4%B9%88%E9%81%BF%E5%85%8D%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%EF%BC%9F"><span class="toc-number">5.12.</span> <span class="toc-text">Kafka 怎么避免重复消费？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">6.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="toc-number">6.1.</span> <span class="toc-text">TCP三次握手</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">6.2.</span> <span class="toc-text">4次挥手</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%97%B6%E5%80%99%E6%98%AF%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%EF%BC%8C%E5%85%B3%E9%97%AD%E7%9A%84%E6%97%B6%E5%80%99%E5%8D%B4%E6%98%AF%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B%EF%BC%9F"><span class="toc-number">6.3.</span> <span class="toc-text">为什么连接的时候是三次握手，关闭的时候却是四次握手？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TCP-%E5%92%8C-UDP-%E5%8C%BA%E5%88%AB"><span class="toc-number">6.4.</span> <span class="toc-text">TCP 和 UDP 区别:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TCP-%E5%92%8C-UDP-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">6.5.</span> <span class="toc-text">TCP 和 UDP 应用场景:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7"><span class="toc-number">6.6.</span> <span class="toc-text">事务特性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">6.7.</span> <span class="toc-text">事务隔离级别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.8.</span> <span class="toc-text">拦截器和过滤器</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JAVA"><span class="toc-number">7.</span> <span class="toc-text">JAVA</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B"><span class="toc-number">7.1.</span> <span class="toc-text">单例</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ArrayList%E5%92%8CLinkedList%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">7.2.</span> <span class="toc-text">ArrayList和LinkedList的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E6%B5%81%E5%92%8C%E5%AD%97%E7%AC%A6%E6%B5%81%E5%8C%BA%E5%88%AB"><span class="toc-number">7.3.</span> <span class="toc-text">字节流和字符流区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashSet%E5%92%8CHashMap%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">7.4.</span> <span class="toc-text">HashSet和HashMap的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8BHashMap"><span class="toc-number">7.5.</span> <span class="toc-text">介绍一下HashMap</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8BHashMap%E7%9A%84put%E6%96%B9%E6%B3%95"><span class="toc-number">7.6.</span> <span class="toc-text">说一下HashMap的put方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HashMap%E6%89%A9%E5%AE%B9"><span class="toc-number">7.7.</span> <span class="toc-text">HashMap扩容</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ConcurrentHashMap-%E7%9A%84%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="toc-number">7.8.</span> <span class="toc-text">ConcurrentHashMap 的存储结构是怎样的？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E6%98%AF%E5%90%A6%E6%9C%89%E5%BA%8F"><span class="toc-number">7.9.</span> <span class="toc-text">集合是否有序</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%97%A0%E5%BA%8F"><span class="toc-number">7.9.1.</span> <span class="toc-text">无序</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F"><span class="toc-number">7.9.2.</span> <span class="toc-text">有序</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="toc-number">7.10.</span> <span class="toc-text">集合线程安全</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Map"><span class="toc-number">7.10.1.</span> <span class="toc-text">Map</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Set"><span class="toc-number">7.10.2.</span> <span class="toc-text">Set</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#List"><span class="toc-number">7.10.3.</span> <span class="toc-text">List</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">7.11.</span> <span class="toc-text">JVM内存模型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B0%88%E8%B0%88-JVM-%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E7%9A%84%E5%88%92%E5%88%86%EF%BC%8C%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%9F%9F%E5%8F%AF%E8%83%BD%E5%8F%91%E7%94%9F-OutOfMemoryError%EF%BC%9F"><span class="toc-number">7.12.</span> <span class="toc-text">谈谈 JVM 内存区域的划分，哪些区域可能发生 OutOfMemoryError？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3OOM"><span class="toc-number">7.13.</span> <span class="toc-text">如何解决OOM</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">7.14.</span> <span class="toc-text">垃圾收集器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#jvm%E8%B0%83%E4%BC%98"><span class="toc-number">7.15.</span> <span class="toc-text">jvm调优</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">7.16.</span> <span class="toc-text">多线程的实现方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Excutor%E6%8F%90%E4%BE%9B%E4%BA%86%E5%93%AA%E5%87%A0%E7%A7%8D%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-number">7.17.</span> <span class="toc-text">Excutor提供了哪几种线程池</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%83%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="toc-number">7.18.</span> <span class="toc-text">Java线程池七个参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A6%82%E6%9E%9C%E6%BB%A1%E4%BA%86%E4%BC%9A%E6%80%8E%E4%B9%88%E6%A0%B7%EF%BC%9F"><span class="toc-number">7.19.</span> <span class="toc-text">线程池如果满了会怎么样？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">7.20.</span> <span class="toc-text">线程池的工作流程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5"><span class="toc-number">7.21.</span> <span class="toc-text">拒绝策略</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81%E5%A6%82%E4%BD%95%E6%8E%A7%E5%88%B6%EF%BC%8C%E7%AD%89%E5%BE%85%E3%80%81%E5%94%A4%E9%86%92%E2%80%A6%E2%80%A6"><span class="toc-number">7.22.</span> <span class="toc-text">线程的状态如何控制，等待、唤醒……</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%AD%EF%BC%8C%E5%A6%82%E4%BD%95%E4%B8%AD%E6%96%AD%E4%B8%80%E4%B8%AA%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-number">7.23.</span> <span class="toc-text">并发编程中，如何中断一个正在运行中的线程？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Synchronized%E9%94%81%E5%8D%87%E7%BA%A7%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">7.24.</span> <span class="toc-text">Synchronized锁升级的原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#String%E5%92%8CStringBuffer%E5%92%8CStringBuilder"><span class="toc-number">7.25.</span> <span class="toc-text">String和StringBuffer和StringBuilder</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E8%BF%87%E5%93%AA%E4%BA%9Bjava%E8%87%AA%E5%B8%A6%E6%B3%A8%E8%A7%A3"><span class="toc-number">7.26.</span> <span class="toc-text">用过哪些java自带注解</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Spring"><span class="toc-number">8.</span> <span class="toc-text">Spring</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B0%88%E8%B0%88%E5%AF%B9spring%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">8.1.</span> <span class="toc-text">谈谈对spring的理解</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Spring%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">8.2.</span> <span class="toc-text">Spring用到了哪些设计模式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Component-%E5%92%8C-Bean-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">8.3.</span> <span class="toc-text">@Component 和 @Bean 的区别是什么？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#spring%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">8.4.</span> <span class="toc-text">spring的作用域</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Spring-IOC-Bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">8.5.</span> <span class="toc-text">Spring IOC Bean的生命周期</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#spring%E4%B8%AD%E4%B8%80%E6%9D%A1%E8%AF%B7%E6%B1%82100ms%EF%BC%8C%E5%A6%82%E4%BD%951s%E5%A4%84%E7%90%861000%E6%9D%A1%E8%AF%B7%E6%B1%82"><span class="toc-number">8.6.</span> <span class="toc-text">spring中一条请求100ms，如何1s处理1000条请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Spring%E6%B3%A8%E5%85%A5%E6%96%B9%E5%BC%8F%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="toc-number">8.7.</span> <span class="toc-text">Spring注入方式都有哪些</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-Autowired%E6%B3%A8%E5%85%A5"><span class="toc-number">8.8.</span> <span class="toc-text">为什么不推荐使用@Autowired注入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Autowired%E5%92%8C-Resource%E5%8C%BA%E5%88%AB"><span class="toc-number">8.9.</span> <span class="toc-text">@Autowired和@Resource区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Spring%E7%9A%84controller%E6%98%AF%E5%8D%95%E4%BE%8B%E5%90%97"><span class="toc-number">8.10.</span> <span class="toc-text">Spring的controller是单例吗</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Spring%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><span class="toc-number">8.11.</span> <span class="toc-text">Spring自定义注解</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-number">8.11.1.</span> <span class="toc-text">流程:</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IOC%E3%80%81AOP%E7%9A%84%E7%90%86%E8%A7%A3%E4%BB%A5%E5%8F%8A%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E8%BF%90%E7%94%A8"><span class="toc-number">8.12.</span> <span class="toc-text">IOC、AOP的理解以及都有哪些运用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Spring-boot-%E4%BA%8B%E7%89%A9"><span class="toc-number">8.13.</span> <span class="toc-text">Spring boot 事物</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#spring%E7%9A%84%E4%B8%83%E7%A7%8D%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA"><span class="toc-number">8.14.</span> <span class="toc-text">spring的七种事物传播行为</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Spring%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B"><span class="toc-number">8.15.</span> <span class="toc-text">Spring异步编程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Spring-%E6%B3%A8%E8%A7%A3%E4%B9%8B-RestController%E4%B8%8E-Controller%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">8.16.</span> <span class="toc-text">Spring 注解之@RestController与@Controller的区别</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mybatis"><span class="toc-number">9.</span> <span class="toc-text">Mybatis</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MYBATIS%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E9%85%8D%E7%BD%AE"><span class="toc-number">9.1.</span> <span class="toc-text">MYBATIS多数据源配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mybatis%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98%EF%BC%8C%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="toc-number">9.2.</span> <span class="toc-text">mybatis一级缓存，二级缓存</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Mybatis%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">9.3.</span> <span class="toc-text">Mybatis的工作原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E5%AE%89%E5%85%A8%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">9.4.</span> <span class="toc-text">如何写出安全的代码</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop"><span class="toc-number">10.</span> <span class="toc-text">Hadoop</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#HDFS%E5%86%99%E5%8E%9F%E7%90%86"><span class="toc-number">10.1.</span> <span class="toc-text">HDFS写原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HDFS%E8%AF%BB%E5%8E%9F%E7%90%86"><span class="toc-number">10.2.</span> <span class="toc-text">HDFS读原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HDFS%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="toc-number">10.3.</span> <span class="toc-text">HDFS通信原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MapTask%E5%92%8CReduceTask%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6-x2F-MapReduce%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">10.4.</span> <span class="toc-text">MapTask和ReduceTask工作机制&#x2F;MapReduce工作原理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HIVE"><span class="toc-number">11.</span> <span class="toc-text">HIVE</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#hive3%E5%A4%A7%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E%E5%8C%BA%E5%88%AB%E5%9C%A8%E5%93%AA"><span class="toc-number">11.1.</span> <span class="toc-text">hive3大执行引擎区别在哪</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HIVE-sort-by-%E5%92%8C-order-by-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">11.2.</span> <span class="toc-text">HIVE sort by 和 order by 的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8%E5%92%8C%E5%88%86%E6%A1%B6%E8%A1%A8%E5%90%84%E8%87%AA%E7%9A%84%E4%BC%98%E7%82%B9%E8%83%BD%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E5%90%97%EF%BC%9F"><span class="toc-number">11.3.</span> <span class="toc-text">分区表和分桶表各自的优点能介绍一下吗？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%86%E8%A7%A3%E8%BF%87%E5%8A%A8%E6%80%81%E5%88%86%E5%8C%BA%E5%90%97%EF%BC%8C%E5%AE%83%E5%92%8C%E9%9D%99%E6%80%81%E5%88%86%E5%8C%BA%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E8%83%BD%E7%AE%80%E5%8D%95%E8%AE%B2%E4%B8%8B%E5%8A%A8%E6%80%81%E5%88%86%E5%8C%BA%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E5%90%97%EF%BC%9F"><span class="toc-number">11.4.</span> <span class="toc-text">了解过动态分区吗，它和静态分区的区别是什么？能简单讲下动态分区的底层原理吗？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HIVE%E5%88%86%E6%A1%B6%E7%9A%84%E9%80%BB%E8%BE%91"><span class="toc-number">11.5.</span> <span class="toc-text">HIVE分桶的逻辑</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HIVE%E7%B4%A2%E5%BC%95"><span class="toc-number">11.6.</span> <span class="toc-text">HIVE索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HIVE-%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3"><span class="toc-number">11.7.</span> <span class="toc-text">HIVE 数据倾斜怎么解决</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hive%E4%BC%98%E5%8C%96%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="toc-number">11.8.</span> <span class="toc-text">Hive优化有哪些</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HIVE%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">11.9.</span> <span class="toc-text">HIVE的优缺点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HIVE%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E5%8E%9F%E7%90%86"><span class="toc-number">11.10.</span> <span class="toc-text">HIVE存储数据原理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HBASE"><span class="toc-number">12.</span> <span class="toc-text">HBASE</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88Hbase%E6%94%AF%E6%8C%81%E5%AE%9E%E6%97%B6%E6%9F%A5%E8%AF%A2"><span class="toc-number">12.1.</span> <span class="toc-text">为什么Hbase支持实时查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hbase%E7%9A%84%E4%B8%A4%E7%A7%8D%E7%BC%93%E5%AD%98"><span class="toc-number">12.2.</span> <span class="toc-text">Hbase的两种缓存</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HLOG"><span class="toc-number">12.3.</span> <span class="toc-text">HLOG</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hbase%E8%AF%BB%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B"><span class="toc-number">12.4.</span> <span class="toc-text">Hbase读请求过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hbase%E5%86%99%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B"><span class="toc-number">12.5.</span> <span class="toc-text">Hbase写请求过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HIVE%E5%92%8CHBASE%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E4%BD%BF%E7%94%A8%E6%83%85%E6%99%AF"><span class="toc-number">12.6.</span> <span class="toc-text">HIVE和HBASE的区别及使用情景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">12.7.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZK"><span class="toc-number">13.</span> <span class="toc-text">ZK</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Zookeeper%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="toc-number">13.1.</span> <span class="toc-text">Zookeeper通信原理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SPARK"><span class="toc-number">14.</span> <span class="toc-text">SPARK</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#spark%E5%9C%A8Client%E4%B8%8E%E5%9C%A8cluster%E8%BF%90%E8%A1%8C%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">14.1.</span> <span class="toc-text">spark在Client与在cluster运行的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Spark%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%AB%EF%BC%8CSpark-SQL-%E4%B8%80%E5%AE%9A%E6%AF%94-Hive-%E5%BF%AB%E5%90%97"><span class="toc-number">14.2.</span> <span class="toc-text">Spark为什么快，Spark SQL 一定比 Hive 快吗</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8Dshuffle"><span class="toc-number">14.3.</span> <span class="toc-text">如何避免shuffle</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RDD%E8%AE%B2%E4%B8%80%E4%B8%8B"><span class="toc-number">14.4.</span> <span class="toc-text">RDD讲一下</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%97%E6%B3%95"><span class="toc-number">15.</span> <span class="toc-text">算法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E5%86%99%E5%86%92%E6%B3%A1%E3%80%90%E5%8D%87%E7%BA%A7%E7%BA%A2%E9%BB%91%E6%A0%91%E3%80%91"><span class="toc-number">15.1.</span> <span class="toc-text">二叉树写冒泡【升级红黑树】</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">YB-CHI</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">100</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">45</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YB-CHI</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">面试</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-09-07</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">21.1k</span><span class="post-meta__separator">|</span><span>阅读时长: 65 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p>
+<p>[toc]</p>
+<h4 id="ES"><a href="#ES" class="headerlink" title="ES"></a>ES</h4><h5 id="什么是ES，你对ES的理解，"><a href="#什么是ES，你对ES的理解，" class="headerlink" title="什么是ES，你对ES的理解，"></a>什么是ES，你对ES的理解，</h5><ol>
+<li>ES是建立在lucene基础上的一个开源搜索和分析引擎</li>
+<li>ES本身有一个分布式存储，检索速度快的特性，所以我们经常会用他去实现全文检索这一类的场景，比如说网站搜索，公司内部使用ELK做日志聚集和检索，基本上涉及到TB级的数据使用ES是一个很好地选择</li>
+</ol>
+<h5 id="ES为什么快"><a href="#ES为什么快" class="headerlink" title="ES为什么快"></a>ES为什么快</h5><ol>
+<li>ES是基于lucene开发的全文搜索引擎，lucene是擅长管理大量的索引数据的，他会对数据进行分词再保存，提升检索效率</li>
+<li>ES采用了倒排索引</li>
+<li>ES存储的数据才用了分片机制，多个分片增加处理的并行度。</li>
+<li>ES横向扩展性好</li>
+<li>ES内部提供的数据汇总和索引生命周期管理的一些功能可以方便我们更加高效的存储和搜索数据</li>
+</ol>
+<h5 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h5><p>倒排索引也叫反向索引，通俗来讲正向索引是通过key找value，反向索引则是通过value找key.</p>
+<p>Elasticsearch分别为每个field都建立了一个倒排索引，倒排列表记录了出现过某个单词的文档列表及单词在该文档中的位置，每条记录称为一个倒排项(Posting)。根据倒排列表，可以知道哪些文档包含某个单词,避免全表扫描。</p>
+<h5 id="Elasticsearch-索引数据多了怎么办-如何调优-部署"><a href="#Elasticsearch-索引数据多了怎么办-如何调优-部署" class="headerlink" title="Elasticsearch 索引数据多了怎么办,如何调优,部署"></a>Elasticsearch 索引数据多了怎么办,如何调优,部署</h5><ul>
+<li>增加ES节点</li>
+<li>增加JVM，且不超过机器内存的1&#x2F;2</li>
+<li>启用lz4压缩</li>
+<li>滚动创建索引，每天一个索引</li>
+<li>冷热分离</li>
+<li>定期force_merge</li>
+</ul>
+<h5 id="Elasticsearch是如何实现master选举的"><a href="#Elasticsearch是如何实现master选举的" class="headerlink" title="Elasticsearch是如何实现master选举的"></a>Elasticsearch是如何实现master选举的</h5><p>1、对所有可以成为master的节点根据nodeId排序，每次选举每个节点都把自己所知道节点排一次序，然后选出第0位节点，暂且认为它是master节点。<br>2、如果对某个节点的投票数达到一定的值（master节点数n&#x2F;2+1）并且该节点自己也选举自己，那这个节点就是master。否则重新选举。</p>
+<h5 id="详细描述一下-Elasticsearch-索引文档的过程"><a href="#详细描述一下-Elasticsearch-索引文档的过程" class="headerlink" title="详细描述一下 Elasticsearch 索引文档的过程"></a>详细描述一下 Elasticsearch 索引文档的过程</h5><h5 id="Elasticsearch-如何避免裂脑问题"><a href="#Elasticsearch-如何避免裂脑问题" class="headerlink" title="Elasticsearch 如何避免裂脑问题"></a>Elasticsearch 如何避免裂脑问题</h5><ol>
+<li>修改集群中每个节点的配置文件（elasticsearch.yml）参数 discovery.zen.minimum_master_nodes，这个参数决定了主节点选择过程中最少需要多少个 master 节点，默认配置是1。<br> 一个基本原则是这里需要设置成 N&#x2F;2+1，N 是集群中节点的数量。</li>
+<li>修改集群中每个节点的配置文件（elasticsearch.yml）参数 discovery.zen.ping.timeout，默认值是3，它确定节点在假定节点发生故障之前将等待集群中其他节点响应的时间。在网络速度较慢的情况下，稍微增加默认值绝对是个好主意。此参数不仅可以满足更高的网络延迟，而且在节点由于过载而响应较慢的情况下也很有用。</li>
+<li>修改集群中每个节点的配置文件（elasticsearch.yml）参数 discovery.zen.ping.unicast.hosts，把集群中可能成为主节点的机器节点都配置到这个参数中。</li>
+</ol>
+<h5 id="Elasticsearch的三种分页方式"><a href="#Elasticsearch的三种分页方式" class="headerlink" title="Elasticsearch的三种分页方式"></a>Elasticsearch的三种分页方式</h5><table>
+<thead>
+<tr>
+<th>分页方式</th>
+<th>性能</th>
+<th>优点</th>
+<th>缺点</th>
+<th>场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>from + size</td>
+<td>低</td>
+<td>灵活性好，实现简单</td>
+<td>深度分页问题</td>
+<td>数据量比较小，能容忍深度分页问题</td>
+</tr>
+<tr>
+<td>scroll</td>
+<td>中</td>
+<td>解决了深度分页问题</td>
+<td>无法反应数据的实时性（快照版本）维护成本高，需要维护一个 scroll_id</td>
+<td>海量数据的导出需要查询海量结果集的数据</td>
+</tr>
+<tr>
+<td>search_after</td>
+<td>高</td>
+<td>性能最好不存在深度分页问题能够反映数据的实时变更</td>
+<td>实现复杂，需要有一个全局唯一的字段连续分页的实现会比较复杂，因为每一次查询都需要上次查询的结果</td>
+<td>海量数据的分页</td>
+</tr>
+</tbody></table>
+<h5 id="Elasticsearch修改索引结构"><a href="#Elasticsearch修改索引结构" class="headerlink" title="Elasticsearch修改索引结构"></a>Elasticsearch修改索引结构</h5><p>还是要结合具体的数据场景来处理。</p>
+<p>如果数据源数据都有，且数据量较大，能比较方便的重新入得话建议是采用重入数据的方式。</p>
+<p>如果无法重入或者其他原因，基于5.0以后的版本，ES可以使用reindex重构索引。但是reindex比较慢，需要从以下几个方面去优化下：</p>
+<ol>
+<li>reindex默认使用1000进行批量操作，通过调整batch_size，一般从5~15MB的物理文件大小开始往上增加批次，通过kibana或者iostat等监控速度瓶颈。</li>
+<li>ES副本数设置为0</li>
+<li>增加refresh间隔或干脆禁用掉</li>
+<li>reindex的底层是scroll实现，借助scroll并行优化方式，提升效率</li>
+</ol>
+<p>由于我们使用的是1.7.2版本，对于这种情况我们只能是重入数据。之前我们的产品是采用的预留字段的方式，这也是一个低维护成本且实用的方法。</p>
+<h5 id="Elasticsearch应该设置多少分片"><a href="#Elasticsearch应该设置多少分片" class="headerlink" title="Elasticsearch应该设置多少分片"></a>Elasticsearch应该设置多少分片</h5><p>一个分片是一个lucene索引实例，分片是有代价的，消耗一定的内存、文件句柄、cpu等，es官方推荐的是对于时序性数据，每个分片20~40G之间，并且不超过es的jvm最大堆空间。如果没有特别苛刻的要求，按照官方就行。另外每个查询都是在单个分片上以单线程方式执行的，提升分片数量能提高查询效率，但也不是分片越多，查询越快，如果查询请求很多，任务需要进入队列并按顺序加以处理，并不会比查询较少的大分片快。从查询性能的角度来看，确定分片数量还是要使用有实际意义的数据和查询进行基准测试。</p>
+<h4 id="MYSQL"><a href="#MYSQL" class="headerlink" title="MYSQL"></a>MYSQL</h4><h5 id="MYSQL引擎"><a href="#MYSQL引擎" class="headerlink" title="MYSQL引擎"></a>MYSQL引擎</h5><ol>
+<li>MyIsam ， 2. InnoDB， 3. Memory， 4. Blackhole， 5. CSV， 6. Performance_Schema， 7. Archive， 8. Federated ， 9 Mrg_Myisam</li>
+</ol>
+<h5 id="MySQL的InnoDB和MyISAM的区别"><a href="#MySQL的InnoDB和MyISAM的区别" class="headerlink" title="MySQL的InnoDB和MyISAM的区别:"></a>MySQL的InnoDB和MyISAM的区别:</h5><ol>
+<li>在事务上:myisam不支持事务，innodb支持事务。</li>
+<li>myisam使用了表级锁，innodb使用了行级锁</li>
+<li>InnoDB支持外键，而MyISAM不支持 </li>
+<li>InnoDB不支持全文索引，而MyISAM支持。</li>
+</ol>
+<h5 id="MYSQL有几种索引"><a href="#MYSQL有几种索引" class="headerlink" title="MYSQL有几种索引"></a>MYSQL有几种索引</h5><h6 id="从数据结构角度"><a href="#从数据结构角度" class="headerlink" title="从数据结构角度"></a>从数据结构角度</h6><p>　　1、 B-Tree 索引</p>
+<p>​							B-Tree 索引需要从根节点到枝节点，最后才能访问到页节点这样多次的IO访问</p>
+<p>​							Btree类型在我们查询数据时适合用于范围查找</p>
+<p>　　2、 hash索引【<strong>MyISAM和InnoDB不支持</strong>】</p>
+<p>​							检索效率非常高，索引的检索可以一次定位）</p>
+<p>​							Hash 索引仅仅能满足”&#x3D;”，”IN”和”&lt;&#x3D;&gt;”查询，不能使用范围查询。</p>
+<p>​							Hash 索引无法被用来避免数据的排序操作</p>
+<p>​							Hash 索引在任何时候都不能避免表扫描。</p>
+<p>　　3、 FULLTEXT索引</p>
+<p>　　4、 R-Tree索引</p>
+<h6 id="从物理存储角度"><a href="#从物理存储角度" class="headerlink" title="从物理存储角度"></a>从物理存储角度</h6><p>　　1、 聚集索引</p>
+<p>　　2、 非聚集索引</p>
+<h6 id="从逻辑角度"><a href="#从逻辑角度" class="headerlink" title="从逻辑角度"></a>从逻辑角度</h6><p>　　1、 主键索引:主键索引是一种特殊的唯一索引，不允许有空值</p>
+<p>　　2、 普通索引或者单列索引</p>
+<p>　　3、 多列索引（复合索引）</p>
+<p>　　4、 唯一索引或者非唯一索引（索引列的值必须唯一，但允许有空值。）</p>
+<p>　　5、 全文索引</p>
+<h5 id="MYSQL优化"><a href="#MYSQL优化" class="headerlink" title="MYSQL优化"></a>MYSQL优化</h5><ol>
+<li>硬件和操作系统层面的优化</li>
+<li>架构设计层面的优化</li>
+<li>mysql程序配置的优化</li>
+<li>sql执行优化</li>
+</ol>
+<h5 id="MYSQL优化-1"><a href="#MYSQL优化-1" class="headerlink" title="MYSQL优化"></a>MYSQL优化</h5><ol>
+<li>① SQL优化</li>
+</ol>
+<blockquote>
+<ul>
+<li>避免 SELECT *，只查询需要的字段。</li>
+<li>小表驱动大表，即小的数据集驱动大的数据集:<br>当B表的数据集比A表小时，用in优化 exist两表执行顺序是先查B表再查A表查询语句:SELECT * FROM tb_dept WHERE id in (SELECT id FROM tb_dept) ;<br>当A表的数据集比B表小时，用exist优化in ，两表执行顺序是先查A表，再查B表，查询语句:SELECT * FROM A WHERE EXISTS (SELECT id FROM B WHERE A.id &#x3D; B.ID) ;</li>
+<li>尽量使用连接代替子查询，因为使用 join 时，MySQL 不会在内存中创建临时表。</li>
+<li>对查询进行优化，应尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引。对字段进行 null 值判断，使用!&#x3D;或&lt;&gt;操作符，使用 or 来连接条件，in 和 not in 【between&#x2F;exists  代替】</li>
+<li></li>
+</ul>
+</blockquote>
+<p>​		② 优化索引的使用</p>
+<blockquote>
+<ul>
+<li>尽量使用主键查询，而非其他索引，因为主键查询不会触发回表查询。</li>
+<li>不做列运算，把计算都放入各个业务系统实现</li>
+<li>查询语句尽可能简单，大语句拆小语句，减少锁时间</li>
+<li>or 查询改写成 union 查询</li>
+<li>不用函数和触发器</li>
+<li>避免 %xx 查询，可以使用:select * from t where reverse(f) like reverse(‘%abc’);</li>
+<li>少用 join 查询</li>
+<li>使用同类型比较，比如 ‘123’ 和 ‘123’、123 和 123</li>
+<li>尽量避免在 where 子句中使用 !&#x3D; 或者 &lt;&gt; 操作符，查询引用会放弃索引而进行全表扫描</li>
+<li>列表数据使用分页查询，每页数据量不要太大</li>
+<li>避免在索引列上使用 is null 和 is not null</li>
+</ul>
+</blockquote>
+<p>​		③ 表结构设计优化</p>
+<blockquote>
+<ul>
+<li>使用可以存下数据最小的数据类型。</li>
+<li>尽量使用 tinyint、smallint、mediumint 作为整数类型而非 int。</li>
+<li>尽可能使用 not null 定义字段，因为 null 占用 4 字节空间。数字可以默认 0 ，字符串默认 “”</li>
+<li>尽量少用 text 类型，非用不可时最好独立出一张表。</li>
+<li>尽量使用 timestamp，而非 datetime。</li>
+<li>单表不要有太多字段，建议在 20 个字段以内。</li>
+</ul>
+</blockquote>
+<ol start="2">
+<li><p>配置优化</p>
+</li>
+<li><p>部署优化-主从复制（读写分离）</p>
+</li>
+</ol>
+<h5 id="Mysql-主从复制"><a href="#Mysql-主从复制" class="headerlink" title="Mysql 主从复制"></a>Mysql 主从复制</h5><p>MySQL中复制的优点包括:</p>
+<ul>
+<li>横向扩展解决方案 - 在多个从站之间分配负载以提高性能。在此环境中，所有写入和更新都必须在主服务器上进行。但是，读取可以在一个或多个从设备上进行。该模型可以提高写入性能（因为主设备专用于更新），同时显着提高了越来越多的从设备的读取速度。</li>
+<li>数据安全性 - 因为数据被复制到从站，并且从站可以暂停复制过程，所以可以在从站上运行备份服务而不会破坏相应的主数据。</li>
+<li>分析 - 可以在主服务器上创建实时数据，而信息分析可以在从服务器上进行，而不会影响主服务器的性能。</li>
+<li>远程数据分发 - 您可以使用复制为远程站点创建数据的本地副本，而无需永久访问主服务器。</li>
+</ul>
+<p>总结:主从复制解决了数据库的读写分离，并很好的提升了读的性能</p>
+<p>步骤</p>
+<ol>
+<li>在主服务器上，您必须启用二进制日志记录并配置唯一的服务器ID。需要重启服务器。</li>
+</ol>
+<p>编辑主服务器的配置文件 <code>my.cnf</code>，添加如下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">log-bin=/var/log/mysql/mysql-bin</span><br><span class="line">server-id=1</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建一个专门用于复制数据的用户</li>
+<li>在<code>从服务器</code>上使用刚才的用户进行测试连接</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; mysql -urepl -p<span class="string">&#x27;QFedu123!&#x27;</span> -hmysql-master1</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="ORACLE和MYSQL区别"><a href="#ORACLE和MYSQL区别" class="headerlink" title="ORACLE和MYSQL区别"></a>ORACLE和MYSQL区别</h5><h6 id="一、宏观上"><a href="#一、宏观上" class="headerlink" title="一、宏观上:"></a>一、宏观上:</h6><p>1、Oracle是大型的数据库而Mysql是中小型数据库；Mysql是开源的，Oracle是收费的。</p>
+<p>2、Oracle支持大并发，大访问量。</p>
+<h6 id="二、微观上"><a href="#二、微观上" class="headerlink" title="二、微观上:"></a>二、微观上:</h6><p>1、对于事务的支持</p>
+<p>Mysql对于事务只有innodb可以支持；而Oracle对于事物是完全支持的。</p>
+<p>2、并发性</p>
+<p>Mysql以表锁为主，对资源锁定的力度很大，如果一个session对一个表加锁时间过长，会让其他session无法更新此表的数据。【innodb是行级锁】</p>
+<p>Oracle使用行级锁，对资源锁定的力度要小很多，只是锁定sql需要的资源，并且加锁是在数据库中的数据行上，不依赖于索引。所以oracle对并发性的支持要好很多。</p>
+<p>3、数据的持久性</p>
+<p>Oracle保证提交的事务均可以恢复，因为Oracle把提交的sql操作线写入了日志文件中，保存到磁盘上，如果出现数据库或者主机异常重启，重启Oracle可以靠日志恢复客户提交的数据。</p>
+<p>Mysql默认提交sql语句，但是如果更新过程中出现db或者主机重启的问题，也可能会丢失数据。</p>
+<p>4、提交方式</p>
+<p>Oracle默认不自动提交，需要手动提交。Mysql默认自动提交。</p>
+<p>5、操作上的一些区别</p>
+<p>mysql对sql语句有很多非常实用而方便的扩展</p>
+<p>主键 	Mysql一般使用自动增长类型，Oracle没有自动增长类型，主键一般使用的序列</p>
+<p>单引号的处理	 MYSQL里可以用双引号包起字符串，ORACLE里只可以用单引号包起字符串。</p>
+<p>分页的SQL语句的处理	 MYSQL处理翻页的SQL语句比较简单，用LIMIT 开始位置, 记录个数；ORACLE处理分页很麻烦,需要指定rownum,而且rownum只能做&lt;或者&lt;&#x3D;的条件查询</p>
+<p>6、数据复制</p>
+<p>MySQL:复制服务器配置简单，但主库出问题时，丛库有可能丢失一定的数据。且需要手工切换丛库到主库。</p>
+<p>Oracle:既有推或拉式的传统数据复制，也有dataguard的双机或多机容灾机制，主库出现问题是，可以自动切换备库到主库，但配置管理较复杂。</p>
+<p>7、性能诊断方面</p>
+<p>Oracle有各种成熟的性能诊断调优工具，能实现很多自动分析、诊断功能。比如awr、addm、sqltrace、tkproof等 ；MySQL的诊断调优方法较少，主要有慢查询日志。</p>
+<h5 id="mysql索引结构详细讲讲（回表）"><a href="#mysql索引结构详细讲讲（回表）" class="headerlink" title="mysql索引结构详细讲讲（回表）"></a>mysql索引结构详细讲讲（回表）</h5><p>索引从逻辑角度上来讲分为主键索引和非主键索引，它俩的数据结构都是 B+Tree，唯一的区别是叶子结点中存储的内容不同：</p>
+<ul>
+<li>主键索引的叶子结点存储的是一行完整的数据。</li>
+<li>非主键索引的叶子结点存储的则是主键值。</li>
+</ul>
+<p>对于非主键索引，如果一个表有主键id，索引name和普通列age年龄，如果我们查询某个name的所有列，他会去索引里找到这个name对应的主键id值，在通过id去主键索引里找到全量记录，这个行为称为回表。当然不是非主键索引一定会回表，如果不查询age的话就会索引覆盖，不会回表，这也是我们经常不用select * 的原因。</p>
+<h5 id="mysql的数据文件和索引文件存在一起吗"><a href="#mysql的数据文件和索引文件存在一起吗" class="headerlink" title="mysql的数据文件和索引文件存在一起吗"></a>mysql的数据文件和索引文件存在一起吗</h5><p>innodb是放在一起的 </p>
+<h5 id="mysql底层存储的数据结构"><a href="#mysql底层存储的数据结构" class="headerlink" title="mysql底层存储的数据结构"></a>mysql底层存储的数据结构</h5><p>MySQL底层使用的是B+tree存储的<br>非叶子节点存储索引和下一个子节点的地址<br>叶子结点存储所有的索引和数据</p>
+<h5 id="mysql为什么选择B-tree做索引"><a href="#mysql为什么选择B-tree做索引" class="headerlink" title="mysql为什么选择B+tree做索引"></a>mysql为什么选择B+tree做索引</h5><ol>
+<li>常规数据库一般都是选择btree和b+tree做索引,相对于btree,b+tree非叶子节点不存储数据,所以它每一层存储的索引数据更多,使得磁盘io次数更少</li>
+<li>在mysql中,范围查询是很常用的,而b+tree的叶子节点使用双向链表关联,所以查询的时候只需要查询两个节点遍历就行,而btree需要获取所有节点.</li>
+<li>在数据检索方面,因为所有数据都存在叶子节点,所以b+tree的io次数更稳定一写</li>
+<li>因为b+tree数据全在叶子节点,全表扫描时只扫叶子节点就行,而btree需要遍历整棵树</li>
+</ol>
+<h4 id="ClickHouse"><a href="#ClickHouse" class="headerlink" title="ClickHouse"></a>ClickHouse</h4><h5 id="简单介绍下CK"><a href="#简单介绍下CK" class="headerlink" title="简单介绍下CK"></a>简单介绍下CK</h5><p>CK是俄罗斯YANDEX开源的一款是基于 MPP 架构的分布式 ROLAP列式存储数据库,主要用于WEB流量分析.</p>
+<p><strong>他的特性:</strong></p>
+<p>它支持完备的SQL操作</p>
+<p>支持数据压缩</p>
+<p>使用磁盘存储数据</p>
+<p>本质上属于MPP架构,多核并行处理</p>
+<p>集群是是分布式多主架构,读请求可以打到任意节点</p>
+<p>数据是列式存储,cpu用向量执行SIMD,处理效率高</p>
+<p>支持稀疏主索引和辅助数据跳过索引</p>
+<p>支持亚秒级,适合在线查询</p>
+<p><strong>他的缺点:</strong></p>
+<p>低版本不支持完整的事物</p>
+<p>olap通病,对高速低延迟删改支持不太好</p>
+<p>稀疏索引使ck通过key查询单行不是特别高效</p>
+<h5 id="ClickHouse有哪些表引擎"><a href="#ClickHouse有哪些表引擎" class="headerlink" title="ClickHouse有哪些表引擎"></a>ClickHouse有哪些表引擎</h5><p>适用于高负载的功能最强最通用的<strong>MergeTree</strong></p>
+<p>最小功能的轻量引擎<strong>LOG</strong></p>
+<p>集成引擎:mysql\kafka\jdbc等等</p>
+<p>特定功能的引擎:JOIN\SET\Distributed等等</p>
+<h5 id="MergeTree特点"><a href="#MergeTree特点" class="headerlink" title="MergeTree特点"></a>MergeTree特点</h5><ul>
+<li>在写入一批数据时，数据总会以数据片段的形式写入磁盘，且数据片段不可修改。为了避免片段过多，ClickHouse会通过后台线程，定期合并这些数据片段，属于相同分区的数据片段会被合成一个新的片段。这种数据片段往复合并的特点，也正是合并树名称的由来。</li>
+</ul>
+<ul>
+<li>存储的数据按照主键排序：允许创建稀疏索引，从而加快数据查询速度</li>
+<li>支持分区，可以通过PARTITION BY指定分区字段。</li>
+<li>支持数据副本</li>
+<li>支持数据采样</li>
+</ul>
+<h5 id="ClickHouse为何如此之快"><a href="#ClickHouse为何如此之快" class="headerlink" title="ClickHouse为何如此之快"></a>ClickHouse为何如此之快</h5><p>硬件方面,ck会在内存中进行GROUP BY,并且使用HashTable装载数据。</p>
+<p>算法方面,ck采用了常量,非常量,正则匹配：<br>对于常量，使用 Volnitsky 算法；<br>对于非常量， CPU向量化执行 SIMD，暴力优化;<br>正则匹配使用 re2 和 hyperscan 算法。</p>
+<p>ck一直在验证市面上新出的强大的算法,可行就纳入其用</p>
+<p>同一个函数特定场景,使用特殊优化,比如一些函数会根据数据量的大小选择不同的算法</p>
+<p>最后就是ck因为有yandex的数据,可以进行持续测试,持续改进</p>
+<h5 id="ck和mysql的区别"><a href="#ck和mysql的区别" class="headerlink" title="ck和mysql的区别"></a>ck和mysql的区别</h5><p>他俩的区别是非常多的，我从我目前想到的一些点来说</p>
+<ol>
+<li>首先是存储方面，mysql是行式存储，ck是列式存储，列式存储有天然优势去做统计分析、聚类分析。</li>
+<li>mysql是面向OLTP的数据库，强调事务一致性。ck是面向OLAP，侧重于联机数据分析。</li>
+<li>ck等数据库更擅长于大数据量的导入导出，且提供了bulkload、copy from、元copy等优化的入库方式，但往往不擅长一份数据的反复修改，有些数据库比如gp，并不删除物理数据而是将这一行数据标记版本号。</li>
+<li>ck还有数据压缩，可以使用lz4或者zstd等高效压缩算法。</li>
+<li>ck是分布式多主架构的，使读请求可以随机打到任意节点，写请求也不用转发到master，这样它的大数据量的读写性能很高。</li>
+<li>ck还有向量引擎，利用 SIMD 指令实现并行计算。</li>
+<li>最后就是索引，ck采用了稀疏索引及跳数索引。同时还有很多 MergeTree，提供海量业务场景支持。</li>
+</ol>
+<h4 id="REDIS"><a href="#REDIS" class="headerlink" title="REDIS"></a>REDIS</h4><h5 id="REDIS集群原理"><a href="#REDIS集群原理" class="headerlink" title="REDIS集群原理"></a>REDIS集群原理</h5><p>所有的redis节点彼此互联，内部使用二进制协议优化传输速度和带宽。</p>
+<p>节点的fail是通过集群中超过半数的节点检测失效时才生效。</p>
+<p>客户端可以与任何一个节点相连接，然后就可以访问集群中的任何一个节点。对其进行存取和其他操作。</p>
+<p>在redis的每一个节点上，都有这么两个东西，一个是插槽（slot），取值范围是:0-16383，还有一个就是cluster，当我们的存取的key到达的时候，redis会根据crc16的算法得出一个结果，然后把结果对 16384 取模，这样每个 key 都会对应一个编号在 0-16383 之间的哈希槽，通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作。</p>
+<h5 id="Redis-主从复制、哨兵和集群三者区别"><a href="#Redis-主从复制、哨兵和集群三者区别" class="headerlink" title="Redis 主从复制、哨兵和集群三者区别"></a>Redis 主从复制、哨兵和集群三者区别</h5><ol>
+<li>主从模式：读写分离，备份，一个Master可以有多个Slaves。</li>
+<li>哨兵sentinel：监控，自动转移，哨兵发现主服务器挂了后，就会从slave中重新选举一个主服务器。</li>
+<li>集群：为了解决单机Redis容量有限的问题，将数据按一定的规则分配到多台机器，内存&#x2F;QPS不受限于单机，可受益于分布式集群高扩展性。</li>
+</ol>
+<h5 id="REDIS数据类型"><a href="#REDIS数据类型" class="headerlink" title="REDIS数据类型"></a>REDIS数据类型</h5><p>Redis支持五种数据类型:</p>
+<p>String，底层是动态字符串</p>
+<p>List，底层是双向列表和压缩列表</p>
+<p>Hash，底层是压缩列表和Hash表</p>
+<p>Set，底层是整数数组和Hash表</p>
+<p>Sorted Set，底层是压缩列表和跳表</p>
+<p>还有一些扩展类型:Bit\HyperLogLog\Geo</p>
+<h5 id="Redis如何解决Hash冲突的"><a href="#Redis如何解决Hash冲突的" class="headerlink" title="Redis如何解决Hash冲突的"></a>Redis如何解决Hash冲突的</h5><p>Hash冲突是由于被计算的数据是无限的，而计算后的结果范围是有限的，所以总会存在经过计算后得到的值是一样的。Redis采取的是和jdk1.7的hashmap相同的方案，链式寻址法，这是一种非常常见的方法。就是把存在hash冲突的key以单向链表的方式进行存储。当key特别大的时候，链式查找的时间会相对增加。</p>
+<p><img src="https://tvax2.sinaimg.cn/large/be1594faly1gs0gfrexnqj226z0yjjyo.jpg" alt="image"></p>
+<h5 id="REDIS缓存雪崩"><a href="#REDIS缓存雪崩" class="headerlink" title="REDIS缓存雪崩"></a>REDIS缓存雪崩</h5><p>缓存雪崩是指大量的请求无法在Redis中进行处理，这些请求到了数据库层，导致数据库压力激增。</p>
+<p>缓存雪崩一般是由两个原因导致的,一方面是缓存中有大量数据同时过期，导致大量请求无法得到处理,可以通过微调过期时间或者服务降级来解决;另一方面是redis实例发生故障宕机了,这个一般是是在业务系统中实现<strong>服务熔断</strong>或<strong>请求限流</strong>机制,但最好是搭建高可靠redis集群来事前预防。</p>
+<h5 id="REDIS缓存击穿"><a href="#REDIS缓存击穿" class="headerlink" title="REDIS缓存击穿"></a>REDIS缓存击穿</h5><p>缓存击穿，是指针对某个访问非常频繁的热点数据,请求无法在缓存中处理,全部发送到了数据库层,导致数据库压力激增,缓存击穿一般发生在key失效时。</p>
+<p>对于缓存击穿,一般解决方式也比较直接,对于热点数据不设置过期时间,这样一来热点数据的请求都可以在缓存中处理,redis的数万级别的高吞吐量可以很好地应对大量的并发请求。</p>
+<h5 id="REDIS缓存穿透"><a href="#REDIS缓存穿透" class="headerlink" title="REDIS缓存穿透"></a>REDIS缓存穿透</h5><p>缓存穿透是指要访问的某个数据既不在redis中,也不在数据库中,导致访问缓存时发生缓存缺失,访问数据库也得不到数据也就无法缓存.如果应用持续有大量请求访问这种数据,就会给redis和数据库造成巨大压力。</p>
+<p>缓存穿透一般发生在业务层误操作删除了缓存和数据库数据或者恶意攻击上。</p>
+<p>一般有三种解决方案:一种是发生缓存穿透时,针对查询的数据在redis中缓存一个空值或者和业务人员商定一个缺省值,请求直接在缓存里处理;一种是前端对请求的参数进行检测,过滤一些参数不合理\非法请求值\字段不存在等情况的请求;还有一种就是常见的使用布隆过滤器,它由一个初值都是0的bit数组和n个哈希函数组成,可以快速判断某个数据是否存在。我们可以在把数据写入数据库时，使用布隆过滤器做个标记。当缓存缺失后，应用查询数据库时，可以通过查询布隆过滤器快速判断数据是否存在。如果不存在，就不用再去数据库中查询了。</p>
+<h5 id="Redis的持久化"><a href="#Redis的持久化" class="headerlink" title="Redis的持久化"></a>Redis的持久化</h5><p>RDB 的优势和劣势</p>
+<p>①、优势</p>
+<p>（1）RDB文件紧凑，全量备份，非常适合用于进行备份和灾难恢复。</p>
+<p>（2）生成RDB文件的时候，redis主进程会fork()一个子进程来处理所有保存工作，主进程不需要进行任何磁盘IO操作。</p>
+<p>（3）RDB 在恢复大数据集时的速度比 AOF 的恢复速度要快。</p>
+<p>②、劣势</p>
+<p>RDB快照是一次全量备份，存储的是内存数据的二进制序列化形式，存储上非常紧凑。当进行快照持久化时，会开启一个子进程专门负责快照持久化，子进程会拥有父进程的内存数据，父进程修改内存子进程不会反应出来，所以在快照持久化期间修改的数据不会被保存，可能丢失数据。</p>
+<p>AOF 的优势和劣势</p>
+<p>①、优势</p>
+<p>（1）AOF可以更好的保护数据不丢失，一般AOF会每隔1秒，通过一个后台线程执行一次fsync操作，最多丢失1秒钟的数据。</p>
+<p>（2）AOF日志文件没有任何磁盘寻址的开销，写入性能非常高，文件不容易破损。</p>
+<p>（3）AOF日志文件即使过大的时候，出现后台重写操作，也不会影响客户端的读写。</p>
+<p>（4）AOF日志文件的命令通过非常可读的方式进行记录，这个特性非常适合做灾难性的误删除的紧急恢复。比如某人不小心用flushall命令清空了所有数据，只要这个时候后台rewrite还没有发生，那么就可以立即拷贝AOF文件，将最后一条flushall命令给删了，然后再将该AOF文件放回去，就可以通过恢复机制，自动恢复所有数据</p>
+<p>②、劣势</p>
+<p>（1）对于同一份数据来说，AOF日志文件通常比RDB数据快照文件更大</p>
+<p>（2）AOF开启后，支持的写QPS会比RDB支持的写QPS低，因为AOF一般会配置成每秒fsync一次日志文件，当然，每秒一次fsync，性能也还是很高的</p>
+<h5 id="Redis实现消息队列"><a href="#Redis实现消息队列" class="headerlink" title="Redis实现消息队列"></a>Redis实现消息队列</h5><ol>
+<li>基于List 实现消息队列，在生产者往 List 中写入数据时，List 消息集合并不会主动地通知消费者有新消息写入。所以 Redis 提供了 brpop阻塞式读取，客户端在没有读到队列数据时，自动阻塞，直到有新的数据写入队列，再开始读取新数据。此外，消息队列通过给每一个消息提供全局唯一的 ID 号来解决分辨重复消息的需求。</li>
+<li>基于Zset实现消息队列。</li>
+<li>基于频道（channel）和基于模式（pattern）的发布&#x2F;订阅。</li>
+<li>基于Stream 实现消息队列。</li>
+</ol>
+<h5 id="Redis淘汰策略"><a href="#Redis淘汰策略" class="headerlink" title="Redis淘汰策略"></a>Redis淘汰策略</h5><p>淘汰策略是为了解决缓存写满的问题,redis提供了8种淘汰策略</p>
+<ul>
+<li>不进行数据淘汰</li>
+<li>volatile-ttl根据过期时间的先后进行删除，越早过期的越先被删除。</li>
+<li>volatile-random在设置了过期时间的键值对中，进行随机删除。</li>
+<li>volatile-lru会使用LRU算法筛选设置了过期时间的键值对,更加关注数据的时效性.</li>
+<li>volatile-lfu会使用LFU算法选择设置了过期时间的键值对,更加关注数据的访问频次.</li>
+<li>allkeys-random策略，从所有键值对中随机选择并删除数据；</li>
+<li>allkeys-lru策略，使用LRU算法在所有数据中进行筛选.</li>
+<li>allkeys-lfu策略，使用LFU算法在所有数据中进行筛选.</li>
+</ul>
+<h4 id="KAFKA"><a href="#KAFKA" class="headerlink" title="KAFKA"></a>KAFKA</h4><h5 id="KAFKA是什么"><a href="#KAFKA是什么" class="headerlink" title="KAFKA是什么"></a>KAFKA是什么</h5><p>Apache Kafka 是消息引擎系统，也是一个分布式流处理平台.</p>
+<h5 id="为什么要使用KAFKA"><a href="#为什么要使用KAFKA" class="headerlink" title="为什么要使用KAFKA"></a>为什么要使用KAFKA</h5><p>最最主要的用途是**”削峰填谷”**,所谓的“削峰填谷”就是指缓冲上下游瞬时突发流量，使其更平滑。另一个原因是在于发送方和接收方的松耦合，减少了系统间不必要的交互。</p>
+<h5 id="KAFKA为什么写入磁盘快"><a href="#KAFKA为什么写入磁盘快" class="headerlink" title="KAFKA为什么写入磁盘快"></a>KAFKA为什么写入磁盘快</h5><p>零拷贝，mmap和顺序写入</p>
+<p>先说零拷贝mmap，再补充顺序写入，服务器都是使用机械硬盘做数据盘，它的随机写入的寻址会比较消耗时间，KFAKA使用的顺序写入，顺序读写速度能和内存持平。kafka的消息都是append操作，partition是有序的，节省了磁盘的寻址时间。同时通过批量操作，节省写入次数。partition物理上分为多个segment存储，删除的效率也比较高。</p>
+<h5 id="Kafka零拷贝"><a href="#Kafka零拷贝" class="headerlink" title="Kafka零拷贝"></a>Kafka零拷贝</h5><p>kafka采用了零拷贝技术，传统的读取文件发送会有四步copy：</p>
+<ol>
+<li>将磁盘文件读取到系统内核缓冲区</li>
+<li>将内核缓冲区的数据copy到用户的缓冲区中</li>
+<li>在应用程序中调用‘write()’方法，将用户空间的缓冲区数据copy到内核空间的Socket Buffer中</li>
+<li>把内核模式下的Socket Buffer数据赋值到网卡缓冲区NIC Buffer，由网卡缓冲区再把数据传输到目标服务器上</li>
+</ol>
+<p>在这4次copy中，23步操作是浪费的，另外由于用户空间和内核空间的切换，会带来CPU的上下文切换，对CPU的性能也会造成影响。零拷贝通过DMA技术，把文件内容复制到内核空间的Read Buffer，接着把包含文件信息的描述符加载到Socket Buffer中，而不用经过应用程序所在的用户空间。这种操作减少了两次copy，并且减少了cpu的上下文切换，对于效率是有非常大的提高。</p>
+<p>这个零拷贝，Linux中是依赖于底层的sendfile()方法去实现的，在java中，FileChannal.transferTo()的底层实现就是sendfile()。</p>
+<p>此外还有一个叫mmap的文件映射机制，它的原理是把磁盘文件映射到内存，用户通过修改内存就可以修改磁盘文件，使用这个方式可以获得很大的I&#x2F;O提升</p>
+<h5 id="Kafka创建topic应该给多少个partition"><a href="#Kafka创建topic应该给多少个partition" class="headerlink" title="Kafka创建topic应该给多少个partition"></a>Kafka创建topic应该给多少个partition</h5><p>官方推荐限制在100 × broker × 副本数，滴滴给的最佳实践是单节点partition不超1000。</p>
+<p>但如果有对接计算引擎比如spark且有并发度的需求的话，这个要分业务需求和并发需求。</p>
+<p>从业务角度出发，默认情况下，当用客户端向某个topic灌数据时，如果没有指定消息的key和要写入的partition，那么数据会以round-robin的方式均匀写到topic的每个partition中。比如我的数据包含31个省，我会指定31个partition，写入的时候将省份缩写作为key进行写入，这样数据就会按照这个key进行hash然后跟partition的个数取模，最终进入特定的partition中。这样数据读到计算引擎后，因为分区数据跟计算引擎的分区数据一一对应，对数据进行聚合分组时，因为数据写入kafka时已经按业务分了组，当用同样的并行度来取数据时，此时的数据是天然按照省份分组的，因此避免了宽依赖的产生，而没有宽依赖就不会有shuffle，数据的处理性能大大提升。</p>
+<p>从并行度角度出发，可以指定为broker的数量。如果有计算引擎的话，可以指定为计算引擎并行的数量。当然比如spark可以通过reparation和coalesce这两个函数来修改你要想的并行度，但是这样将原本小的partition数改大，必定会导致宽依赖的产生，而宽依赖则一定会产生shuffle</p>
+<h5 id="KAFKA丢数据吗"><a href="#KAFKA丢数据吗" class="headerlink" title="KAFKA丢数据吗"></a>KAFKA丢数据吗</h5><p>我认为可以三个方面考虑和实现。</p>
+<p>首先是producer端，需要确保消息能够到达broker，但是由于网络波动等等导致消息发送失败，针对producer端有这么几种方案。</p>
+<ol>
+<li><p>producer默认是异步发送的，这里可以把异步改为同步发送，这样的话producer就能实时的知道发送的结果。</p>
+</li>
+<li><p>添加异步回调函数来监听消息发送的结果，如果发送失败，可以在回调中重试。</p>
+</li>
+<li><p>producer本身提供了一个重试参数，retries，如果发送失败，producer会自动重试。</p>
+</li>
+</ol>
+<p>然后是broker端，broker需要确保producer发送的数据是不丢失的，也就是落盘可以了，但是kafka为了提高性能，采用的异步批量刷盘的实现机制，按照一定的消息量和时间去刷盘，而最终刷新到磁盘的这个动作，是由操作系统来调度的，如果刷盘之前系统崩溃了，就会导致消息丢失。kafka并没有提供同步刷盘的一个机制，所以针对这个问题，需要通过partition的副本机制和ack机制来解决。ack提供了几个参数，ack&#x3D;0，表示producer不需要等待broker响应就认为消息发送成功了，这种情况下会存在消息丢失。ack&#x3D;1，表示broker中的leader partition收到消息后，不等待follower 的同步，就给producer返回确认，这种情况下，假如leader partition挂了，就会造成消息丢失。第三种ack&#x3D;-1，表示leader partition收到消息后，并且等待ISR列表中所有follower partition同步完成，再给producer返回一个确认，这样的一个配置是可以保证数据的可靠性的。</p>
+<p>最后就是consumer必须能消费到这个消息，我认为只要producer和broker的消息得到保障，那么consumer不太可能出现消息无法消费的问题。除非是consumer没有消费完就已经提交了offset，但是即便是这种情况，我们也可以通过调整offset的值来实现重新消费。</p>
+<h5 id="HW-LEO-LW-LSO名词解释"><a href="#HW-LEO-LW-LSO名词解释" class="headerlink" title="HW,LEO,LW,LSO名词解释"></a>HW,LEO,LW,LSO名词解释</h5><p><strong>HW</strong>:俗称高水位，它标识了一个特定的消息偏移量（offset），消费者只能拉取到这个offset之前的消息。</p>
+<h5 id="什么是ISR"><a href="#什么是ISR" class="headerlink" title="什么是ISR"></a>什么是ISR</h5><p>ISR就是与leader保持同步的follower集合。当ISR中的follower完成数据的同步之后，leader就会给follower发送ack。如果follower长时间未向leader同步数据，则该follower将被踢出ISR，该时间阈值由replica.lag.time.max.ms参数设定。Leader发生故障之后，就会从ISR中选举新的leader。</p>
+<h5 id="Kafka-分布式的情况下，如何保证消息的顺序"><a href="#Kafka-分布式的情况下，如何保证消息的顺序" class="headerlink" title="Kafka 分布式的情况下，如何保证消息的顺序?"></a>Kafka 分布式的情况下，如何保证消息的顺序?</h5><p>大多数业务不关注顺序,如果要保证有序的话,Kafka 分布式的单位是 Partition。</p>
+<ul>
+<li>同一个 Partition 用一个 write ahead log 组织，所以可以保证 先进先出(FIFO) 的顺序。</li>
+<li>不同 Partition 之间不能保证顺序。</li>
+<li>Kafka 中发送1条消息的时候，可以指定(topic, partition, key) 3个参数。partiton 和 key 是可选的。如果你指定了 partition，那就是所有消息发往同1个 partition，就是有序的。并且在消费端，Kafka 保证，1个 partition 只能被1个 consumer 消费。或者你指定 key（比如 order id），具有同1个 key 的所有消息，会发往同1个 partition。也是有序的。</li>
+</ul>
+<h5 id="Kafka分区策略"><a href="#Kafka分区策略" class="headerlink" title="Kafka分区策略"></a>Kafka分区策略</h5><p><strong>所谓分区策略是决定生产者将消息发送到哪个分区的算法。</strong></p>
+<ul>
+<li>Round-robin轮询策略,也就是顺序分配,有非常好的负载均衡表现,总是能保证消息最大限度的平均分配到所有分区,他也是kafka默认的分区策略.</li>
+<li>randomness随机策略,就是随意的把消息放置在任意的分区上</li>
+<li>key-odering策略,相同key的消息进入相同的分区中</li>
+</ul>
+<h5 id="Kafka-怎么实现精确一次-生产者方面-？"><a href="#Kafka-怎么实现精确一次-生产者方面-？" class="headerlink" title="Kafka 怎么实现精确一次(生产者方面)？"></a>Kafka 怎么实现<strong>精确一次</strong>(生产者方面)？</h5><p>Kafka 默认是提供的至少一次,如果生产者已经成功提交,但是没有收到broker的确认反馈,他会选择重试,这就导致了消息重复发送.</p>
+<p>Kafka也可以提供最多一次,也就是把producer的重试机制给关掉,但是这样一来有可能会丢失数据,</p>
+<p>于是kafka提供了两个方式实现精确一次.</p>
+<ul>
+<li>幂等性producer,底层思想就是用空间换时间,在broker端多存储一些字段,来知道消息是否重复.但是他只能实现单分区且单会话上的幂等性.</li>
+<li>还有一种是事务型producer,它能够保证将消息原子性地写入到多个分区中,也不怕进程的重启.但是,相对幂等性producer,它的性能更差一些.</li>
+</ul>
+<h5 id="Kafka-怎么避免重复消费？"><a href="#Kafka-怎么避免重复消费？" class="headerlink" title="Kafka 怎么避免重复消费？"></a>Kafka 怎么避免重复消费？</h5><p>broker上存储的消息都有一个offset的标记，consumer通过offset维护当前消费的数据，默认5秒去自动提交消费完的数据，所以consumer在消费时，如果程序强制被kill或者宕机之类的，可能会导致offset没有提交，从而导致下次消费重复消费。</p>
+<p>还有就是kafka里面有partition balance的一个机制，就是把多个partition均衡的分配给多个消费者，consumer会从分配的partition中消费数据，如果consumer在默认5分钟内没有处理完这批消息，就会触发kafka的rebalance，从而导致offset自动提交失败，在重新rebalance之后，consumer还是会从之前没有提交的offset位置开始去消费，导致重复消费。这种情景下有很多种处理方法：比如</p>
+<ol>
+<li><p>提高消费端的处理性能，比如使用异步的方式处理消息，缩短单个消息的消费时长，或者调整消费超时时间，或者减少一次从broker拉取的数据量</p>
+<ol start="2">
+<li>可以针对消息生成md5然后保存到redis里面，在处理消息前先判断是否已经消费过，如果存在就不在消费了，这个方法其实就是利用幂等性的思想来实现。</li>
+</ol>
+</li>
+</ol>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><h5 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h5><p><strong>第一次握手</strong>:</p>
+<p>建立连接时，客户端发送syn包（syn&#x3D;j）到服务器，并进入SYN_SENT状态，等待服务器确认；SYN:同步序列编号（Synchronize Sequence Numbers）。</p>
+<p><strong>第二次握手</strong>:</p>
+<p>服务器收到syn包，必须确认客户的SYN（ack&#x3D;j+1），同时自己也发送一个SYN包（syn&#x3D;k），即SYN+ACK包，此时服务器进入SYN_RECV状态；</p>
+<p><strong>第三次握手</strong>:</p>
+<p>客户端收到服务器的SYN+ACK包，向服务器发送确认包ACK(ack&#x3D;k+1），此包发送完毕，客户端和服务器进入ESTABLISHED（TCP连接成功）状态，完成三次握手。</p>
+<h5 id="4次挥手"><a href="#4次挥手" class="headerlink" title="4次挥手"></a>4次挥手</h5><p>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</p>
+<p>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</p>
+<p>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</p>
+<p>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</p>
+<p>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</p>
+<p>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭</p>
+<h5 id="为什么连接的时候是三次握手，关闭的时候却是四次握手？"><a href="#为什么连接的时候是三次握手，关闭的时候却是四次握手？" class="headerlink" title="为什么连接的时候是三次握手，关闭的时候却是四次握手？"></a>为什么连接的时候是三次握手，关闭的时候却是四次握手？</h5><p>因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，”你发的FIN报文我收到了”。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。</p>
+<h5 id="TCP-和-UDP-区别"><a href="#TCP-和-UDP-区别" class="headerlink" title="TCP 和 UDP 区别:"></a>TCP 和 UDP 区别:</h5><p><strong>1. 连接</strong></p>
+<p>TCP 是面向连接的传输层协议，传输数据前先要建立连接。UDP 是不需要连接，即刻传输数据。</p>
+<p><strong>2. 服务对象</strong></p>
+<p>TCP 是一对一的两点服务，即一条连接只有两个端点。UDP 支持一对一、一对多、多对多的交互通信</p>
+<p><strong>3. 可靠性</strong></p>
+<p>TCP 是可靠交付数据的，数据可以无差错、不丢失、不重复、按需到达。UDP 是尽最大努力交付，不保证可靠交付数据。</p>
+<p><strong>4. 拥塞控制、流量控制</strong></p>
+<p>TCP 有拥塞控制和流量控制机制，保证数据传输的安全性。UDP 则没有，即使网络非常拥堵了，也不会影响 UDP 的发送速率。</p>
+<p><strong>5. 首部开销</strong></p>
+<p>TCP 首部长度较长，会有一定的开销，首部在没有使用「选项」字段时是 20 个字节，如果使用了「选项」字段则会变长的。UDP 首部只有 8 个字节，并且是固定不变的，开销较小。</p>
+<h5 id="TCP-和-UDP-应用场景"><a href="#TCP-和-UDP-应用场景" class="headerlink" title="TCP 和 UDP 应用场景:"></a>TCP 和 UDP 应用场景:</h5><p>由于 TCP 是面向连接，能保证数据的可靠性交付，因此经常用于:</p>
+<p>FTP 文件传输HTTP &#x2F; HTTPS</p>
+<p>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于:</p>
+<p>包总量较少的通信，如 DNS 、SNMP 等视频、音频等多媒体通信广播通信</p>
+<h5 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h5><ol>
+<li>原子性 （atomicity）:强调事务的不可分割.</li>
+<li>一致性 （consistency）:事务的执行的前后数据的完整性保持一致.</li>
+<li>隔离性 （isolation）:一个事务执行的过程中,不应该受到其他事务的干扰</li>
+<li>持久性（durability） :事务一旦结束,数据就持久到数据库</li>
+</ol>
+<h5 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h5><p><strong>1、DEFAULT</strong></p>
+<p>默认隔离级别，每种数据库支持的事务隔离级别不一样</p>
+<p><strong>Mysql 默认:可重复读</strong><br><strong>Oracle 默认:读已提交</strong></p>
+<p><strong>2、READ_UNCOMMITTED</strong></p>
+<p>读未提交，是最低的事务隔离级别，它允许另外一个事务可以看到这个事务未提交的数据，这个级别的隔离机制无法解决脏读、不可重复读、幻读中的任何一种，因此很少使用</p>
+<p><strong>3、READ_COMMITED</strong></p>
+<p>读已提交，保证一个事物提交后才能被另外一个事务读取，自然能够防止脏读，但是无法限制不可重复读和幻读</p>
+<p><strong>4、REPEATABLE_READ</strong></p>
+<p>可重复度，读取了一条数据，这个事务不结束，别的事务就不可以改这条记录，这样就解决了脏读、不可重复读的问题，但是幻读的问题还是无法解决</p>
+<p><strong>5、SERLALIZABLE</strong></p>
+<p>串行化，这是花费最高代价但最可靠的事务隔离级别，就解决了脏读、不可重复读和幻读的问题了</p>
+<h5 id="拦截器和过滤器"><a href="#拦截器和过滤器" class="headerlink" title="拦截器和过滤器"></a>拦截器和过滤器</h5><p>　　<strong>①拦截器是基于java的反射机制的，而过滤器是基于函数回调。<br>　　②拦截器不依赖与servlet容器，过滤器依赖与servlet容器。<br>　　③拦截器只能对action请求起作用，而过滤器则可以对几乎所有的请求起作用。<br>　　④拦截器可以访问action上下文、值栈里的对象，而过滤器不能访问。<br>　　⑤在action的生命周期中，拦截器可以多次被调用，而过滤器只能在容器初始化时被调用一次。</strong></p>
+<p>　　<strong>⑥拦截器可以获取IOC容器中的各个bean，而过滤器就不行，这点很重要，在拦截器里注入一个service，可以调用业务逻辑。</strong></p>
+<p>4. </p>
+<h4 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h4><h5 id="单例"><a href="#单例" class="headerlink" title="单例"></a>单例</h5><p><img src="https://tvax1.sinaimg.cn/large/be1594faly1gi2xp2nqhbj20dc09jgls.jpg" alt="image-20200820141522766"></p>
+<h5 id="ArrayList和LinkedList的区别"><a href="#ArrayList和LinkedList的区别" class="headerlink" title="ArrayList和LinkedList的区别"></a>ArrayList和LinkedList的区别</h5><p>ArrayList，数组是一种线性表结构。它用一组连续的内存空间，来存储相同类型的数据。最大的特点就是随机访问快，但是插入数据和删除数据效率低，因为插入或删除数据时，待插入或删除位置的元素和他后面的所有元素都需要向后或向前搬移。数组扩容的话，需要把旧数组中的所有元素向新数组中搬移。数组的空间是从栈分配的</p>
+<p>LinkedList，链表它并不需要一块连续的内存空间，它的元素有两个属性，一个是元素的值，另一个是指针，此指针标记了下一个元素的地址．通过该地址就可以找到下一个数据．所以任意位置插入元素和删除元素时间效率较高．但是由于其不具有随机访问性，如果需要访问某个位置的数据，需要从第一个数开始找起，依次往后遍历，直到找到待查询的位置． 空间不需要提前指定大小，根据需求动态的申请和删除内存空间，扩容方便．链表的空间是从堆中分配的。</p>
+<h5 id="字节流和字符流区别"><a href="#字节流和字符流区别" class="headerlink" title="字节流和字符流区别"></a>字节流和字符流区别</h5><p>字节流操作的基本单元为字节；字符流操作的基本单元为Unicode码元。<br>字节流默认不使用缓冲区；字符流使用缓冲区。<br>字节流在操作的时候本身是不会用到缓冲区的，是与文件本身直接操作的，所以字节流在操作文件时，即使不关闭资源，文件也能输出；字符流在操作的时候是使用到缓冲区的。如果字符流不调用close或flush方法，则不会输出任何内容。<br>字节流可用于任何类型的对象，包括二进制对象，而字符流只能处理字符或者字符串； 字节流提供了处理任何类型的IO操作的功能，但它不能直接处理Unicode字符，而字符流就可以。</p>
+<h5 id="HashSet和HashMap的区别"><a href="#HashSet和HashMap的区别" class="headerlink" title="HashSet和HashMap的区别"></a>HashSet和HashMap的区别</h5><table>
+<thead>
+<tr>
+<th><em>HashMap</em></th>
+<th><em>HashSet</em></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HashMap实现了Map接口</td>
+<td>HashSet实现了Set接口</td>
+</tr>
+<tr>
+<td>HashMap储存键值对</td>
+<td>HashSet仅仅存储对象</td>
+</tr>
+<tr>
+<td>使用put()方法将元素放入map中</td>
+<td>使用add()方法将元素放入set中</td>
+</tr>
+<tr>
+<td>HashMap中使用键对象来计算hashcode值</td>
+<td>HashSet使用成员对象来计算hashcode值，对于两个对象来说hashcode可能相同，所以equals()方法用来判断对象的相等性，如果两个对象不同的话，那么返回false</td>
+</tr>
+<tr>
+<td>HashMap比较快，因为是使用唯一的键来获取对象</td>
+<td>HashSet较HashMap来说比较慢</td>
+</tr>
+</tbody></table>
+<h5 id="介绍一下HashMap"><a href="#介绍一下HashMap" class="headerlink" title="介绍一下HashMap"></a>介绍一下HashMap</h5><p>HashMap在1.8之前是数组+链表的结构,put数据时,key通过hash算法和取模获取数组下标,如果下标为空则把数据封装为entry对象放入.对于hash冲突,hashmap采用的是链式寻址法,将key计算结果相同的数据以单向链表的形式存储,在链表比较长的时候检索效率会降低.在扩容方面因为使用的是头插法,可能会造成循环链表的问题.</p>
+<p>而到了jdk1.8,HashMap采用了数组+链表+红黑树的结构,对于hash冲突,当链表深度超过8的时候会将链表转为红黑树,此外,扩容方面改为尾插法,解决了循环链表的问题.</p>
+<h5 id="说一下HashMap的put方法"><a href="#说一下HashMap的put方法" class="headerlink" title="说一下HashMap的put方法"></a>说一下HashMap的put方法</h5><p><img src="https://tva4.sinaimg.cn/large/be1594faly1gryxyyhw12j211h0ayjwj.jpg" alt="image"></p>
+<h5 id="HashMap扩容"><a href="#HashMap扩容" class="headerlink" title="HashMap扩容"></a>HashMap扩容</h5><p>jdk1.7是数组加链表的结构，他的数据节点是一个entry节点。它插入使用的头插法，在扩容的过程中，也就是resize的时候，又调用了transfer方法，把里面的entry进行rehash，在这个过程，可能会造成可能导致的循环链表，在下次get的时候出现一个死循环。</p>
+<p>jdk1.8的话HashMap默认采用数组+链表的方式存储键值对，entry节点改为了node节点，当链表深度超过8且数组超过64，会执行转换红黑树的操作，以减少搜索时间。否则，就是只是执行 resize() 方法对数组扩容。</p>
+<h5 id="ConcurrentHashMap-的存储结构是怎样的？"><a href="#ConcurrentHashMap-的存储结构是怎样的？" class="headerlink" title="ConcurrentHashMap 的存储结构是怎样的？"></a>ConcurrentHashMap 的存储结构是怎样的？</h5><p>Java8 中的 ConcurrnetHashMap 使用的 Synchronized 锁加 CAS 的机制。结构也由 Java7 中的 Segment 数组 + HashEntry 数组 + 链表 进化成了 Node 数组 + 链表 &#x2F; 红黑树，Node 是类似于一个 HashEntry 的结构。它的冲突再达到一定大小时会转化成红黑树，在冲突小于一定数量时又退回链表。</p>
+<h5 id="集合是否有序"><a href="#集合是否有序" class="headerlink" title="集合是否有序"></a>集合是否有序</h5><h6 id="无序"><a href="#无序" class="headerlink" title="无序"></a>无序</h6><p>HASHSET</p>
+<p>HASHMAP</p>
+<h6 id="有序"><a href="#有序" class="headerlink" title="有序"></a>有序</h6><p>LinkedHashSet添加的顺序</p>
+<p>TreeSet自然顺序a-z排列</p>
+<p>TREEMAP自然顺序a-z排列【底层存储结构是二叉树，二叉树的中序遍历保证了数据的有序性】</p>
+<p>LinkedHashMap添加的顺序【底层存储结构是哈希表+链表，链表记录了添加数据的顺序】</p>
+<h5 id="集合线程安全"><a href="#集合线程安全" class="headerlink" title="集合线程安全"></a>集合线程安全</h5><h6 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h6><p>Hashtable	Hashtable就是直接在hashmap上加了个锁</p>
+<p>ConcurrentHashMap	Concurrenthashmap1.8之前就是分成多个分段锁，JDK 1.8中直接采用CAS + synchronized保证并发更新的安全性，底层采用数组+链表+红黑树的存储结构</p>
+<h6 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h6><p>HashSet、TreeSet、LinkedHashSet.这三个都是线程不安全的。它底层其实就是map，hashmap……</p>
+<p>CopyOnWriteArraySet 	就是使用 CopyOnWriteArrayList 的 addIfAbsent 方法来去重的，添加元素的时候判断对象是否已经存在，不存在才添加进集合。</p>
+<h6 id="List"><a href="#List" class="headerlink" title="List"></a>List</h6><p>arraylist和linkedlist不安全</p>
+<p>vector	因为它内部主要使用synchronized关键字实现同步</p>
+<p>SynchronizedList	很可惜，它所有方法都是带同步对象锁的，和 Vector 一样，它不是性能最优的</p>
+<p>CopyOnWriteArrayList	即复制再写入，就是在添加元素的时候，先把原 List 列表复制一份，再添加新的元素。添加元素时，先加锁，再进行复制替换操作，最后再释放锁。获取元素并没有加锁，在高并发情况下，大大提升了读取性能</p>
+<h5 id="JVM内存模型"><a href="#JVM内存模型" class="headerlink" title="JVM内存模型"></a>JVM内存模型</h5><p><img src="https://raw.githubusercontent.com/chiyuanbo/pic/master/360b8f453e016cb641208a6a8fb589bc.png"></p>
+<p>私有区</p>
+<ul>
+<li><p>程序计数器:</p>
+<p>程序计数器会存储当前线程正在执行的 Java 方法的 JVM 指令地址；或者，如果是在执行本地方法，则是undefined</p>
+</li>
+<li><p>Java 虚拟机栈:</p>
+<p>每个线程在创建时都会创建一个虚拟机栈，其内部保存一个个的栈帧，对应着一次次的 Java 方法调用。</p>
+</li>
+<li><p>本地方法栈</p>
+<p>它和 Java 虚拟机栈是非常相似的，支持对本地方法的调用，也是每个线程都会创建一个。在 Oracle Hotspot JVM 中，本地方法栈和 Java 虚拟机栈是在同一块儿区域，这完全取决于技术实现的决定，并未在规范中强制。</p>
+</li>
+</ul>
+<p>共享区</p>
+<ul>
+<li><p>堆:</p>
+<p>它是 Java 内存管理的核心区域，用来放置 Java 对象实例，几乎所有创建的 Java 对象实例都是被直接分配在堆上。堆也是垃圾收集器重点照顾的区域，所以堆内空间还会被不同的垃圾收集器进行进一步的细分，最有名的就是新生代、老年代的划分。</p>
+</li>
+<li><p>方法区:</p>
+<p>用于存储所谓的元数据，例如类结构信息，以及对应的运行时常量池、字段、方法代码等。</p>
+</li>
+<li><p>运行时常量池:</p>
+<p>方法区的一部分，存放各种常量信息。</p>
+</li>
+</ul>
+<h5 id="谈谈-JVM-内存区域的划分，哪些区域可能发生-OutOfMemoryError？"><a href="#谈谈-JVM-内存区域的划分，哪些区域可能发生-OutOfMemoryError？" class="headerlink" title="谈谈 JVM 内存区域的划分，哪些区域可能发生 OutOfMemoryError？"></a>谈谈 JVM 内存区域的划分，哪些区域可能发生 OutOfMemoryError？</h5><p>javadoc 中对OutOfMemoryError的解释是，没有空闲内存，并且垃圾收集器也无法提供更多内存。这里面隐含着一层意思是，在抛出 OutOfMemoryError 之前，通常垃圾收集器会被触发，尽其所能去清理出空间。</p>
+<p>堆内存不足是最常见的 OOM 原因之一，抛出的错误信息是“java.lang.OutOfMemoryError:Java heap space”，原因可能千奇百怪，例如，可能存在内存泄漏问题；也很有可能就是堆的大小不合理。</p>
+<p>对于 Java 虚拟机栈和本地方法栈。如果不断的进行递归调用，而且没有退出条件，就会导致不断地进行压栈。JVM 实际会抛出 StackOverFlowError；当然，如果 JVM 试图去扩展栈空间的的时候失败，则会抛出 OutOfMemoryError。</p>
+<p>对于老版本的 Oracle JDK，因为永久代的大小是有限的，内存溢出会抛出“java.lang.OutOfMemoryError: PermGen space”。但是我们都是用的jdk1.8起步。</p>
+<p>随着元数据区的引入，方法区内存已经不再那么窘迫，所以相应的 OOM 有所改观，出现 OOM，异常信息则变成了:“java.lang.OutOfMemoryError: Metaspace”。</p>
+<h5 id="如何解决OOM"><a href="#如何解决OOM" class="headerlink" title="如何解决OOM"></a>如何解决OOM</h5><p> top找出占用cpu最高的进程，记下id，用printf ‘0x%x’ tid，线程id转换16进制，然后jstack pid|grep tid找到线程堆栈，找到报错信息</p>
+<p>开源的脚本，show-busy-java-thread</p>
+<p>jvm里的工具jvisualvm</p>
+<h5 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h5><ul>
+<li>Serial GC，它是最古老的垃圾收集器，其收集工作是单线程的，并且在进行垃圾收集过程中，会进入臭名昭著的“Stop-The-World”状态。</li>
+<li>ParNew GC，实际是 Serial GC 的多线程版本。</li>
+<li>CMS（Concurrent Mark Sweep） GC，基于标记 - 清除（Mark-Sweep）算法，设计目标是尽量减少停顿时间。但是，CMS 采用的标记 - 清除算法，存在着内存碎片化问题，长时间运行 难免发生 full GC。另外，既然强调了并发，CMS 会占用更多 CPU 资源，并和用户线程争抢。</li>
+<li>Parallel GC，在早期 JDK 8 等版本中，它是 server 模式 JVM 的默认 GC 选择，也被称作是吞吐量优先的 GC，其特点是新生代和老年代 GC 都是并行进行的。</li>
+<li>G1 GC Garbage-First，意为垃圾优先，哪一块的垃圾最多就优先清理它。这是一种兼顾吞吐量和停顿时间的 GC 实现，是 Oracle JDK 9 以后的默认 GC 选项。</li>
+</ul>
+<h5 id="jvm调优"><a href="#jvm调优" class="headerlink" title="jvm调优"></a>jvm调优</h5><ul>
+<li><p>垃圾回收器的调优</p>
+<p>1,首先通过printgcdetail 查看fullgc频率以及时长<br>2,通过dump 查看内存中哪些对象多，这些可能是引起fullgc的原因，看是否能优化<br>3,如果堆大或者是生产环境，可以开起jmc 飞行一段时间，查看这期间的相关数据来订位问题</p>
+</li>
+<li><p>参数调优 堆空间大小，gc选择等等</p>
+</li>
+<li><p>其他的忘了，因为我觉得那是jvm工程师做的事。</p>
+</li>
+</ul>
+<h5 id="多线程的实现方式"><a href="#多线程的实现方式" class="headerlink" title="多线程的实现方式"></a>多线程的实现方式</h5><p>继承Thread类并重写run()方法</p>
+<p>实现Runnable接口</p>
+<p>通过Callable和FutureTask创建线程</p>
+<p>通过线程池创建线程</p>
+<p>定时器（java.util.Timer）</p>
+<p>java8lambda表达式的parallelStream多管道</p>
+<p>Spring异步方法,启动类加上<code>@EnableAsync</code>,其次，方法加上<code>@Async</code>注解</p>
+<h5 id="Excutor提供了哪几种线程池"><a href="#Excutor提供了哪几种线程池" class="headerlink" title="Excutor提供了哪几种线程池"></a>Excutor提供了哪几种线程池</h5><p>​		Executors 目前提供了 5 种不同的线程池创建配置:</p>
+<ul>
+<li>newCachedThreadPool()，它是一种用来处理大量短时间工作任务的线程池，具有几个鲜明特点:它会试图缓存线程并重用，当无缓存线程可用时，就会创建新的工作线程；如果线程闲置的时间超过 60 秒，则被终止并移出缓存；长时间闲置时，这种线程池，不会消耗什么资源。其内部使用 SynchronousQueue 作为工作队列。</li>
+<li>newFixedThreadPool(int nThreads)，重用指定数目（nThreads）的线程，其背后使用的是无界的工作队列，任何时候最多有 nThreads 个工作线程是活动的。这意味着，如果任务数量超过了活动队列数目，将在工作队列中等待空闲线程出现；如果有工作线程退出，将会有新的工作线程被创建，以补足指定的数目 nThreads。</li>
+<li>newSingleThreadExecutor()，它的特点在于工作线程数目被限制为 1，操作一个无界的工作队列，所以它保证了所有任务的都是被顺序执行，最多会有一个任务处于活动状态，并且不允许使用者改动线程池实例，因此可以避免其改变线程数目。</li>
+<li>newSingleThreadScheduledExecutor() 和 newScheduledThreadPool(int corePoolSize)，创建的是个 ScheduledExecutorService，可以进行定时或周期性的工作调度，区别在于单一工作线程还是多个工作线程。</li>
+<li>newWorkStealingPool(int parallelism)，这是一个经常被人忽略的线程池，Java 8 才加入这个创建方法，其内部会构建ForkJoinPool，利用Work-Stealing算法，并行地处理任务，不保证处理顺序。</li>
+</ul>
+<h5 id="Java线程池七个参数"><a href="#Java线程池七个参数" class="headerlink" title="Java线程池七个参数"></a>Java线程池七个参数</h5><p>corePoolSize 核心线程数</p>
+<p>maximumPoolSize 最大线程数量</p>
+<p>keepAliveTime 空闲线程存活时间</p>
+<p>unit 时间单位</p>
+<p>workQueue 工作队列</p>
+<p>threadFactory 线程工厂</p>
+<p>handler 拒绝策略</p>
+<h5 id="线程池如果满了会怎么样？"><a href="#线程池如果满了会怎么样？" class="headerlink" title="线程池如果满了会怎么样？"></a>线程池如果满了会怎么样？</h5><p>如果使用的是无界队列 LinkedBlockingQueue，继续添加任务到阻塞队列中等待执行，因为 LinkedBlockingQueue 可以近乎认为是一个无穷大的队列，可以无限存放任务 </p>
+<p>如果使用的是有界队列比如 ArrayBlockingQueue ， 任务首先会被添加到 ArrayBlockingQueue 中，ArrayBlockingQueue 满了，会根据最大线程数的值增加线程数量，如果增加了线程数量还是处理不过来， 那么则会使用拒绝策略 RejectedExecutionHandler 处理满了的任务，默认是<br>AbortPolicy。</p>
+<h5 id="线程池的工作流程"><a href="#线程池的工作流程" class="headerlink" title="线程池的工作流程"></a>线程池的工作流程</h5><ol>
+<li>线程池是一种池化技术，线程的实际调度执行是由操作系统做的。线程池刚创建时，里面并没有线程。只有调用execute()方法后，才会创建线程。</li>
+<li>当调用execute()方法添加一个任务时，线程池会做以下判断：<ol>
+<li>当正在运行的线程数量小于核心线程数，那么马上创建线程运行这个任务。</li>
+<li>如果线程数量大于等于核心线程数，那么会将任务放入队列。</li>
+<li>如果队列满了，且线程数量小于最大线程数，那么会创建非核心线程立刻运行这个任务。</li>
+<li>如果队列满了，且线程数量大于等于最大线程数，那么线程池会执行拒绝策略。</li>
+</ol>
+</li>
+<li>当一个线程完成任务时，他会从队列中取下一个任务来执行。</li>
+<li>当一个线程无事可做，超过keepAliveTime时，线程池会判断，如果当前运行的线程数大于核心线程数，那么这个线程会被停掉。所以线程池的所有任务完成后，他最终会收缩到核心线程数的大小。</li>
+</ol>
+<h5 id="拒绝策略"><a href="#拒绝策略" class="headerlink" title="拒绝策略"></a>拒绝策略</h5><ul>
+<li>AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。</li>
+<li>DiscardPolicy:静默丢弃任务，但是不抛出异常。</li>
+<li>DiscardOldestPolicy:丢弃队列最前面的任务，然后重新提交被拒绝的任务。</li>
+<li>CallerRunsPolicy:由调用线程处理该任务</li>
+</ul>
+<h5 id="线程的状态如何控制，等待、唤醒……"><a href="#线程的状态如何控制，等待、唤醒……" class="headerlink" title="线程的状态如何控制，等待、唤醒……"></a>线程的状态如何控制，等待、唤醒……</h5><h5 id="并发编程中，如何中断一个正在运行中的线程？"><a href="#并发编程中，如何中断一个正在运行中的线程？" class="headerlink" title="并发编程中，如何中断一个正在运行中的线程？"></a>并发编程中，如何中断一个正在运行中的线程？</h5><p>线程是一个系统级的概念，在java里实现的线程最终的执行和调度都是由操作系统实现的。所以理论上中断一个线程只能像linux的kill命令杀死线程的方式一样去强制终止。thread里面提供了一个过时的stop方法可以去强制终止，但是这个方式不安全，可能这个线程的任务还没执行完。如果想安全的停止一个线程，只能在线程里面埋下一个钩子，外部线程通过这个钩子去触发线程的一个中断命令。thread里面提供了interrupt方法，结合在run方法里面使用if(this.isInterrupt())来实现线程的安全中断。这种方法并不是强制中断，而是告诉线程可以停止，是否要中断取决于正在运行的线程，所以它能保证线程运算结果的一个安全性。</p>
+<h5 id="Synchronized锁升级的原理"><a href="#Synchronized锁升级的原理" class="headerlink" title="Synchronized锁升级的原理"></a>Synchronized锁升级的原理</h5><p>jdk1.6之前Synchronized是通过重量级锁的方式来实现线程之间锁的竞争，它依赖与操作系统底层的mutex lock，会涉及到用户态到内核态的一个切换，性能损耗很大。在1.6之后，Synchronized增加了锁升级的一个机制，引入了偏向锁和轻量级锁。偏向锁就是把当前的某个锁偏向于某个线程，这种锁适合同一个线程多次申请一个锁资源，并且没有其他线程竞争的情况。轻量级锁也就是自旋锁，通过多次自旋去重试竞争锁，避免了用户态和内核态的切换损耗。访问Synchronized同步代码块时，首先使用偏向锁竞争锁资源，如果竞争到偏向锁说明加锁成功，直接返回，如果失败就升级为轻量级锁，线程会根据自适应自旋次数去尝试自旋占用锁资源，如果还没竞争到锁就会升级到重量级锁，没有竞争到锁的线程会被阻塞，处于锁等待状态。</p>
+<h5 id="String和StringBuffer和StringBuilder"><a href="#String和StringBuffer和StringBuilder" class="headerlink" title="String和StringBuffer和StringBuilder"></a>String和StringBuffer和StringBuilder</h5><p>String是不可变对象,StringBuffer和StringBuilder是可以追加的</p>
+<p>StringBuffer内部一些方法使用Synchronized修饰,所以他是线程安全的</p>
+<p>StringBuilder线程不安全,但相对的性能更高一点</p>
+<h5 id="用过哪些java自带注解"><a href="#用过哪些java自带注解" class="headerlink" title="用过哪些java自带注解"></a>用过哪些java自带注解</h5><p>@Override 表示当前方法覆盖了父类的方法<br>@Deprecation 表示方法已经过时,方法上有横线，使用时会有警告。<br>@SuppviseWarnings 表示关闭一些警告信息(通知java编译器忽略特定的编译警告)</p>
+<h4 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h4><h5 id="谈谈对spring的理解"><a href="#谈谈对spring的理解" class="headerlink" title="谈谈对spring的理解"></a>谈谈对spring的理解</h5><h5 id="Spring用到了哪些设计模式"><a href="#Spring用到了哪些设计模式" class="headerlink" title="Spring用到了哪些设计模式"></a>Spring用到了哪些设计模式</h5><ol>
+<li>工厂设计模式 : Spring 使用工厂模式通过 BeanFactory、ApplicationContext 创建 bean 对象。</li>
+<li>代理设计模式 : Spring AOP 功能的实现。 </li>
+<li>单例设计模式 : Spring 中的 Bean 默认都是单例的。</li>
+<li>模板方法模式 : Spring 中 jdbcTemplate、hibernateTemplate 等以 Template 结尾的 对数据库操作的类，它们就使用到了模板模式。 </li>
+<li>包装器设计模式 : 我们的项目需要连接多个数据库，而且不同的客户在每次访问中根据需 要会去访问不同的数据库。这种模式让我们可以根据客户的需求能够动态切换不同的数据 源。 </li>
+<li>观察者模式: Spring 事件驱动模型就是观察者模式很经典的一个应用。 </li>
+<li>适配器模式 : Spring AOP 的增强或通知(Advice)使用到了适配器模式、spring MVC 中 也是用到了适配器模式适配 Controller。</li>
+</ol>
+<h5 id="Component-和-Bean-的区别是什么？"><a href="#Component-和-Bean-的区别是什么？" class="headerlink" title="@Component 和 @Bean 的区别是什么？"></a>@Component 和 @Bean 的区别是什么？</h5><ol>
+<li>作用对象不同：<code>@Component</code> 注解作用于类，而 <code>@Bean</code> 注解作用于方法</li>
+<li><code>@Component</code> 通常是通过路径扫描来自动侦测以及自动装配到 Spring 容器中。<code>@Bean</code> 注解通常是我们在标有该注解的方法中定义产生这个 bean，<code>@Bean</code> 告诉了 Spring 这是某个类的实例，当我们需要用它的时候还给我。</li>
+<li><code>@Bean</code> 注解比 <code>@Component</code> 注解的自定义性更强，而且很多地方我们只能通过 <code>@Bean</code> 注解来注册 bean。比如当我们引用第三方库中的类需要装配到 Spring 容器时，只能通过 <code>@Bean</code> 来实现</li>
+</ol>
+<h5 id="spring的作用域"><a href="#spring的作用域" class="headerlink" title="spring的作用域"></a>spring的作用域</h5><p>Spring支持5种作用域:</p>
+<ul>
+<li>singleton:单例模式,bean以单实例的形式存在</li>
+<li>prototype:原型模式,每次调用getBean方法都会返回一个新实例</li>
+<li>request:对于每次HTTP请求，使用request定义的Bean都将产生一个新实例，该作用域仅适用于WebApplicationContext环境</li>
+<li>session:同一个http session共享一个bean</li>
+<li>globalsession:全局会话,和session类似,但是只在基于portlet的web中有效。</li>
+</ul>
+<h5 id="Spring-IOC-Bean的生命周期"><a href="#Spring-IOC-Bean的生命周期" class="headerlink" title="Spring IOC Bean的生命周期"></a>Spring IOC Bean的生命周期</h5><p>单实例的生命周期是容器启动时初始化,容器关闭时销毁</p>
+<p>多实例的生命周期是容器启动后调用getBean时初始化,容器关闭时并不执行销毁方法,需要写程序销毁</p>
+<h5 id="spring中一条请求100ms，如何1s处理1000条请求"><a href="#spring中一条请求100ms，如何1s处理1000条请求" class="headerlink" title="spring中一条请求100ms，如何1s处理1000条请求"></a>spring中一条请求100ms，如何1s处理1000条请求</h5><h5 id="Spring注入方式都有哪些"><a href="#Spring注入方式都有哪些" class="headerlink" title="Spring注入方式都有哪些"></a>Spring注入方式都有哪些</h5><ol>
+<li>set 方法注入</li>
+<li>构造器注入</li>
+<li>静态工厂的方法注入</li>
+<li>实例工厂的方法注入</li>
+<li>@Autowired自动装配,但是现在不推荐使用了</li>
+</ol>
+<h5 id="为什么不推荐使用-Autowired注入"><a href="#为什么不推荐使用-Autowired注入" class="headerlink" title="为什么不推荐使用@Autowired注入"></a>为什么不推荐使用@Autowired注入</h5><ol>
+<li>初始化顺序,Autowired是在构造方法之后的,如果构造方法里使用了这个bean,就会出现空指针异常</li>
+<li>Autowired是byType方式,注入两个相同类型的bean会失败</li>
+</ol>
+<h5 id="Autowired和-Resource区别"><a href="#Autowired和-Resource区别" class="headerlink" title="@Autowired和@Resource区别"></a>@Autowired和@Resource区别</h5><ol>
+<li>提供方不同,@Autowired 是Spring提供的，@Resource 是<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=J2EE&spm=1001.2101.3001.7020">J2EE</a>提供的。</li>
+<li>装配时默认类型不同,@Autowired只按type装配,@Resource默认是按name装配。</li>
+</ol>
+<h5 id="Spring的controller是单例吗"><a href="#Spring的controller是单例吗" class="headerlink" title="Spring的controller是单例吗"></a>Spring的controller是单例吗</h5><p>controller默认是单例的，所以不能使用非静态的成员变量。如果必须要定义一个非静态成员变量，可以通过注解@Scope(“prototype”)，将其设置为多例模式，或者是使用ThreadLocal变量</p>
+<h5 id="Spring自定义注解"><a href="#Spring自定义注解" class="headerlink" title="Spring自定义注解"></a>Spring自定义注解</h5><h6 id="流程"><a href="#流程" class="headerlink" title="流程:"></a>流程:</h6><ol>
+<li><p>在配置中打开aop编程</p>
+</li>
+<li><p>编写自己自定义的注解，这里需要使用</p>
+<p>​	@Target表示注解作用的位置，一般是用ElemenetType.METHOD</p>
+<p>​	@Retention表示注解的生命周期，一般是用RetentionPolicy.RUNTIME</p>
+<p>​	@Documented:注解信                                                                                                                                                                                                                                                                                                                            ，使用@Aspect 注解标示该类为切面类以及@Component 注入依赖，我之前做日志记录标注该方法体为后置通知，当目标方法执行成功后执行该方法体</p>
+</li>
+</ol>
+<p>1、@Target 的 ElemenetType 参数包括:       </p>
+<p>ElemenetType.CONSTRUCTOR  构造器声明       </p>
+<p>ElemenetType.FIELD  域声明（包括 enum 实例）      </p>
+<p>ElemenetType.LOCAL_VARIABLE  局部变量声明      </p>
+<p>ElemenetType.METHOD  方法声明       </p>
+<p>ElemenetType.PACKAGE  包声明       </p>
+<p>ElemenetType.PARAMETER  参数声明       </p>
+<p>ElemenetType.TYPE  类，接口（包括注解类型）或enum声明</p>
+<p>2、@Retention 表示在什么级别保存该注解信息。可选的 RetentionPolicy 参数包括:   </p>
+<p>RetentionPolicy.SOURCE  注解将被编译器丢弃      </p>
+<p>RetentionPolicy.CLASS  注解在class文件中可用，但会被VM丢弃      </p>
+<p>RetentionPolicy.RUNTIME  VM将在运行期也保留注释，因此可以通过反射机制读取注解的信息。</p>
+<h5 id="IOC、AOP的理解以及都有哪些运用"><a href="#IOC、AOP的理解以及都有哪些运用" class="headerlink" title="IOC、AOP的理解以及都有哪些运用"></a>IOC、AOP的理解以及都有哪些运用</h5><p>IOC控制反转,依赖注入.在使用spring之前是需要手动new出来的，是我们主动获取的。使用spring之后，是将这个获取的过程交给spring来管理，我们只需要告诉spring你需要什么就行了</p>
+<p>AOP就是面向切面编程.AOP适合于那些具有横切逻辑的应用:如性能监测，访问控制，事务管理、缓存、对象池管理以及日志记录</p>
+<h5 id="Spring-boot-事物"><a href="#Spring-boot-事物" class="headerlink" title="Spring boot 事物"></a>Spring boot 事物</h5><p>事物注解:</p>
+<p>指定回滚</p>
+<p>@Transactional(rollbackFor&#x3D;Exception.class) </p>
+<p>指定不回滚</p>
+<p>@Transactional(noRollbackFor&#x3D;Exception.class)</p>
+<p><strong>事物传播行为 propagation(springboot默认值为Propagation.REQUIRED)</strong></p>
+<p>用法</p>
+<p>@Transactional(propagation&#x3D;Propagation.REQUIRED)</p>
+<h5 id="spring的七种事物传播行为"><a href="#spring的七种事物传播行为" class="headerlink" title="spring的七种事物传播行为"></a>spring的七种事物传播行为</h5><ol>
+<li>REQUIRED       使用当前的事务，如果当前没有事务，就新建一个事务。这是默认的也是最常见的选择。</li>
+<li>REQUIRES_NEW  新建事务，如果当前存在事务，把当前事务挂起。</li>
+<li>SUPPORTS       支持当前事务，如果当前没有事务，就以非事务方式执行。</li>
+<li>NOT_SUPPORTED  以非事务方式执行，如果当前存在事务，就把当前事务挂起。</li>
+<li>MANDATORY  使用当前的事务，如果当前没有事务，就抛出异常。</li>
+<li>NEVER              以非事务方式执行，如果当前存在事务，则抛出异常。</li>
+<li>NESTED            如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与REQUIRED类似的操作。</li>
+</ol>
+<h5 id="Spring异步编程"><a href="#Spring异步编程" class="headerlink" title="Spring异步编程"></a>Spring异步编程</h5><ol>
+<li>新建配置类，使用注解@EnableAsync开启异步支持，</li>
+<li>因为异步默认的使用的线程池不是真的线程池，他不会重用线程，所以一般是自定义线程池ThreadPoolTaskExecutor，并使用@bean注解注入</li>
+<li>在需要异步的方法上使用@Async使用异步调用</li>
+</ol>
+<h5 id="Spring-注解之-RestController与-Controller的区别"><a href="#Spring-注解之-RestController与-Controller的区别" class="headerlink" title="Spring 注解之@RestController与@Controller的区别"></a>Spring 注解之@RestController与@Controller的区别</h5><p>@RestController是@Controller的衍生注解,他等价于@Controller+@ResponseBody。他俩的共同点都是标识一个类能否接收http请求，但是@RestController是直接返回数据，无法返回指定页面，此时配置的视图解析器不起作用，而@Controller是直接返回指定页面，如果要返回数据需要借助@ResponseBody</p>
+<h4 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h4><h5 id="MYBATIS多数据源配置"><a href="#MYBATIS多数据源配置" class="headerlink" title="MYBATIS多数据源配置"></a>MYBATIS多数据源配置</h5><p>application.xml里配置多种数据源，我们应用的时候是通过自定义注解，注意是应用了spring aop来设置，把数据源都设置为注解标签，在service层中需要切换数据源的方法上，写上注解标签，调用相应方法切换数据源</p>
+<h5 id="mybatis一级缓存，二级缓存"><a href="#mybatis一级缓存，二级缓存" class="headerlink" title="mybatis一级缓存，二级缓存"></a>mybatis一级缓存，二级缓存</h5><p>mybatis的的一级缓存是SqlSession级别的缓存，一级缓存缓存的是对象，当SqlSession提交、关闭以及其他的更新数据库的操作发生后，一级缓存就会清空。</p>
+<p>二级缓存是Application&#x2F;SqlSessionFactory级别的缓存，同一个SqlSessionFactory产生的SqlSession都共享一个二级缓存，二级缓存中存储的是数据，当命中二级缓存时，通过存储的数据构造对象返回。</p>
+<p>查询数据的时候，查询的流程是二级缓存&gt;一级缓存&gt;数据库。</p>
+<h5 id="Mybatis的工作原理"><a href="#Mybatis的工作原理" class="headerlink" title="Mybatis的工作原理"></a>Mybatis的工作原理</h5><ol>
+<li>读取核心配置文件mybatis-config.xml并返回<code>InputStream</code>流对象。</li>
+<li>根据<code>InputStream</code>流对象解析出<code>Configuration</code>对象，<code>Configuration</code>对象的组织结构和XML文件的组织结构几乎完全一样，然后创建<code>SqlSessionFactory</code></li>
+<li>根据一系列属性从<code>SqlSessionFactory</code>工厂中创建<code>SqlSession</code></li>
+<li>从<code>SqlSession</code>中调用<code>Executor</code>执行数据库操作以及生成具体SQL指令</li>
+<li>然后对执行结果进行二次封装</li>
+<li>最后提交与事务</li>
+</ol>
+<h5 id="如何写出安全的代码"><a href="#如何写出安全的代码" class="headerlink" title="如何写出安全的代码"></a>如何写出安全的代码</h5><ul>
+<li>在早期设计阶段，就由安全专家组对新特性进行风险评估。</li>
+<li>开发过程中，尤其是 code review 阶段，应用 OpenJDK 自身定制的代码规范。</li>
+<li>利用多种静态分析工具如FindBugs、Parfait等，帮助早期发现潜在安全风险，并对相应问题采取零容忍态度，强制要求解决。</li>
+<li>甚至 OpenJDK 会默认将任何（编译等）警告，都当作错误对待，并体现在 CI 流程中。在代码 check-in 等关键环节，利用 hook 机制去调用规则检查工具，以保证不合规代码不能进入代码库。</li>
+</ul>
+<h4 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h4><h5 id="HDFS写原理"><a href="#HDFS写原理" class="headerlink" title="HDFS写原理"></a>HDFS写原理</h5><ol>
+<li>客户端提交写请求到NameNode，NameNode收到后对客户端进行鉴权，权限ok后会将合适的DataNode节点信息返回给客户端</li>
+<li>客户端拿到DataNode信息后，会直接和DataNode进行交互，进行数据写入。由于数据库具有副本replication，在数据写入时是先写入第一个副本，写完后再从第一个副本的节点把数据拷贝到其他节点，依次类推，知道所有副本都写完，才算成功。副本写入采用的是串行，每个副本写的过程中会逐级向上反馈进度，以保证实时知道副本的写入进度。</li>
+<li>所有副本写完后，客户端会受到数据节点返回的成功状态，然后关闭与DateNode的通道，并告诉NameNode写入完成。</li>
+</ol>
+<h5 id="HDFS读原理"><a href="#HDFS读原理" class="headerlink" title="HDFS读原理"></a>HDFS读原理</h5><ol>
+<li>客户端访问NameNode，查询元数据信息，获得这个文件的数据块位置列表，返回输入流对象。</li>
+<li>就近挑选一台datanode服务器，请求建立输入流 。</li>
+<li>DataNode向输入流中中写数据，以packet为单位来校验。</li>
+<li>最后关闭输入流</li>
+</ol>
+<h5 id="HDFS通信原理"><a href="#HDFS通信原理" class="headerlink" title="HDFS通信原理"></a>HDFS通信原理</h5><h5 id="MapTask和ReduceTask工作机制-x2F-MapReduce工作原理"><a href="#MapTask和ReduceTask工作机制-x2F-MapReduce工作原理" class="headerlink" title="MapTask和ReduceTask工作机制&#x2F;MapReduce工作原理"></a>MapTask和ReduceTask工作机制&#x2F;MapReduce工作原理</h5><p><strong>MapTask</strong></p>
+<ol>
+<li>Read阶段：Map Task通过用户编写的RecordReader，从输入InputSplit中解析出一个个key&#x2F;value。</li>
+<li>Map阶段：该节点主要是将解析出的key&#x2F;value交给用户编写map()函数处理，并产生一系列新的key&#x2F;value。</li>
+<li>Collect收集阶段：在用户编写map()函数中，当数据处理完成后，一般会调用OutputCollector.collect()输出结果。在该函数内部，它会将生成的key&#x2F;value分区（调用Partitioner），并写入一个环形内存缓冲区中。</li>
+<li>Spill阶段：即“溢写”，当环形缓冲区满后，MapReduce会将数据写到本地磁盘上，生成一个临时文件。需要注意的是，将数据写入本地磁盘之前，先要对数据进行一次本地排序，并在必要时对数据进行合并、压缩等操作。</li>
+<li>Combine阶段：当所有数据处理完成后，MapTask对所有临时文件进行一次合并，以确保最终只会生成一个数据文件。</li>
+</ol>
+<p><strong>ReduceTask</strong></p>
+<ol>
+<li>Copy阶段：ReduceTask从各个MapTask上远程拷贝一片数据，并针对某一片数据，如果其大小超过一定阈值，则写到磁盘上，否则直接放到内存中。</li>
+<li>Merge阶段：在远程拷贝数据的同时，ReduceTask启动了两个后台线程对内存和磁盘上的文件进行合并，以防止内存使用过多或磁盘上文件过多。</li>
+<li>Sort阶段：按照MapReduce语义，用户编写reduce()函数输入数据是按key进行聚集的一组数据。为了将key相同的数据聚在一起，Hadoop采用了基于排序的策略。由于各个MapTask已经实现对自己的处理结果进行了局部排序，因此，ReduceTask只需对所有数据进行一次归并排序即可。</li>
+<li>Reduce阶段：reduce()函数将计算结果写到HDFS上。</li>
+</ol>
+<h4 id="HIVE"><a href="#HIVE" class="headerlink" title="HIVE"></a>HIVE</h4><h5 id="hive3大执行引擎区别在哪"><a href="#hive3大执行引擎区别在哪" class="headerlink" title="hive3大执行引擎区别在哪"></a>hive3大执行引擎区别在哪</h5><ul>
+<li><p>mr:</p>
+<p>MR将一个算法抽象成Map和Reduce两个阶段进行处理，如果一个HQL经过转化可能有多个job，那么在这中间文件就有多次落盘，速度较慢。</p>
+</li>
+<li><p>tez:</p>
+<p>该引擎核心思想是将Map和Reduce两个操作进一步拆分，即Map被拆分成Input、Processor、Sort、Merge和Output，Reduce被拆分成Input、Processor、Sort、Merge、Output和Shuffle等，这样，这些分解后的元操作可以任意灵活组合，产生新的操作，这些操作经过一些控制程序组装后，可形成一个大的DAG作业。Tez可以将多个有依赖的作业转换为一个作业（这样只需写一次HDFS，且中间节点较少），从而大大提升DAG作业的性能</p>
+</li>
+<li><p>spark:</p>
+<p>Spark是一个分布式的内存计算框架，其特点是能处理大规模数据，计算速度快。</p>
+<p>Spark的计算过程保持在内存中，减少了硬盘读写，能够将多个操作进行合并后计算，因此提升了计算速度。同时Spark也提供了更丰富的计算API，例如filter，flatMap，count，distinct等。</p>
+<p>过程间耦合度低，单个过程的失败后可以重新计算，而不会导致整体失败；</p>
+</li>
+</ul>
+<h5 id="HIVE-sort-by-和-order-by-的区别"><a href="#HIVE-sort-by-和-order-by-的区别" class="headerlink" title="HIVE sort by 和 order by 的区别"></a>HIVE sort by 和 order by 的区别</h5><ul>
+<li>order by 会对输入做全局排序，因此只有一个reducer</li>
+<li>sort by只保证每个reducer的输出有序，不保证全局有序</li>
+</ul>
+<h5 id="分区表和分桶表各自的优点能介绍一下吗？"><a href="#分区表和分桶表各自的优点能介绍一下吗？" class="headerlink" title="分区表和分桶表各自的优点能介绍一下吗？"></a>分区表和分桶表各自的优点能介绍一下吗？</h5><ul>
+<li>分区表<ul>
+<li>分区使用的是表外字段，需要指定字段类型</li>
+<li>分区通过关键字partitioned by(partition_name string)声明</li>
+<li>分区划分粒度较粗</li>
+<li>优点:将数据按区域划分开，查询时不用扫描无关的数据，加快查询速度</li>
+</ul>
+</li>
+<li>分桶表<ul>
+<li>分桶使用的是表内字段，已经知道字段类型，不需要再指定。</li>
+<li>分桶表通过关键字clustered by(column_name) into … buckets声明</li>
+<li>分桶是更细粒度的划分、管理数据，可以对表进行先分区再分桶的划分策略</li>
+<li>优点:数据取样；能够起到优化加速的作用</li>
+</ul>
+</li>
+</ul>
+<h5 id="了解过动态分区吗，它和静态分区的区别是什么？能简单讲下动态分区的底层原理吗？"><a href="#了解过动态分区吗，它和静态分区的区别是什么？能简单讲下动态分区的底层原理吗？" class="headerlink" title="了解过动态分区吗，它和静态分区的区别是什么？能简单讲下动态分区的底层原理吗？"></a>了解过动态分区吗，它和静态分区的区别是什么？能简单讲下动态分区的底层原理吗？</h5><ul>
+<li>静态分区与动态分区的主要区别在于静态分区是手动指定，而动态分区是通过数据来进行判断</li>
+<li>详细来说，静态分区的列是在编译时期，通过用户传递来决定的；动态分区只有在 SQL 执行时才能决定</li>
+<li>简单理解就是静态分区是只给固定的值，动态分区是基于查询参数的位置去推断分区的名称，从而建立分区</li>
+</ul>
+<h5 id="HIVE分桶的逻辑"><a href="#HIVE分桶的逻辑" class="headerlink" title="HIVE分桶的逻辑"></a>HIVE分桶的逻辑</h5><p>对分桶字段求哈希值，用哈希值与分桶的数量取余，余几，这个数据就放在那个桶内。</p>
+<h5 id="HIVE索引"><a href="#HIVE索引" class="headerlink" title="HIVE索引"></a>HIVE索引</h5><p>Hive的索引其实是一张索引表（Hive的物理表），在表里面存储索引列的值，该值对应的HDFS的文件路径，该值在数据文件中的偏移量。</p>
+<p>当Hive通过索引列执行查询时，首先通过一个MR Job去查询索引表，根据索引列的过滤条件，查询出该索引列值对应的HDFS文件目录及偏移量，并且把这些数据输出到HDFS的一个文件中，然后再根据这个文件中去筛选原文件，作为查询Job的输入。</p>
+<h5 id="HIVE-数据倾斜怎么解决"><a href="#HIVE-数据倾斜怎么解决" class="headerlink" title="HIVE 数据倾斜怎么解决"></a>HIVE 数据倾斜怎么解决</h5><p>数据倾斜问题主要有以下几种:</p>
+<ol>
+<li>空值引发的数据倾斜:不让null值参与join操作，也就是不让null值有shuffle阶段,或者是给null值随机赋值，这样它们的hash结果就不一样，就会进到不同的reduce中：</li>
+<li>不同数据类型引发的数据倾斜:统一join关联字段数据类型或者转格式</li>
+<li>不可拆分大文件引发的数据倾斜:大多数是数据压缩选择了不可分割的压缩算法,可以选snappy或zstd这种支持分割的算法</li>
+<li>数据膨胀引发的数据倾斜</li>
+<li>表连接时引发的数据倾斜</li>
+</ol>
+<h5 id="Hive优化有哪些"><a href="#Hive优化有哪些" class="headerlink" title="Hive优化有哪些"></a>Hive优化有哪些</h5><ol>
+<li><p>数据存储及压缩:</p>
+<p>针对hive中表的存储格式通常有orc和parquet，压缩格式一般使用snappy。相比与textfile格式表，orc占有更少的存储。因为hive底层使用MR计算架构，数据流是hdfs到磁盘再到hdfs，而且会有很多次，所以使用orc数据格式和snappy压缩策略可以降低IO读写，还能降低网络传输量，这样在一定程度上可以节省存储，还能提升hql任务执行效率；</p>
+</li>
+<li><p>通过调参优化:</p>
+<p>并行执行，调节parallel参数；</p>
+<p>调节jvm参数，重用jvm；</p>
+<p>设置map、reduce的参数；开启strict mode模式；</p>
+<p>关闭推测执行设置。</p>
+</li>
+<li><p>有效地减小数据集将大表拆分成子表；结合使用外部表和分区表。</p>
+</li>
+<li><p>SQL优化</p>
+<ol>
+<li>大表对大表:尽量减少数据集，可以通过分区表，避免扫描全表或者全字段；</li>
+<li>大表对小表:设置自动识别小表，将小表放入内存中去执行。</li>
+</ol>
+</li>
+</ol>
+<h5 id="HIVE的优缺点"><a href="#HIVE的优缺点" class="headerlink" title="HIVE的优缺点"></a>HIVE的优缺点</h5><h5 id="HIVE存储数据原理"><a href="#HIVE存储数据原理" class="headerlink" title="HIVE存储数据原理"></a>HIVE存储数据原理</h5><h4 id="HBASE"><a href="#HBASE" class="headerlink" title="HBASE"></a>HBASE</h4><h5 id="为什么Hbase支持实时查询"><a href="#为什么Hbase支持实时查询" class="headerlink" title="为什么Hbase支持实时查询"></a>为什么Hbase支持实时查询</h5><p>首先数据量很大的时候，HBase会拆分成多个Region分配到多台RegionServer.<br>客户端通过meta信息定位到某台RegionServer（也可能是多台）,<br>通过Rowkey定位Region，这当中会先经过BlockCache，这边找不到的话，再经过MemStore和Hfile查询，这当中通过布隆过滤器过滤掉一些不需要查询的HFile。</p>
+<h5 id="Hbase的两种缓存"><a href="#Hbase的两种缓存" class="headerlink" title="Hbase的两种缓存"></a>Hbase的两种缓存</h5><p>HBase在实现中提供了两种缓存结构：<strong>MemStore</strong>和<strong>BlockCache</strong>。<br><strong>MemStore</strong><br>1、其中MemStore称为写缓存<br>2、HBase执行写操作首先会将数据顺序写入HLog然后写入MemStore<br>3、等满足一定条件后统一将MemStore中数据异步刷盘，这种设计可以极大地提升HBase的写性能。<br>4、MemStore对于读性能也至关重要，假如没有MemStore，读取刚写入的数据就需要从文件中通过IO查找，这种代价很昂贵</p>
+<p><strong>BlockCache</strong><br>1、BlockCache称为读缓存<br>2、HBase会将一次文件查找的Block块缓存到Cache中，以便后续同一请求或者邻近数据查找请求，可以直接从内存中获取，避免昂贵的IO操作。</p>
+<h5 id="HLOG"><a href="#HLOG" class="headerlink" title="HLOG"></a>HLOG</h5><p>WAL 意为Write ahead log，类似 mysql 中的 binlog,用来 做灾难恢复时用，Hlog记录数据的所有变更,一旦数据修改，就可以从log中进行恢复。</p>
+<p><strong>每个Region Server维护一个Hlog,而不是每个Region一个</strong>。这样不同region(来自不同table)的日志会混在一起，这样做的目的是不断追加单个文件相对于同时写多个文件而言，可以减少磁盘寻址次数，<strong>因此可以提高对table的写性能</strong>。带来的麻烦是，如果一台region server下线，为了<strong>恢复其上的region，需要将region server上的log进行拆分</strong>，然后分发到其它region server上进行恢复。</p>
+<h5 id="Hbase读请求过程"><a href="#Hbase读请求过程" class="headerlink" title="Hbase读请求过程"></a>Hbase读请求过程</h5><p>HRegionServer保存着meta表以及表数据，要访问表数据，首先Client先去访问zookeeper，从zookeeper里面获取meta表所在的位置信息，即找到这个meta表在哪个HRegionServer上保存着。</p>
+<p>接着Client通过刚才获取到的HRegionServer的IP来访问Meta表所在的HRegionServer，从而读取到Meta，进而获取到Meta表中存放的元数据。</p>
+<p>Client通过元数据中存储的信息，访问对应的HRegionServer，然后扫描所在HRegionServer的Memstore和Storefile来查询数据。</p>
+<p>最后HRegionServer把查询到的数据响应给Client。</p>
+<h5 id="Hbase写请求过程"><a href="#Hbase写请求过程" class="headerlink" title="Hbase写请求过程"></a>Hbase写请求过程</h5><p>Client也是先访问zookeeper，找到Meta表，并获取Meta表元数据。</p>
+<p>确定当前将要写入的数据所对应的HRegion和HRegionServer服务器。</p>
+<p>Client向该HRegionServer服务器发起写入数据请求，然后HRegionServer收到请求并响应。</p>
+<p>Client先把数据写入到HLog，以防止数据丢失。</p>
+<p>然后将数据写入到Memstore。</p>
+<p>如果HLog和Memstore均写入成功，则这条数据写入成功</p>
+<p>如果Memstore达到阈值，会把Memstore中的数据flush到Storefile中。</p>
+<p>当Storefile越来越多，会触发Compact合并操作，把过多的Storefile合并成一个大的Storefile。</p>
+<p>当Storefile越来越大，Region也会越来越大，达到阈值后，会触发Split操作，将Region一分为二。</p>
+<h5 id="HIVE和HBASE的区别及使用情景"><a href="#HIVE和HBASE的区别及使用情景" class="headerlink" title="HIVE和HBASE的区别及使用情景"></a>HIVE和HBASE的区别及使用情景</h5><p>Hive是建立于Hadoop之上的数据仓库，支持sql，将sql转换为mapreduce进行计算，适合做批量处理。</p>
+<p>Hbase是一种Key&#x2F;Value的Nosql数据库，它运行在hdfs之上，适合做实时计算。</p>
+<p>Hive利用分区机制来加快查询，只适合数据插入和查询。</p>
+<p>Hbase通过存储Key&#x2F;Value来工作，支持增删改查所有操作。</p>
+<p>Hive不支持事物，Hbase支持部分事物，Hbase强依赖于ZK，使用ZK管理元数据。</p>
+<h5 id=""><a href="#" class="headerlink" title=""></a></h5><h4 id="ZK"><a href="#ZK" class="headerlink" title="ZK"></a>ZK</h4><h5 id="Zookeeper通信原理"><a href="#Zookeeper通信原理" class="headerlink" title="Zookeeper通信原理"></a>Zookeeper通信原理</h5><h4 id="SPARK"><a href="#SPARK" class="headerlink" title="SPARK"></a>SPARK</h4><h5 id="spark在Client与在cluster运行的区别"><a href="#spark在Client与在cluster运行的区别" class="headerlink" title="spark在Client与在cluster运行的区别"></a>spark在Client与在cluster运行的区别</h5><p>主要区别是driver的运行的机器不同,client模式是运行在提交作业的机器上,而cluster模式是运行在集群的某一台机器上</p>
+<h5 id="Spark为什么快，Spark-SQL-一定比-Hive-快吗"><a href="#Spark为什么快，Spark-SQL-一定比-Hive-快吗" class="headerlink" title="Spark为什么快，Spark SQL 一定比 Hive 快吗"></a>Spark为什么快，Spark SQL 一定比 Hive 快吗</h5><p>Spark SQL 比 Hadoop Hive 快，是有一定条件的，而且不是 Spark SQL 的引擎比 Hive 的引擎快，相反，Hive 的 HQL 引擎还比 Spark SQL 的引擎更快。其实，关键还是在于 Spark 本身快。</p>
+<ol>
+<li>消除了冗余的 HDFS 读写: Hadoop 每次 shuffle 操作后，必须写到磁盘，而 Spark 在 shuffle 后不一定落盘，可以 cache 到内存中，以便迭代时使用。如果操作复杂，很多的 shufle 操作，那么 Hadoop 的读写 IO 时间会大大增加，也是 Hive 更慢的主要原因了。</li>
+<li>消除了冗余的 MapReduce 阶段: Hadoop 的 shuffle 操作一定连着完整的 MapReduce 操作，冗余繁琐。而 Spark 基于 RDD 提供了丰富的算子操作，且 reduce 操作产生 shuffle 数据，可以缓存在内存中。</li>
+<li>JVM 的优化: Hadoop 每次 MapReduce 操作，启动一个 Task 便会启动一次 JVM，基于进程的操作。而 Spark 每次 MapReduce 操作是基于线程的，只在启动 Executor 是启动一次 JVM，内存的 Task 操作是在线程复用的。每次启动 JVM 的时间可能就需要几秒甚至十几秒，那么当 Task 多了，这个时间 Hadoop 不知道比 Spark 慢了多少。</li>
+</ol>
+<h5 id="如何避免shuffle"><a href="#如何避免shuffle" class="headerlink" title="如何避免shuffle"></a>如何避免shuffle</h5><p>shuffle过程，就是将分布在集群中多个节点上的同一个key，拉取到同一个节点上，进行聚合或join等操作。</p>
+<h5 id="RDD讲一下"><a href="#RDD讲一下" class="headerlink" title="RDD讲一下"></a>RDD讲一下</h5><p>RDD 是 Spark 的计算模型。RDD（Resilient Distributed Dataset）叫做弹性的分布式数据集合，是 Spark 中最基本的数据抽象，它代表一个不可变、只读的，被分区的数据集。操作 RDD 就像操作本地集合一样，有很多的方法可以调用，使用方便，而无需关心底层的调度细节。</p>
+<h4 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h4><h5 id="二叉树写冒泡【升级红黑树】"><a href="#二叉树写冒泡【升级红黑树】" class="headerlink" title="二叉树写冒泡【升级红黑树】"></a>二叉树写冒泡【升级红黑树】</h5></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">YB-CHI</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yb-chi.top/2022/09/07/cyb-mds/面试/">https://yb-chi.top/2022/09/07/cyb-mds/面试/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yb-chi.top">YB-CHI</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2022/09/07/cyb-mds/bigdata/Hadoop/cdh%E5%90%AF%E7%94%A8snappy/"><i class="fa fa-chevron-left">  </i><span>CDH启用snappy压缩</span></a></div><div class="next-post pull-right"><a href="/2022/09/07/cyb-mds/vba/%E5%90%88%E5%B9%B6sheet/"><span>vba合并sheet</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2016 - 2022 By YB-CHI</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

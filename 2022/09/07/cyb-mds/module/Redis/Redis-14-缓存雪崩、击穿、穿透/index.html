@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Redis-14-缓存雪崩、击穿、穿透"><meta name="keywords" content="redis"><meta name="author" content="YB-CHI"><meta name="copyright" content="YB-CHI"><title>Redis-14-缓存雪崩、击穿、穿透 | YB-CHI</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '6.2.0'
+} </script><meta name="generator" content="Hexo 6.2.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">1.</span> <span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="toc-number">2.</span> <span class="toc-text">缓存击穿</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-number">3.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">YB-CHI</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">100</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">45</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YB-CHI</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">Redis-14-缓存雪崩、击穿、穿透</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-09-07</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">2.7k</span><span class="post-meta__separator">|</span><span>阅读时长: 7 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p>
+<p>[toc]</p>
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>缓存雪崩是指大量的应用请求无法在Redis缓存中进行处理，紧接着，应用将大量请求发送到数据库层，导致数据库层的压力激增。</p>
+<p>缓存雪崩一般是由两个原因导致的，应对方案也有所不同，我们一个个来看。</p>
+<p><strong>第一个原因是：缓存中有大量数据同时过期，导致大量请求无法得到处理。</strong></p>
+<img src="https://tvax4.sinaimg.cn/large/be1594fagy1h52xheojgwj22bc1qik73.jpg" alt="image" style="zoom: 33%;" />
+
+<p>针对大量数据同时失效带来的缓存雪崩问题，我给你提供两种解决方案。</p>
+<ol>
+<li><p>微调过期时间：</p>
+<p>我们可以避免给大量的数据设置相同的过期时间。如果业务层的确要求有些数据同时失效，你可以在用EXPIRE命令给每个数据设置过期时间时，给这些数据的过期时间增加一个较小的随机数（例如，随机增加1~3分钟），这样一来，不同数据的过期时间有所差别，但差别又不会太大，既避免了大量数据同时过期，同时也保证了这些数据基本在相近的时间失效，仍然能满足业务需求。</p>
+</li>
+<li><p>服务降级：</p>
+<p>所谓的服务降级，是指发生缓存雪崩时，针对不同的数据采取不同的处理方式。</p>
+<ul>
+<li>当业务应用访问的是非核心数据（例如电商商品属性）时，暂时停止从缓存中查询这些数据，而是直接返回预定义信息、空值或是错误信息；</li>
+<li>当业务应用访问的是核心数据（例如电商商品库存）时，仍然允许查询缓存，如果缓存缺失，也可以继续通过数据库读取。</li>
+</ul>
+<p>这样一来，只有部分过期数据的请求会发送到数据库，数据库的压力就没有那么大了。</p>
+</li>
+</ol>
+<img src="https://tva3.sinaimg.cn/large/be1594fagy1h52xkrp67sj21h21atk0l.jpg" alt="image" style="zoom:25%;" />
+
+
+
+<p><strong>第二个原因是：Redis缓存实例发生故障宕机了，无法处理请求，这就会导致大量请求一下子积压到数据库层，从而发生缓存雪崩。</strong></p>
+<p>一般来说，一个Redis实例可以支持数万级别的请求处理吞吐量，而单个数据库可能只能支持数千级别的请求处理吞吐量，它们两个的处理能力可能相差了近十倍。由于缓存雪崩，Redis缓存失效，所以，数据库就可能要承受近十倍的请求压力，从而因为压力过大而崩溃。</p>
+<p>因为Redis实例发生了宕机，我们需要通过其他方法来应对缓存雪崩了。我给你提供两个建议。</p>
+<ol>
+<li><p>是在业务系统中实现<strong>服务熔断</strong>或<strong>请求限流</strong>机制。</p>
+<ul>
+<li><strong>服务熔断</strong>，是指在发生缓存雪崩时，为了防止引发连锁的数据库雪崩，甚至是整个系统的崩溃，我们暂停业务应用对缓存系统的接口访问。再具体点说，就是业务应用调用缓存接口时，缓存客户端并不把请求发给Redis缓存实例，而是直接返回，等到Redis缓存实例重新恢复服务后，再允许应用请求发送到缓存系统。这样一来，我们就避免了大量请求因缓存缺失，而积压到数据库系统，保证了数据库系统的正常运行。服务熔断虽然可以保证数据库的正常运行，但是暂停了整个缓存系统的访问，对业务应用的影响范围大。为了尽可能减少这种影响，我们也可以进行请求限流。</li>
+</ul>
+<img src="https://tva3.sinaimg.cn/large/be1594fagy1h52xvkskv2j21av1b0gti.jpg" alt="image" style="zoom:25%;" />
+
+<ul>
+<li><strong>请求限流</strong>，就是指，我们在业务系统的请求入口前端控制每秒进入系统的请求数，避免过多的请求被发送到数据库。假设业务系统正常运行时，请求入口前端允许每秒进入系统的请求是1万个，其中，9000个请求都能在缓存系统中进行处理，只有1000个请求会被应用发送到数据库进行处理。一旦发生了缓存雪崩，数据库的每秒请求数突然增加到每秒1万个，此时，我们就可以启动请求限流机制，在请求入口前端只允许每秒进入系统的请求数为1000个，再多的请求就会在入口前端被直接拒绝服务。所以，使用了请求限流，就可以避免大量并发请求压力传递到数据库层。</li>
+</ul>
+<img src="https://tva2.sinaimg.cn/large/be1594fagy1h52xyocd09j22bc1qiqi0.jpg" alt="image" style="zoom:22%;" />
+
+
+</li>
+<li><p>事前预防</p>
+<p>通过主从节点的方式构建Redis缓存高可靠集群。如果Redis缓存的主节点故障宕机了，从节点还可以切换成为主节点，继续提供缓存服务，避免了由于缓存实例宕机而导致的缓存雪崩问题。</p>
+</li>
+</ol>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><p>缓存击穿是指，针对某个访问非常频繁的热点数据的请求，无法在缓存中进行处理，紧接着，访问该数据的大量请求，一下子都发送到了后端数据库，导致了数据库压力激增，会影响数据库处理其他请求。缓存击穿的情况，经常发生在热点数据过期失效时。</p>
+<p><img src="https://tva3.sinaimg.cn/large/be1594fagy1h52z06pfkuj22bc1qih0w.jpg" alt="image"></p>
+<p>为了避免缓存击穿给数据库带来的激增压力，我们的解决方法也比较直接，对于访问特别频繁的热点数据，我们就不设置过期时间了。这样一来，对热点数据的访问请求，都可以在缓存中进行处理，而Redis数万级别的高吞吐量可以很好地应对大量的并发请求访问。</p>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透是指要访问的数据既不在Redis缓存中，也不在数据库中，导致请求在访问缓存时，发生缓存缺失，再去访问数据库时，发现数据库中也没有要访问的数据。此时，应用也无法从数据库中读取数据再写入缓存，来服务后续请求，这样一来，缓存也就成了“摆设”，如果应用持续有大量请求访问数据，就会同时给缓存和数据库带来巨大压力</p>
+<img src="https://tvax4.sinaimg.cn/large/be1594fagy1h53s3ac2tvj22bc1qidvr.jpg" alt="image" style="zoom:29%;" />
+
+<p>那么，缓存穿透会发生在什么时候呢？一般来说，有两种情况。</p>
+<ul>
+<li>业务层误操作：缓存中的数据和数据库中的数据被误删除了，所以缓存和数据库中都没有数据；</li>
+<li>恶意攻击：专门访问数据库中没有的数据。</li>
+</ul>
+<p>为了避免缓存穿透的影响，我来给你提供三种应对方案。</p>
+<ol>
+<li><p><strong>缓存空值或缺省值。</strong></p>
+<p>一旦发生缓存穿透，我们就可以针对查询的数据，在Redis中缓存一个空值或是和业务层协商确定的缺省值（例如，库存的缺省值可以设为0）。紧接着，应用发送的后续请求再进行查询时，就可以直接从Redis中读取空值或缺省值，返回给业务应用了，避免了把大量请求发送给数据库处理，保持了数据库的正常运行。</p>
+</li>
+<li><p><strong>前端进行请求检测</strong></p>
+<p>缓存穿透的一个原因是有大量的恶意请求访问不存在的数据，所以，一个有效的应对方案是在请求入口前端，对业务系统接收到的请求进行合法性检测，把恶意的请求（例如请求参数不合理、请求参数是非法值、请求字段不存在）直接过滤掉，不让它们访问后端缓存和数据库。这样一来，也就不会出现缓存穿透问题了。</p>
+</li>
+<li><p><strong>使用布隆过滤器快速判断数据是否存在，避免从数据库中查询数据是否存在，减轻数据库压力。</strong></p>
+<p>我们先来看下，布隆过滤器是如何工作的。</p>
+<p>布隆过滤器由一个初值都为0的bit数组和N个哈希函数组成，可以用来快速判断某个数据是否存在。当我们想标记某个数据存在时（例如，数据已被写入数据库），布隆过滤器会通过三个操作完成标记：</p>
+<ul>
+<li>首先，使用N个哈希函数，分别计算这个数据的哈希值，得到N个哈希值。</li>
+<li>然后，我们把这N个哈希值对bit数组的长度取模，得到每个哈希值在数组中的对应位置。</li>
+<li>最后，我们把对应位置的bit位设置为1，这就完成了在布隆过滤器中标记数据的操作。</li>
+</ul>
+<p>如果数据不存在（例如，数据库里没有写入数据），我们也就没有用布隆过滤器标记过数据，那么，bit数组对应bit位的值仍然为0。</p>
+<p>当需要查询某个数据时，我们就执行刚刚说的计算过程，先得到这个数据在bit数组中对应的N个位置。紧接着，我们查看bit数组中这N个位置上的bit值。只要这N个bit值有一个不为1，这就表明布隆过滤器没有对该数据做过标记，所以，查询的数据一定没有在数据库中保存。</p>
+<p><img src="https://tvax1.sinaimg.cn/large/be1594fagy1h579n4ti18j22a111aak2.jpg" alt="image"></p>
+<p>图中布隆过滤器是一个包含10个bit位的数组，使用了3个哈希函数，当在布隆过滤器中标记数据X时，X会被计算3次哈希值，并对10取模，取模结果分别是1、3、7。所以，bit数组的第1、3、7位被设置为1。当应用想要查询X时，只要查看数组的第1、3、7位是否为1，只要有一个为0，那么，X就肯定不在数据库中。</p>
+<p>正是基于布隆过滤器的快速检测特性，我们可以在把数据写入数据库时，使用布隆过滤器做个标记。当缓存缺失后，应用查询数据库时，可以通过查询布隆过滤器快速判断数据是否存在。如果不存在，就不用再去数据库中查询了。这样一来，即使发生缓存穿透了，大量请求只会查询Redis和布隆过滤器，而不会积压到数据库，也就不会影响数据库的正常运行。布隆过滤器可以使用Redis实现，本身就能承担较大的并发访问压力。</p>
+</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="https://tva1.sinaimg.cn/large/be1594fagy1h579pdvwnpj226z0yj7wh.jpg" alt="image"></p>
+<p><strong>摘选自:极客时间-Redis核心技术与实战</strong></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">YB-CHI</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yb-chi.top/2022/09/07/cyb-mds/module/Redis/Redis-14-缓存雪崩、击穿、穿透/">https://yb-chi.top/2022/09/07/cyb-mds/module/Redis/Redis-14-缓存雪崩、击穿、穿透/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yb-chi.top">YB-CHI</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/redis/">redis</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2022/09/07/cyb-mds/module/Redis/Redis-13-%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/"><i class="fa fa-chevron-left">  </i><span>Redis-13-数据一致性</span></a></div><div class="next-post pull-right"><a href="/2022/09/07/cyb-mds/linux/Linux%E8%99%9A%E6%8B%9F%E6%9C%BA%20%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81IP/"><span>Linux虚拟机 配置静态IP</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2016 - 2022 By YB-CHI</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

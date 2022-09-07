@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Redis-13-数据一致性"><meta name="keywords" content="redis"><meta name="author" content="YB-CHI"><meta name="copyright" content="YB-CHI"><title>Redis-13-数据一致性 | YB-CHI</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '6.2.0'
+} </script><meta name="generator" content="Hexo 6.2.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%8D%E4%B8%80%E8%87%B4%E6%98%AF%E5%A6%82%E4%BD%95%E5%8F%91%E7%94%9F%E7%9A%84%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">缓存和数据库的数据不一致是如何发生的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E6%95%B0%E6%8D%AE%E4%B8%8D%E4%B8%80%E8%87%B4%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">如何解决数据不一致问题？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">小结</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">YB-CHI</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">100</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">45</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YB-CHI</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">Redis-13-数据一致性</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-09-07</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">2.5k</span><span class="post-meta__separator">|</span><span>阅读时长: 7 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p>
+<p>[toc]</p>
+<h3 id="缓存和数据库的数据不一致是如何发生的？"><a href="#缓存和数据库的数据不一致是如何发生的？" class="headerlink" title="缓存和数据库的数据不一致是如何发生的？"></a>缓存和数据库的数据不一致是如何发生的？</h3><p>首先，我们得清楚“数据的一致性”具体是啥意思。其实，这里的“一致性”包含了两种情况：</p>
+<ul>
+<li>缓存中有数据，那么，缓存的数据值需要和数据库中的值相同；</li>
+<li>缓存中本身没有数据，那么，数据库中的值必须是最新值。</li>
+</ul>
+<p>不符合这两种情况的，就属于缓存和数据库的数据不一致问题了。不过，当缓存的读写模式不同时，缓存数据不一致的发生情况不一样，我们的应对方法也会有所不同。</p>
+<p><strong>读写缓存</strong>：如果要对数据进行增删改，就需要在缓存中进行，同时还要根据采取的写回策略，决定是否同步写回到数据库中。</p>
+<ul>
+<li>同步直写策略：写缓存时，也同步写数据库，缓存和数据库中的数据一致；</li>
+<li>异步写回策略：写缓存时不同步写数据库，等到数据从缓存中淘汰时，再写回数据库。使用这种策略时，如果数据还没有写回数据库，缓存就发生了故障，那么，此时，数据库就没有最新的数据了。</li>
+</ul>
+<p>所以，对于读写缓存来说，要想保证缓存和数据库中的数据一致，就要采用同步直写策略。不过，需要注意的是，如果采用这种策略，就需要同时更新缓存和数据库。所以，我们要在业务应用中使用事务机制，来保证缓存和数据库的更新具有原子性，也就是说，两者要不一起更新，要不都不更新，返回错误信息，进行重试。否则，我们就无法实现同步直写。</p>
+<p>当然，在有些场景下，我们对数据一致性的要求可能不是那么高，比如说缓存的是电商商品的非关键属性或者短视频的创建或修改时间等，那么，我们可以使用异步写回策略。</p>
+<p><strong>只读缓存</strong>：如果有数据新增，会直接写入数据库；而有数据删改时，就需要把只读缓存中的数据标记为无效。这样一来，应用后续再访问这些增删改的数据时，因为缓存中没有相应的数据，就会发生缓存缺失。此时，应用再从数据库中把数据读入缓存，这样后续再访问数据时，就能够直接从缓存中读取了。如下图</p>
+<img src="https://tva4.sinaimg.cn/large/be1594fagy1h52nvtavojj22bc115qef.jpg" alt="image" style="zoom: 25%;" />
+
+<p>那么，这个过程中会不会出现数据不一致的情况呢？考虑到新增数据和删改数据的情况不一样，所以我们分开来看。</p>
+<p><strong>1.新增数据</strong></p>
+<p>如果是新增数据，数据会直接写到数据库中，不用对缓存做任何操作，此时，缓存中本身就没有新增数据，而数据库中是最新值，这种情况符合我们刚刚所说的一致性的第2种情况，所以，此时，缓存和数据库的数据是一致的。</p>
+<p><strong>2.删改数据</strong></p>
+<p>如果发生删改操作，应用既要更新数据库，也要在缓存中删除数据。这两个操作如果无法保证原子性，也就是说，要不都完成，要不都没完成，此时，就会出现数据不一致问题了。这个问题比较复杂，我们来分析一下。</p>
+<ol>
+<li>我们假设应用先删除缓存，再更新数据库，如果缓存删除成功，但是数据库更新失败，那么，应用再访问数据时，缓存中没有数据，就会发生缓存缺失。然后，应用再访问数据库，但是数据库中的值为旧值，应用就访问到旧值了。</li>
+</ol>
+<p><img src="https://tvax4.sinaimg.cn/large/be1594fagy1h52o077lofj22bc16cnd8.jpg" alt="image"></p>
+<ol start="2">
+<li>如果应用先完成了数据库的更新，但是，在删除缓存时失败了，那么，数据库中的值是新值，而缓存中的是旧值，这肯定是不一致的。这个时候，如果有其他的并发请求来访问数据，按照正常的缓存访问流程，就会先在缓存中查询，但此时，就会读到旧值了。</li>
+</ol>
+<p><img src="https://tva4.sinaimg.cn/large/be1594fagy1h52o28o66nj22bc16y7kq.jpg" alt="image"></p>
+<p>总结一下</p>
+<p><img src="https://tvax2.sinaimg.cn/large/be1594fagy1h52rwz1mruj223j0ot1kx.jpg" alt="image"></p>
+<h3 id="如何解决数据不一致问题？"><a href="#如何解决数据不一致问题？" class="headerlink" title="如何解决数据不一致问题？"></a>如何解决数据不一致问题？</h3><p><strong>重试机制</strong></p>
+<p>具体来说，可以把要删除的缓存值或者是要更新的数据库值暂存到消息队列中（例如使用Kafka消息队列）。当应用没有能够成功地删除缓存值或者是更新数据库值时，可以从消息队列中重新读取这些值，然后再次进行删除或更新。</p>
+<p>如果能够成功地删除或更新，我们就要把这些值从消息队列中去除，以免重复操作，此时，我们也可以保证数据库和缓存的数据一致了。否则的话，我们还需要再次进行重试。如果重试超过的一定次数，还是没有成功，我们就需要向业务层发送报错信息了。</p>
+<p><img src="https://tva4.sinaimg.cn/large/be1594fagy1h52rzkh4pbj22bc1f4x0b.jpg" alt="image"></p>
+<p>刚刚说的是在更新数据库和删除缓存值的过程中，其中一个操作失败的情况，实际上，即使这两个操作第一次执行时都没有失败，当有<strong>大量并发请求</strong>时，应用还是有可能读到不一致的数据。</p>
+<p>同样，我们按照不同的删除和更新顺序，分成两种情况来看。在这两种情况下，我们的解决方法也有所不同。</p>
+<p><strong>情况一：先删除缓存，再更新数据库。</strong></p>
+<p>假设线程A删除缓存值后，还没有来得及更新数据库（比如说有网络延迟），线程B就开始读取数据了，那么这个时候，线程B会发现缓存缺失，就只能去数据库读取。这会带来两个问题：</p>
+<ol>
+<li>线程B读取到了旧值；</li>
+<li>线程B是在缓存缺失的情况下读取的数据库，所以，它还会把旧值写入缓存，这可能会导致其他线程从缓存中读到旧值。</li>
+</ol>
+<p>等到线程B从数据库读取完数据、更新了缓存后，线程A才开始更新数据库，此时，缓存中的数据是旧值，而数据库中的是最新值，两者就不一致了。</p>
+<img src="https://tva3.sinaimg.cn/large/be1594fagy1h52tch06o9j229l11g7wh.jpg" alt="image" style="zoom:30%;" />
+
+<p>这该怎么办呢？我来给你提供一种解决方案。</p>
+<p><strong>在线程A更新完数据库值以后，我们可以让它先sleep一小段时间，再进行一次缓存删除操作。</strong></p>
+<p>之所以要加上sleep的这段时间，就是为了让线程B能够先从数据库读取数据，再把缺失的数据写入缓存，然后，线程A再进行删除。所以，线程A sleep的时间，就需要大于线程B读取数据再写入缓存的时间。这个时间怎么确定呢？建议你在业务程序运行的时候，统计下线程读数据和写缓存的操作时间，以此为基础来进行估算。</p>
+<p>这样一来，其它线程读取数据时，会发现缓存缺失，所以会从数据库中读取最新值。因为这个方案会在第一次删除缓存值后，延迟一段时间再次进行删除，所以我们也把它叫做“延迟双删”。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis.delKey(X)</span><br><span class="line">db.update(X)</span><br><span class="line">Thread.sleep(N)</span><br><span class="line">redis.delKey(X)</span><br></pre></td></tr></table></figure>
+
+<p><strong>情况二：先更新数据库值，再删除缓存值。</strong></p>
+<p>如果线程A删除了数据库中的值，但还没来得及删除缓存值，线程B就开始读取数据了，那么此时，线程B查询缓存时，发现缓存命中，就会直接从缓存中读取旧值。不过，在这种情况下，如果其他线程并发读缓存的请求不多，那么，就不会有很多请求读取到旧值。而且，线程A一般也会很快删除缓存值，这样一来，其他线程再次读取时，就会发生缓存缺失，进而从数据库中读取最新值。所以，这种情况对业务的影响较小。</p>
+<p><img src="https://tva1.sinaimg.cn/large/be1594fagy1h52wl0gvsqj228r0qmh7f.jpg" alt="image"></p>
+<p>好了，到这里，我们了解到了，缓存和数据库的数据不一致一般是由两个原因导致的，我给你提供了相应的解决方案。</p>
+<ul>
+<li>删除缓存值或更新数据库失败而导致数据不一致，你可以使用重试机制确保删除或更新操作成功。</li>
+<li>在删除缓存值、更新数据库的这两步操作中，有其他线程的并发读操作，导致其他线程读取到旧值，应对方案是延迟双删。</li>
+</ul>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><img src="https://tva2.sinaimg.cn/large/be1594fagy1h52wn061t9j228911nqv5.jpg" alt="image"></p>
+<p>在大多数业务场景下，我们会把Redis作为只读缓存使用。针对只读缓存来说，我们既可以先删除缓存值再更新数据库，也可以先更新数据库再删除缓存。我的建议是，优先使用先更新数据库再删除缓存的方法，原因主要有两个：</p>
+<ol>
+<li>先删除缓存值再更新数据库，有可能导致请求因缓存缺失而访问数据库，给数据库带来压力；</li>
+<li>如果业务应用中读取数据库和写缓存的时间不好估算，那么，延迟双删中的等待时间就不好设置。</li>
+</ol>
+<p>不过，当使用先更新数据库再删除缓存时，也有个地方需要注意，如果业务层要求必须读取一致的数据，那么，我们就需要在更新数据库时，先在Redis缓存客户端暂存并发读请求，等数据库更新完、缓存值删除后，再读取数据，从而保证数据一致性。</p>
+<p><strong>摘选自:极客时间-Redis核心技术与实战</strong></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">YB-CHI</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yb-chi.top/2022/09/07/cyb-mds/module/Redis/Redis-13-数据一致性/">https://yb-chi.top/2022/09/07/cyb-mds/module/Redis/Redis-13-数据一致性/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yb-chi.top">YB-CHI</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/redis/">redis</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2022/09/07/cyb-mds/module/Redis/Redis-12-LRU&amp;LFU/"><i class="fa fa-chevron-left">  </i><span>Redis-12-LRU&amp;LFU</span></a></div><div class="next-post pull-right"><a href="/2022/09/07/cyb-mds/module/Redis/Redis-14-%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F/"><span>Redis-14-缓存雪崩、击穿、穿透</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2016 - 2022 By YB-CHI</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

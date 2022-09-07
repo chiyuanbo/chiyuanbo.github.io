@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="J.U.C-线程池"><meta name="keywords" content="Java,J.U.C"><meta name="author" content="YB-CHI"><meta name="copyright" content="YB-CHI"><title>J.U.C-线程池 | YB-CHI</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '6.2.0'
+} </script><meta name="generator" content="Hexo 6.2.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">YB-CHI</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">100</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">45</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YB-CHI</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">J.U.C-线程池</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-09-07</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">1.2k</span><span class="post-meta__separator">|</span><span>阅读时长: 3 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p>
+<p>[toc]</p>
+<blockquote>
+<p>下图描述的是线程池API的一部分。广义上的完整线程池可能还包括Thread&#x2F;Runnable、Timer&#x2F;TimerTask等部分。这里只介绍主要的和高级的API以及架构和原理。</p>
+</blockquote>
+<p><img src="https://wx1.sinaimg.cn/large/be1594fagy1fylbr8hrjnj20sg0e9tbb.jpg" alt="image"></p>
+<p>大多数并发应用程序是围绕执行任务（Task）进行管理的。所谓任务就是抽象、离散的工作单元（unit of work）。把一个应用程序的工作（work）分离到任务中，可以简化程序的管理；这种分离还在不同事物间划分了自然的分界线，可以方便程序在出现错误时进行恢复；同时这种分离还可以为并行工作提供一个自然的结构，有利于提高程序的并发性。</p>
+<p>并发执行任务的一个很重要前提是拆分任务。把一个大的过程或者任务拆分成很多小的工作单元，每一个工作单元可能相关、也可能无关，这些单元在一定程度上可以充分利用CPU的特性并发的执行，从而提高并发性（性能、响应时间、吞吐量等）。</p>
+<p>所谓的任务拆分就是确定每一个执行任务（工作单元）的边界。理想情况下独立的工作单元有最大的吞吐量，这些工作单元不依赖于其它工作单元的状态、结果或者其他资源等。因此将任务尽可能的拆分成一个个独立的工作单元有利于提高程序的并发性。</p>
+<p>对于有依赖关系以及资源竞争的工作单元就涉及到任务的调度和负载均衡。工作单元的状态、结果或者其他资源等有关联的工作单元就需要有一个总体的调度者来协调资源和执行顺序。同样在有限的资源情况下，大量的任务也需要一个协调各个工作单元的调度者。这就涉及到任务执行的策略问题。</p>
+<p>任务的执行策略包括4W3H部分：</p>
+<ul>
+<li>任务在什么（What）线程中执行</li>
+<li>任务以什么（What）顺序执行（FIFO&#x2F;LIFO&#x2F;优先级等）</li>
+<li>同时有多少个（How Many）任务并发执行</li>
+<li>允许有多少个（How Many）个任务进入执行队列</li>
+<li>系统过载时选择放弃哪一个（Which）任务，如何（How）通知应用程序这个动作</li>
+<li>任务执行的开始、结束应该做什么（What）处理</li>
+</ul>
+<p>在后面会详细分写这些策略是如何实现的。我们先来简单回答些如何满足上面的条件。</p>
+<ol>
+<li>首先明确一定是在Java里面可以供使用者调用的启动线程类是Thread。因此Runnable或者Timer&#x2F;TimerTask等都是要依赖Thread来启动的，因此在ThreadPool里面同样也是靠Thread来启动多线程的。</li>
+<li>默认情况下Runnable接口执行完毕后是不能拿到执行结果的，因此在ThreadPool里就定义了一个Callable接口来处理执行结果。</li>
+<li>为了异步阻塞的获取结果，Future可以帮助调用线程获取执行结果。</li>
+<li>Executor解决了向线程池提交任务的入口问题，同时ScheduledExecutorService解决了如何进行重复调用任务的问题。</li>
+<li>CompletionService解决了如何按照执行完毕的顺序获取结果的问题，这在某些情况下可以提高任务执行的并发，调用线程不必在长时间任务上等待过多时间。</li>
+<li>显然线程的数量是有限的，而且也不宜过多，因此合适的任务队列是必不可少的，BlockingQueue的容量正好可以解决此问题。</li>
+<li>固定任务容量就意味着在容量满了以后需要一定的策略来处理过多的任务（新任务），RejectedExecutionHandler正好解决此问题。</li>
+<li>一定时间内阻塞就意味着有超时，因此TimeoutException就是为了描述这种现象。TimeUnit是为了描述超时时间方便的一个时间单元枚举类。</li>
+<li>有上述问题就意味了配置一个合适的线程池是很复杂的，因此Executors默认的一些线程池配置可以减少这个操作。</li>
+</ol>
+<blockquote>
+<p>Java里面线程池的顶级接口是Executor，但是严格意义上讲Executor并不是一个线程池，而只是一个执行线程的工具。真正的线程池接口是ExecutorService。</p>
+</blockquote>
+<blockquote>
+<p>下面这张图完整描述了线程池的类体系结构</p>
+</blockquote>
+<p><img src="https://wx4.sinaimg.cn/large/be1594fagy1fylbrr2t33j20mj0l90ua.jpg" alt="image"></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">YB-CHI</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yb-chi.top/2022/09/07/cyb-mds/java/J.U.C/J.U.C-线程池/">https://yb-chi.top/2022/09/07/cyb-mds/java/J.U.C/J.U.C-线程池/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yb-chi.top">YB-CHI</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/J-U-C/">J.U.C</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2022/09/07/cyb-mds/java/J.U.C/J.U.C-%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/"><i class="fa fa-chevron-left">  </i><span>J.U.C-原子操作</span></a></div><div class="next-post pull-right"><a href="/2022/09/07/cyb-mds/java/code/Java8%E6%96%B0%E7%89%B9%E6%80%A7/"><span>Java8新特性</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2016 - 2022 By YB-CHI</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

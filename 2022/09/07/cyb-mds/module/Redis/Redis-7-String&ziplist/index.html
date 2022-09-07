@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Redis-7-String&amp;ziplist"><meta name="keywords" content="redis"><meta name="author" content="YB-CHI"><meta name="copyright" content="YB-CHI"><title>Redis-7-String&amp;ziplist | YB-CHI</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '6.2.0'
+} </script><meta name="generator" content="Hexo 6.2.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#String%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4%E6%B6%88%E8%80%97"><span class="toc-number">1.</span> <span class="toc-text">String类型的内存空间消耗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E7%9C%81%E5%86%85%E5%AD%98%E5%BC%80%E9%94%80%E7%9A%84ziplist"><span class="toc-number">2.</span> <span class="toc-text">节省内存开销的ziplist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%94%A8%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B%E4%BF%9D%E5%AD%98%E5%8D%95%E5%80%BC%E7%9A%84%E9%94%AE%E5%80%BC%E5%AF%B9"><span class="toc-number">3.</span> <span class="toc-text">如何用集合类型保存单值的键值对</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">YB-CHI</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">100</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">45</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YB-CHI</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">Redis-7-String&amp;ziplist</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-09-07</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">2.7k</span><span class="post-meta__separator">|</span><span>阅读时长: 8 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p>
+<p>[toc]</p>
+<h3 id="String类型的内存空间消耗"><a href="#String类型的内存空间消耗" class="headerlink" title="String类型的内存空间消耗"></a>String类型的内存空间消耗</h3><p>一个图片存储系统，因为图片数量巨大，所以我们就用10位数来表示图片ID和图片存储对象ID，例如，图片ID为1101000051，它在存储系统中对应的ID号是3301000051。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">photo_id: 1101000051</span><br><span class="line">photo_obj_id: 3301000051</span><br></pre></td></tr></table></figure>
+
+<p>图片ID和图片存储对象ID正好一一对应，是典型的键-单值模式,即键值对中的值就是一个值，而不是一个集合，这和String类型提供的“一个键对应一个值的数据”的保存形式刚好契合，故此尝试使用String类型。</p>
+<p>刚开始，保存了1亿张图片，大约用了6.4GB的内存。但是，随着图片数据量的不断增加，Redis内存使用量也在增加，结果就遇到了大内存Redis实例因为生成RDB而响应变慢的问题。一组图片ID及其存储对象ID的记录，实际只需要16字节就可以了。但是实际一个图片ID和图片存储对象ID的记录平均用了64字节。</p>
+<p>其实，除了记录实际数据，String类型还需要额外的内存空间记录数据长度、空间使用等信息，这些信息也叫作元数据。当实际保存的数据较小时，元数据的空间开销就显得比较大了，有点“喧宾夺主”的意思。</p>
+<p>String类型具体是怎么保存数据的呢？</p>
+<p>当你保存64位有符号整数时，String类型会把它保存为一个8字节的Long类型整数，这种保存方式通常也叫作int编码方式。</p>
+<p>但是，当你保存的数据中包含字符时，String类型就会用简单动态字符串（Simple Dynamic String，SDS）结构体来保存，如下图所示：</p>
+<img src="https://tva3.sinaimg.cn/large/be1594fagy1h4utqgt0m2j21hi12wq7p.jpg" alt="image" style="zoom:20%;" />
+
+<ul>
+<li><strong>buf</strong>：字节数组，保存实际数据。为了表示字节数组的结束，Redis会自动在数组最后加一个“\0”，这就会额外占用1个字节的开销。</li>
+<li><strong>len</strong>：占4个字节，表示buf的已用长度。</li>
+<li><strong>alloc</strong>：也占个4字节，表示buf的实际分配长度，一般大于len。</li>
+</ul>
+<p>在SDS中，buf保存实际数据，而len和alloc本身其实是SDS结构体的额外开销，此外还有一个来自于RedisObject结构体的开销。</p>
+<p>因为Redis的数据类型有很多，而且，不同数据类型都有些相同的元数据要记录（比如最后一次访问的时间、被引用的次数等），所以，Redis会用一个RedisObject结构体来统一记录这些元数据，同时指向实际数据。</p>
+<p>一个RedisObject包含了8字节的元数据和一个8字节指针，这个指针再进一步指向具体数据类型的实际数据所在，例如指向String类型的SDS结构所在的内存地址。</p>
+<img src="https://tvax1.sinaimg.cn/large/be1594fagy1h4utt6ztwkj21pi1a07ag.jpg" alt="image" style="zoom:20%;" />
+
+<p>为了节省内存空间，Redis还对Long类型整数和SDS的内存布局做了专门的设计。</p>
+<ul>
+<li>当保存的是Long类型整数时，RedisObject中的指针就直接赋值为整数数据了，这样就不用额外的指针再指向整数了，节省了指针的空间开销。</li>
+<li>当保存的是字符串数据，并且字符串小于等于44字节时，RedisObject中的元数据、指针和SDS是一块连续的内存区域，这样就可以避免内存碎片。这种布局方式也被称为embstr编码方式。</li>
+<li>当字符串大于44字节时，SDS的数据量就开始变多了，Redis就不再把SDS和RedisObject布局在一起了，而是会给SDS分配独立的空间，并用指针指向SDS结构。这种布局方式被称为raw编码模式。</li>
+</ul>
+<img src="https://tvax3.sinaimg.cn/large/be1594fagy1h4utuioonvj22dc1hu7t3.jpg" alt="image" style="zoom:20%;" />
+
+<p>开始计算上述内存，因为10位数的图片ID和图片存储对象ID是Long类型整数，所以可以直接用int编码的RedisObject保存。每个int编码的RedisObject元数据部分占8字节，指针部分被直接赋值为8字节的整数了。此时，每个ID会使用16字节，加起来一共是32字节。但是，另外的32字节去哪儿了呢？</p>
+<p>Redis会使用一个全局哈希表保存所有键值对，哈希表的每一项是一个dictEntry的结构体，用来指向一个键值对。dictEntry结构中有三个8字节的指针，分别指向key、value以及下一个dictEntry，三个指针共24字节，如下图所示：</p>
+<img src="https://tva1.sinaimg.cn/large/be1594fagy1h4utyglbw7j21tk12rdqu.jpg" alt="image" style="zoom:20%;" />
+
+<p>但是，这三个指针只有24字节，为什么会占用了32字节呢？这就要提到Redis使用的内存分配库jemalloc了。</p>
+<p>jemalloc在分配内存时，会根据我们申请的字节数N，找一个比N大，但是最接近N的2的幂次数作为分配的空间，这样可以减少频繁分配的次数。</p>
+<p>举个例子。如果你申请6字节空间，jemalloc实际会分配8字节空间；如果你申请24字节空间，jemalloc则会分配32字节。所以，在我们刚刚说的场景里，dictEntry结构就占用了32字节。</p>
+<p>我们来换算下，如果要保存的图片有1亿张，那么1亿条的图片ID记录就需要6.4GB内存空间，其中有4.8GB的内存空间都用来保存元数据了，额外的内存空间开销很大。那么，有没有更加节省内存的方法呢？</p>
+<h3 id="节省内存开销的ziplist"><a href="#节省内存开销的ziplist" class="headerlink" title="节省内存开销的ziplist"></a>节省内存开销的ziplist</h3><p>Redis有一种底层数据结构，叫压缩列表（ziplist），这是一种非常节省内存的结构。</p>
+<p>压缩列表的构成。表头有三个字段zlbytes、zltail和zllen，分别表示列表长度、列表尾的偏移量，以及列表中的entry个数。压缩列表尾还有一个zlend，表示列表结束。</p>
+<img src="https://tvax1.sinaimg.cn/large/be1594fagy1h4uu19zdsvj22o10r0gud.jpg" alt="image" style="zoom:20%;" />
+
+<p>压缩列表之所以能节省内存，就在于它是用一系列连续的entry保存数据。每个entry的元数据包括下面几部分。</p>
+<ul>
+<li><strong>prev_len</strong>，表示前一个entry的长度。prev_len有两种取值情况：1字节或5字节。取值1字节时，表示上一个entry的长度小于254字节。虽然1字节的值能表示的数值范围是0到255，但是压缩列表中zlend的取值默认是255，因此，就默认用255表示整个压缩列表的结束，其他表示长度的地方就不能再用255这个值了。所以，当上一个entry长度小于254字节时，prev_len取值为1字节，否则，就取值为5字节。</li>
+<li><strong>len</strong>：表示自身长度，4字节；</li>
+<li><strong>encoding</strong>：表示编码方式，1字节；</li>
+<li><strong>content</strong>：保存实际数据。</li>
+</ul>
+<p>这些entry会挨个儿放置在内存中，不需要再用额外的指针进行连接，这样就可以节省指针所占用的空间。</p>
+<p>我们以保存图片存储对象ID为例，来分析一下压缩列表是如何节省内存空间的。</p>
+<p>每个<strong>entry</strong>保存一个图片存储对象ID（8字节），此时，每个entry的prev_len只需要1个字节就行，因为每个entry的前一个entry长度都只有8字节，小于254字节。这样一来，一个图片的存储对象ID所占用的内存大小是14字节（1+4+1+8&#x3D;14），实际分配16字节。</p>
+<p>Redis基于压缩列表实现了List、Hash和Sorted Set这样的集合类型，这样做的最大好处就是节省了dictEntry的开销。当你用String类型时，一个键值对就有一个dictEntry，要用32字节空间。但采用集合类型时，一个key就对应一个集合的数据，能保存的数据多了很多，但也只用了一个dictEntry，这样就节省了内存。</p>
+<p>这个方案听起来很好，但还存在一个问题：在用集合类型保存键值对时，一个键对应了一个集合的数据，但是在我们的场景中，一个图片ID只对应一个图片的存储对象ID，我们该怎么用集合类型呢？换句话说，在一个键对应一个值（也就是单值键值对）的情况下，我们该怎么用集合类型来保存这种单值键值对呢？</p>
+<h3 id="如何用集合类型保存单值的键值对"><a href="#如何用集合类型保存单值的键值对" class="headerlink" title="如何用集合类型保存单值的键值对"></a>如何用集合类型保存单值的键值对</h3><p>在保存单值的键值对时，可以采用基于Hash类型的二级编码方法。这里说的二级编码，就是把一个单值的数据拆分成两部分，前一部分作为Hash集合的key，后一部分作为Hash集合的value，这样一来，我们就可以把单值数据保存到Hash集合中了。</p>
+<p>以图片ID 1101000060和图片存储对象ID 3302000080为例，我们可以把图片ID的前7位（1101000）作为Hash类型的键，把图片ID的最后3位（060）和图片存储对象ID分别作为Hash类型值中的key和value。</p>
+<p>按照这种设计方法，我在Redis中插入了一组图片ID及其存储对象ID的记录，并且用info命令查看了内存开销，我发现，增加一条记录后，内存占用只增加了16字节，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; info memory</span><br><span class="line"># Memory</span><br><span class="line">used_memory:1039120</span><br><span class="line">127.0.0.1:6379&gt; hset 1101000 060 3302000080</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; info memory</span><br><span class="line"># Memory</span><br><span class="line">used_memory:1039136</span><br></pre></td></tr></table></figure>
+
+<p>在使用String类型时，每个记录需要消耗64字节，这种方式却只用了16字节，所使用的内存空间是原来的1&#x2F;4，满足了我们节省内存空间的需求。</p>
+<p>Redis Hash类型的两种底层实现结构，分别是压缩列表和哈希表。Hash类型设置了用压缩列表保存数据时的两个阈值，一旦超过了阈值，Hash类型就会用哈希表来保存数据了。</p>
+<ul>
+<li>hash-max-ziplist-entries：表示用压缩列表保存时哈希集合中的最大元素个数。</li>
+<li>hash-max-ziplist-value：表示用压缩列表保存时哈希集合中单个元素的最大长度。</li>
+</ul>
+<p>一旦从压缩列表转为了哈希表，Hash类型就会一直用哈希表进行保存，而不会再转回压缩列表了。在节省内存空间方面，哈希表就没有压缩列表那么高效了。</p>
+<p><strong>为了能充分使用压缩列表的精简内存布局，我们一般要控制保存在Hash集合中的元素个数</strong>。所以，在刚才的二级编码中，我们只用图片ID最后3位作为Hash集合的key，也就保证了Hash集合的元素个数不超过1000，同时，我们把hash-max-ziplist-entries设置为1000，这样一来，Hash集合就可以一直使用压缩列表来节省内存空间了。</p>
+<p><strong>摘选自:极客时间-Redis核心技术与实战</strong></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">YB-CHI</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yb-chi.top/2022/09/07/cyb-mds/module/Redis/Redis-7-String&amp;ziplist/">https://yb-chi.top/2022/09/07/cyb-mds/module/Redis/Redis-7-String&amp;ziplist/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yb-chi.top">YB-CHI</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/redis/">redis</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2022/09/07/cyb-mds/module/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B7%B3%E8%A1%A8/"><i class="fa fa-chevron-left">  </i><span>数据结构-跳表</span></a></div><div class="next-post pull-right"><a href="/2022/09/07/cyb-mds/module/Redis/Redis-1-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span>Redis-1-数据结构</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://tva3.sinaimg.cn/large/be1594fagy1h47naw7o35j22yh0wdtvn.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2016 - 2022 By YB-CHI</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
