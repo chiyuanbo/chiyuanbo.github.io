@@ -1167,9 +1167,9 @@
             
             <tag> Bigdata </tag>
             
-            <tag> Kafka </tag>
-            
             <tag> CDH </tag>
+            
+            <tag> Kafka </tag>
             
         </tags>
       
@@ -1588,11 +1588,11 @@
     
     
     <entry>
-      <title>Redis-9-GEO</title>
-      <link href="/2022/09/07/cyb-mds/module/Redis/Redis-9-GEO/"/>
-      <url>/2022/09/07/cyb-mds/module/Redis/Redis-9-GEO/</url>
+      <title>Redis-5-主从</title>
+      <link href="/2022/09/07/cyb-mds/module/Redis/Redis-5-%E4%B8%BB%E4%BB%8E/"/>
+      <url>/2022/09/07/cyb-mds/module/Redis/Redis-5-%E4%B8%BB%E4%BB%8E/</url>
       
-        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[toc]</p><p>Redis提供了3种扩展数据类型，分别是Bitmap、HyperLogLog和GEO。前两种已经介绍过了，今天讲一讲GEO。</p><h3 id="面向LBS应用的GEO数据类型"><a href="#面向LBS应用的GEO数据类型" class="headerlink" title="面向LBS应用的GEO数据类型"></a>面向LBS应用的GEO数据类型</h3><p>在日常生活中，我们越来越依赖搜索“附近的餐馆”、在打车软件上叫车，这些都离不开基于位置信息服务（Location-Based Service，LBS）的应用。LBS应用访问的数据是和人或物关联的一组经纬度信息，而且要能查询相邻的经纬度范围，GEO就非常适合应用在LBS服务的场景中，我们来看一下它的底层结构。</p><p>#TODO 以后再补充  GEO用不到</p>]]></content>
+        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>那我们总说的Redis具有高可靠性，又是什么意思呢？其实，这里有两层含义：一是<strong>数据尽量少丢失</strong>，二是<strong>服务尽量少中断</strong>。AOF和RDB保证了前者，而对于后者，Redis的做法就是<strong>增加副本冗余量</strong>，将一份数据同时保存在多个实例上。即使有一个实例出现了故障，需要过一段时间才能恢复，其他实例也可以对外提供服务，不会影响业务使用。</p><p>Redis提供了主从库模式，以保证数据副本的一致，主从库之间采用的是读写分离的方式。</p><ul><li><strong>读操作</strong>：主库、从库都可以接收；</li><li><strong>写操作</strong>：首先到主库执行，然后，主库将写操作同步给从库。</li></ul>]]></content>
       
       
       
@@ -1607,11 +1607,11 @@
     
     
     <entry>
-      <title>Redis-5-主从</title>
-      <link href="/2022/09/07/cyb-mds/module/Redis/Redis-5-%E4%B8%BB%E4%BB%8E/"/>
-      <url>/2022/09/07/cyb-mds/module/Redis/Redis-5-%E4%B8%BB%E4%BB%8E/</url>
+      <title>Redis-9-GEO</title>
+      <link href="/2022/09/07/cyb-mds/module/Redis/Redis-9-GEO/"/>
+      <url>/2022/09/07/cyb-mds/module/Redis/Redis-9-GEO/</url>
       
-        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>那我们总说的Redis具有高可靠性，又是什么意思呢？其实，这里有两层含义：一是<strong>数据尽量少丢失</strong>，二是<strong>服务尽量少中断</strong>。AOF和RDB保证了前者，而对于后者，Redis的做法就是<strong>增加副本冗余量</strong>，将一份数据同时保存在多个实例上。即使有一个实例出现了故障，需要过一段时间才能恢复，其他实例也可以对外提供服务，不会影响业务使用。</p><p>Redis提供了主从库模式，以保证数据副本的一致，主从库之间采用的是读写分离的方式。</p><ul><li><strong>读操作</strong>：主库、从库都可以接收；</li><li><strong>写操作</strong>：首先到主库执行，然后，主库将写操作同步给从库。</li></ul>]]></content>
+        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[toc]</p><p>Redis提供了3种扩展数据类型，分别是Bitmap、HyperLogLog和GEO。前两种已经介绍过了，今天讲一讲GEO。</p><h3 id="面向LBS应用的GEO数据类型"><a href="#面向LBS应用的GEO数据类型" class="headerlink" title="面向LBS应用的GEO数据类型"></a>面向LBS应用的GEO数据类型</h3><p>在日常生活中，我们越来越依赖搜索“附近的餐馆”、在打车软件上叫车，这些都离不开基于位置信息服务（Location-Based Service，LBS）的应用。LBS应用访问的数据是和人或物关联的一组经纬度信息，而且要能查询相邻的经纬度范围，GEO就非常适合应用在LBS服务的场景中，我们来看一下它的底层结构。</p><p>#TODO 以后再补充  GEO用不到</p>]]></content>
       
       
       
@@ -1975,6 +1975,25 @@
     
     
     <entry>
+      <title>jdk1.7和1.8共存及切换</title>
+      <link href="/2022/09/07/cyb-mds/java/jdk/jdk1.7%E5%92%8C1.8%E5%85%B1%E5%AD%98%E5%8F%8A%E5%88%87%E6%8D%A2/"/>
+      <url>/2022/09/07/cyb-mds/java/jdk/jdk1.7%E5%92%8C1.8%E5%85%B1%E5%AD%98%E5%8F%8A%E5%88%87%E6%8D%A2/</url>
+      
+        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[toc]</p><h3 id="所需软件"><a href="#所需软件" class="headerlink" title="所需软件"></a>所需软件</h3><p>jdk 1.7和1.8 64位</p><h3 id="安装步奏"><a href="#安装步奏" class="headerlink" title="安装步奏"></a>安装步奏</h3><p>1.7版本是普通的安装，但是1.8会在c盘创建几个文件，&#x3D;&#x3D;以及修改注册表&#x3D;&#x3D;。</p><h3 id="修改步奏"><a href="#修改步奏" class="headerlink" title="修改步奏"></a>修改步奏</h3><p>首先删掉1.8自动生成的环境变量，即：<br>C:\ProgramData\Oracle\Java\javapath;<br>并将此目录下的三个快捷方式删掉<br>然后删除1.8生成的几个文件 即 C:\Windows\System32下的java.exe，javaw.exe,javaws.exe<br>然后进入dos运行java -version<br>报错了   has value’1.8’，but ‘1.7’……</p><p>运行regedit打开注册表<strong>HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Runtime Environment</strong><br>点击它<br>然后点击右侧的CurrentVersion  将值1.8修改为1.7 然后确定<br>重新java -verison   成功</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> JDK </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>JVM性能优化， Part 1 ―― JVM简介</title>
       <link href="/2022/09/07/cyb-mds/java/jvm/JVM%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%8C%20Part%201%20%E2%80%95%E2%80%95%20JVM%E7%AE%80%E4%BB%8B/"/>
       <url>/2022/09/07/cyb-mds/java/jvm/JVM%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%8C%20Part%201%20%E2%80%95%E2%80%95%20JVM%E7%AE%80%E4%BB%8B/</url>
@@ -1988,25 +2007,6 @@
             <tag> Java </tag>
             
             <tag> JVM </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>jdk1.7和1.8共存及切换</title>
-      <link href="/2022/09/07/cyb-mds/java/jdk/jdk1.7%E5%92%8C1.8%E5%85%B1%E5%AD%98%E5%8F%8A%E5%88%87%E6%8D%A2/"/>
-      <url>/2022/09/07/cyb-mds/java/jdk/jdk1.7%E5%92%8C1.8%E5%85%B1%E5%AD%98%E5%8F%8A%E5%88%87%E6%8D%A2/</url>
-      
-        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[toc]</p><h3 id="所需软件"><a href="#所需软件" class="headerlink" title="所需软件"></a>所需软件</h3><p>jdk 1.7和1.8 64位</p><h3 id="安装步奏"><a href="#安装步奏" class="headerlink" title="安装步奏"></a>安装步奏</h3><p>1.7版本是普通的安装，但是1.8会在c盘创建几个文件，&#x3D;&#x3D;以及修改注册表&#x3D;&#x3D;。</p><h3 id="修改步奏"><a href="#修改步奏" class="headerlink" title="修改步奏"></a>修改步奏</h3><p>首先删掉1.8自动生成的环境变量，即：<br>C:\ProgramData\Oracle\Java\javapath;<br>并将此目录下的三个快捷方式删掉<br>然后删除1.8生成的几个文件 即 C:\Windows\System32下的java.exe，javaw.exe,javaws.exe<br>然后进入dos运行java -version<br>报错了   has value’1.8’，but ‘1.7’……</p><p>运行regedit打开注册表<strong>HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Runtime Environment</strong><br>点击它<br>然后点击右侧的CurrentVersion  将值1.8修改为1.7 然后确定<br>重新java -verison   成功</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> JDK </tag>
             
         </tags>
       
@@ -2118,27 +2118,6 @@
     
     
     <entry>
-      <title>编码与乱码</title>
-      <link href="/2022/09/07/cyb-mds/java/code/%E7%BC%96%E7%A0%81%E4%B8%8E%E4%B9%B1%E7%A0%81/"/>
-      <url>/2022/09/07/cyb-mds/java/code/%E7%BC%96%E7%A0%81%E4%B8%8E%E4%B9%B1%E7%A0%81/</url>
-      
-        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[toc]</p><h3 id="乱码的根源"><a href="#乱码的根源" class="headerlink" title="乱码的根源"></a>乱码的根源</h3><p>源编码与目标编码的不一致. 而中文window系统默认编码GBK,害惨了多少程序员.</p><p>要尽量减少出现乱码,我个人认为要做到5码合一, IDE(Eclipse&#x2F;idea),页面(jsp&#x2F;其他模板引擎),应用服务器(tomcat等), 源码(Java源码及周边文件),数据库编码.</p><h3 id="将Eclipse设置为UTF-8"><a href="#将Eclipse设置为UTF-8" class="headerlink" title="将Eclipse设置为UTF-8"></a>将Eclipse设置为UTF-8</h3><p>打开Eclipse安装目录下的eclipse.ini,在最末尾新增一行</p><pre><code>-Dfile.encoding=UTF-8</code></pre><p>修改之后的,重启eclipse即可.</p><h3 id="JSP页面编码"><a href="#JSP页面编码" class="headerlink" title="JSP页面编码"></a>JSP页面编码</h3><pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot; %&gt;可以设置eclipse的jsp设置</code></pre><h3 id="tomcat编码"><a href="#tomcat编码" class="headerlink" title="tomcat编码"></a>tomcat编码</h3><p>打开 tomcat安装目录下的 binsetenv.bat ,该文件通常不存在,新建之, 添加如下内容</p><pre><code>set JAVA_OPTS=-Dfile.encoding=UTF-8</code></pre><p>打开confserver.conf, 在8080端口所属的Connector节点,添加URIEncoding,可解决大部分GET请求中文乱码的问题</p><pre><code>URIEncoding=&quot;UTF-8&quot;</code></pre><h3 id="源码的编码"><a href="#源码的编码" class="headerlink" title="源码的编码"></a>源码的编码</h3><p>通常情况下, 文件本身的编码,取决于新建文件时,IDE或Project的编码.</p><p>另外一个隐藏的编码,是maven&#x2F;ant编译java源文件时使用的编码</p><p>maven的配置如下</p><pre><code>&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</code></pre><h3 id="数据库编码"><a href="#数据库编码" class="headerlink" title="数据库编码"></a>数据库编码</h3><p>通常来说,如果其他4码解决了,那大部分情况下是mysql会出现编码问题</p><p>mysql有4个编码</p><pre><code>Server characterset:    utf8      // 服务器字节集Db     characterset:    utf8      // 当前数据集字节集Client characterset:    utf8      // 客户端字节集Conn.  characterset:    utf8      // 当前连接的字节集</code></pre><p>修改my.ini的mysqld小节,设置服务器字符集,是最佳解决方式</p><pre><code>[mysqld]character-set-server = utf8</code></pre><p>然而,对于现有系统,全局修改的风险比较大,所以,可以在客户端解决,即jdbcurl上做配置</p><pre><code>jdbc:mysql://127.0.0.1/nutzdemo?useUnicode=true&amp;characterEncoding=UTF-8</code></pre><h3 id="Nutz的相关日志"><a href="#Nutz的相关日志" class="headerlink" title="Nutz的相关日志"></a>Nutz的相关日志</h3><p>nutz在启动时也会打印周围的编码信息,帮助排查.</p><pre><code>21:22:23.235 INFO  (NutLoading.java:55) load - Nutz Version : 1.r.59 21:22:23.235 INFO  (NutLoading.java:56) load - Nutz.Mvc[nutz] is initializing ...21:22:23.235 DEBUG (NutLoading.java:60) load - Web Container Information:21:22:23.237 DEBUG (NutLoading.java:61) load -  - Default Charset : UTF-821:22:23.237 DEBUG (NutLoading.java:62) load -  - Current . path  : D:\nutzbook\eclipse\.21:22:23.237 DEBUG (NutLoading.java:63) load -  - Java Version    : 1.8.0_11221:22:23.237 DEBUG (NutLoading.java:65) load -  - Timezone        : Asia/Shanghai21:22:23.238 DEBUG (NutLoading.java:66) load -  - OS              : Windows 7 amd6421:22:23.238 DEBUG (NutLoading.java:67) load -  - ServerInfo      : Apache Tomcat/9.0.0.M1321:22:23.238 DEBUG (NutLoading.java:68) load -  - Servlet API     : 4.021:22:23.238 DEBUG (NutLoading.java:73) load -  - ContextPath     : /nutzbook21:22:25.134 DEBUG (DaoSupport.java:199) invoke - JDBC Name   --&gt; MySQL Connector Java21:22:25.135 DEBUG (DaoSupport.java:201) invoke - JDBC URL    --&gt; jdbc:mysql://127.0.0.1:3306/nutzbook21:22:25.145 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_client=utf821:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_connection=utf821:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_database=utf821:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_filesystem=binary21:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_results=21:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_server=utf821:22:25.147 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_system=utf8</code></pre><p>Default Charset的编码,在Eclipse环境内, 通过eclipse.ini调整,在tomcat内的话,通过setenv.bat调整.</p><p>mysql的编码,通过修改my.ini或jdbc url进行调整</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Code </tag>
-            
-            <tag> Java </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>枚举实现单例连接数据库</title>
       <link href="/2022/09/07/cyb-mds/java/code/%E6%9E%9A%E4%B8%BE%E5%AE%9E%E7%8E%B0%E5%8D%95%E4%BE%8B%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
       <url>/2022/09/07/cyb-mds/java/code/%E6%9E%9A%E4%B8%BE%E5%AE%9E%E7%8E%B0%E5%8D%95%E4%BE%8B%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
@@ -2152,6 +2131,27 @@
             <tag> Code </tag>
             
             <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>编码与乱码</title>
+      <link href="/2022/09/07/cyb-mds/java/code/%E7%BC%96%E7%A0%81%E4%B8%8E%E4%B9%B1%E7%A0%81/"/>
+      <url>/2022/09/07/cyb-mds/java/code/%E7%BC%96%E7%A0%81%E4%B8%8E%E4%B9%B1%E7%A0%81/</url>
+      
+        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[toc]</p><h3 id="乱码的根源"><a href="#乱码的根源" class="headerlink" title="乱码的根源"></a>乱码的根源</h3><p>源编码与目标编码的不一致. 而中文window系统默认编码GBK,害惨了多少程序员.</p><p>要尽量减少出现乱码,我个人认为要做到5码合一, IDE(Eclipse&#x2F;idea),页面(jsp&#x2F;其他模板引擎),应用服务器(tomcat等), 源码(Java源码及周边文件),数据库编码.</p><h3 id="将Eclipse设置为UTF-8"><a href="#将Eclipse设置为UTF-8" class="headerlink" title="将Eclipse设置为UTF-8"></a>将Eclipse设置为UTF-8</h3><p>打开Eclipse安装目录下的eclipse.ini,在最末尾新增一行</p><pre><code>-Dfile.encoding=UTF-8</code></pre><p>修改之后的,重启eclipse即可.</p><h3 id="JSP页面编码"><a href="#JSP页面编码" class="headerlink" title="JSP页面编码"></a>JSP页面编码</h3><pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot; %&gt;可以设置eclipse的jsp设置</code></pre><h3 id="tomcat编码"><a href="#tomcat编码" class="headerlink" title="tomcat编码"></a>tomcat编码</h3><p>打开 tomcat安装目录下的 binsetenv.bat ,该文件通常不存在,新建之, 添加如下内容</p><pre><code>set JAVA_OPTS=-Dfile.encoding=UTF-8</code></pre><p>打开confserver.conf, 在8080端口所属的Connector节点,添加URIEncoding,可解决大部分GET请求中文乱码的问题</p><pre><code>URIEncoding=&quot;UTF-8&quot;</code></pre><h3 id="源码的编码"><a href="#源码的编码" class="headerlink" title="源码的编码"></a>源码的编码</h3><p>通常情况下, 文件本身的编码,取决于新建文件时,IDE或Project的编码.</p><p>另外一个隐藏的编码,是maven&#x2F;ant编译java源文件时使用的编码</p><p>maven的配置如下</p><pre><code>&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</code></pre><h3 id="数据库编码"><a href="#数据库编码" class="headerlink" title="数据库编码"></a>数据库编码</h3><p>通常来说,如果其他4码解决了,那大部分情况下是mysql会出现编码问题</p><p>mysql有4个编码</p><pre><code>Server characterset:    utf8      // 服务器字节集Db     characterset:    utf8      // 当前数据集字节集Client characterset:    utf8      // 客户端字节集Conn.  characterset:    utf8      // 当前连接的字节集</code></pre><p>修改my.ini的mysqld小节,设置服务器字符集,是最佳解决方式</p><pre><code>[mysqld]character-set-server = utf8</code></pre><p>然而,对于现有系统,全局修改的风险比较大,所以,可以在客户端解决,即jdbcurl上做配置</p><pre><code>jdbc:mysql://127.0.0.1/nutzdemo?useUnicode=true&amp;characterEncoding=UTF-8</code></pre><h3 id="Nutz的相关日志"><a href="#Nutz的相关日志" class="headerlink" title="Nutz的相关日志"></a>Nutz的相关日志</h3><p>nutz在启动时也会打印周围的编码信息,帮助排查.</p><pre><code>21:22:23.235 INFO  (NutLoading.java:55) load - Nutz Version : 1.r.59 21:22:23.235 INFO  (NutLoading.java:56) load - Nutz.Mvc[nutz] is initializing ...21:22:23.235 DEBUG (NutLoading.java:60) load - Web Container Information:21:22:23.237 DEBUG (NutLoading.java:61) load -  - Default Charset : UTF-821:22:23.237 DEBUG (NutLoading.java:62) load -  - Current . path  : D:\nutzbook\eclipse\.21:22:23.237 DEBUG (NutLoading.java:63) load -  - Java Version    : 1.8.0_11221:22:23.237 DEBUG (NutLoading.java:65) load -  - Timezone        : Asia/Shanghai21:22:23.238 DEBUG (NutLoading.java:66) load -  - OS              : Windows 7 amd6421:22:23.238 DEBUG (NutLoading.java:67) load -  - ServerInfo      : Apache Tomcat/9.0.0.M1321:22:23.238 DEBUG (NutLoading.java:68) load -  - Servlet API     : 4.021:22:23.238 DEBUG (NutLoading.java:73) load -  - ContextPath     : /nutzbook21:22:25.134 DEBUG (DaoSupport.java:199) invoke - JDBC Name   --&gt; MySQL Connector Java21:22:25.135 DEBUG (DaoSupport.java:201) invoke - JDBC URL    --&gt; jdbc:mysql://127.0.0.1:3306/nutzbook21:22:25.145 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_client=utf821:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_connection=utf821:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_database=utf821:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_filesystem=binary21:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_results=21:22:25.146 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_server=utf821:22:25.147 DEBUG (MysqlJdbcExpert.java:212) checkDataSource - Mysql : character_set_system=utf8</code></pre><p>Default Charset的编码,在Eclipse环境内, 通过eclipse.ini调整,在tomcat内的话,通过setenv.bat调整.</p><p>mysql的编码,通过修改my.ini或jdbc url进行调整</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Code </tag>
+            
+            <tag> Java </tag>
             
         </tags>
       
@@ -2326,25 +2326,6 @@
     
     
     <entry>
-      <title>基于hadoop3.x&amp;hive3.x的spark-2.3.2单机部署</title>
-      <link href="/2022/09/07/cyb-mds/bigdata/Spark/%E5%9F%BA%E4%BA%8Ehadoop3.x&amp;hive3.x%E7%9A%84spark-2.3.2%E5%8D%95%E6%9C%BA%E9%83%A8%E7%BD%B2/"/>
-      <url>/2022/09/07/cyb-mds/bigdata/Spark/%E5%9F%BA%E4%BA%8Ehadoop3.x&amp;hive3.x%E7%9A%84spark-2.3.2%E5%8D%95%E6%9C%BA%E9%83%A8%E7%BD%B2/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> 新建,模板,小书匠 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>spark学习记录</title>
       <link href="/2022/09/07/cyb-mds/bigdata/Spark/spark%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
       <url>/2022/09/07/cyb-mds/bigdata/Spark/spark%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
@@ -2358,6 +2339,25 @@
             <tag> Bigdata </tag>
             
             <tag> Spark </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基于hadoop3.x&amp;hive3.x的spark-2.3.2单机部署</title>
+      <link href="/2022/09/07/cyb-mds/bigdata/Spark/%E5%9F%BA%E4%BA%8Ehadoop3.x&amp;hive3.x%E7%9A%84spark-2.3.2%E5%8D%95%E6%9C%BA%E9%83%A8%E7%BD%B2/"/>
+      <url>/2022/09/07/cyb-mds/bigdata/Spark/%E5%9F%BA%E4%BA%8Ehadoop3.x&amp;hive3.x%E7%9A%84spark-2.3.2%E5%8D%95%E6%9C%BA%E9%83%A8%E7%BD%B2/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 新建,模板,小书匠 </tag>
             
         </tags>
       
@@ -2406,31 +2406,6 @@
     
     
     <entry>
-      <title>Hive自定义UDF函数</title>
-      <link href="/2022/09/07/cyb-mds/bigdata/Hive/Hive%E8%87%AA%E5%AE%9A%E4%B9%89UDF%E5%87%BD%E6%95%B0/"/>
-      <url>/2022/09/07/cyb-mds/bigdata/Hive/Hive%E8%87%AA%E5%AE%9A%E4%B9%89UDF%E5%87%BD%E6%95%B0/</url>
-      
-        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><ol><li>idea新建个maven项目，引入依赖</li></ol><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hive<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hive-exec<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>*<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>*<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure><ol start="2"><li>编写函数类，继承UDF，并实现evaluate方法</li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.hadoop.hive.ql.exec.UDF;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">split_distinct</span> <span class="keyword">extends</span> <span class="title class_">UDF</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">evaluate</span><span class="params">(String line, String split)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">null</span> == line) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">StringBuffer</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>();</span><br><span class="line">        String[] sp = line.split(split);</span><br><span class="line">        <span class="keyword">for</span> (String s : sp) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="literal">null</span> != s &amp;&amp; sb.indexOf(s) &lt; <span class="number">0</span>) sb.append(s).append(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.deleteCharAt(sb.length() - <span class="number">1</span>).toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ol start="3"><li>maven-package打包，上传不带依赖的包并测试</li></ol><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">hive&gt;</span><span class="language-bash">add jar /home/module/testdata/HiveUDF-1.0-SNAPSHOT.jar;</span></span><br><span class="line">CREATE TEMPORARY FUNCTION split_distinct AS &#x27;split_distinct&#x27;;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">测试</span></span><br><span class="line">select split_distinct(&#x27;[[&quot;C8:13:8B:81:32:C1&quot;],[&quot;C8:13:8B:81:32:C1&quot;],[&quot;C8:13:8B:81:32:C1&quot;],[&quot;C8:13:8B:81:32:C2&quot;]]&#x27;,&#x27;,&#x27;);</span><br></pre></td></tr></table></figure><ol start="4"><li>测试成功后，注册永久函数</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#建立hdfs文件夹</span><br><span class="line">hdfs dfs -mkdir /out/hive_udf_jars</span><br><span class="line">#上传</span><br><span class="line">hdfs dfs -put HiveUDF-1.0-SNAPSHOT.jar /out/hive_udf_jars/</span><br><span class="line">#注册</span><br><span class="line">create function split_distinct as &#x27;split_distinct&#x27; using jar &#x27;hdfs://xbsafe102/out/hive_udf_jars/HiveUDF-1.0-SNAPSHOT.jar&#x27;;</span><br><span class="line">#删除函数</span><br><span class="line">drop function split_distinct;</span><br><span class="line">#注意更新jar包需要重启hive或者spark-sql客户端！！！！！</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Code </tag>
-            
-            <tag> Hadoop </tag>
-            
-            <tag> Hive </tag>
-            
-            <tag> Java </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>centos7安装hive1.2.1</title>
       <link href="/2022/09/07/cyb-mds/bigdata/Hive/centos7%E5%AE%89%E8%A3%85hive1.2.1/"/>
       <url>/2022/09/07/cyb-mds/bigdata/Hive/centos7%E5%AE%89%E8%A3%85hive1.2.1/</url>
@@ -2452,17 +2427,23 @@
     
     
     <entry>
-      <title>hive常用操作</title>
-      <link href="/2022/09/07/cyb-mds/bigdata/Hive/hive%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"/>
-      <url>/2022/09/07/cyb-mds/bigdata/Hive/hive%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+      <title>Hive自定义UDF函数</title>
+      <link href="/2022/09/07/cyb-mds/bigdata/Hive/Hive%E8%87%AA%E5%AE%9A%E4%B9%89UDF%E5%87%BD%E6%95%B0/"/>
+      <url>/2022/09/07/cyb-mds/bigdata/Hive/Hive%E8%87%AA%E5%AE%9A%E4%B9%89UDF%E5%87%BD%E6%95%B0/</url>
       
-        <content type="html"><![CDATA[<p>[toc]</p><h6 id="建分区表"><a href="#建分区表" class="headerlink" title="建分区表"></a>建分区表</h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> `ods_o_mdt_huawei_log_mdt_h_fenqu`(         </span><br><span class="line">  `recloggrpttimestamp` string,                    </span><br><span class="line">  `measstarabsolutetimestamp` string</span><br><span class="line">  )</span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (    </span><br><span class="line">  `dayid` string,   </span><br><span class="line">  `hourid` string)  </span><br><span class="line"><span class="type">ROW</span> FORMAT SERDE    </span><br><span class="line">  <span class="string">&#x27;org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe&#x27;</span>  </span><br><span class="line"><span class="keyword">WITH</span> SERDEPROPERTIES (                             </span><br><span class="line">  <span class="string">&#x27;field.delim&#x27;</span><span class="operator">=</span><span class="string">&#x27;,&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;serialization.format&#x27;</span><span class="operator">=</span><span class="string">&#x27;,&#x27;</span>)                      </span><br><span class="line">STORED <span class="keyword">AS</span> INPUTFORMAT                              </span><br><span class="line">  <span class="string">&#x27;org.apache.hadoop.mapred.TextInputFormat&#x27;</span>       </span><br><span class="line">OUTPUTFORMAT        </span><br><span class="line">  <span class="string">&#x27;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&#x27;</span> </span><br><span class="line">LOCATION            </span><br><span class="line">  <span class="string">&#x27;hdfs://192.168.1.34:9000/apps/hive/warehouse/hiveods.db/ods_o_mdt_huawei_log_mdt_h&#x27;</span> </span><br><span class="line">TBLPROPERTIES (     </span><br><span class="line">  <span class="string">&#x27;bucketing_version&#x27;</span><span class="operator">=</span><span class="string">&#x27;2&#x27;</span>,                         </span><br><span class="line">  <span class="string">&#x27;last_modified_by&#x27;</span><span class="operator">=</span><span class="string">&#x27;ica&#x27;</span>,                        </span><br><span class="line">  <span class="string">&#x27;last_modified_time&#x27;</span><span class="operator">=</span><span class="string">&#x27;1607600876&#x27;</span>,               </span><br><span class="line">  <span class="string">&#x27;transient_lastDdlTime&#x27;</span><span class="operator">=</span><span class="string">&#x27;1607600876&#x27;</span>)</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><ol><li>idea新建个maven项目，引入依赖</li></ol><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hive<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hive-exec<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>*<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>*<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure><ol start="2"><li>编写函数类，继承UDF，并实现evaluate方法</li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.hadoop.hive.ql.exec.UDF;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">split_distinct</span> <span class="keyword">extends</span> <span class="title class_">UDF</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">evaluate</span><span class="params">(String line, String split)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">null</span> == line) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">StringBuffer</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>();</span><br><span class="line">        String[] sp = line.split(split);</span><br><span class="line">        <span class="keyword">for</span> (String s : sp) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="literal">null</span> != s &amp;&amp; sb.indexOf(s) &lt; <span class="number">0</span>) sb.append(s).append(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.deleteCharAt(sb.length() - <span class="number">1</span>).toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ol start="3"><li>maven-package打包，上传不带依赖的包并测试</li></ol><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">hive&gt;</span><span class="language-bash">add jar /home/module/testdata/HiveUDF-1.0-SNAPSHOT.jar;</span></span><br><span class="line">CREATE TEMPORARY FUNCTION split_distinct AS &#x27;split_distinct&#x27;;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">测试</span></span><br><span class="line">select split_distinct(&#x27;[[&quot;C8:13:8B:81:32:C1&quot;],[&quot;C8:13:8B:81:32:C1&quot;],[&quot;C8:13:8B:81:32:C1&quot;],[&quot;C8:13:8B:81:32:C2&quot;]]&#x27;,&#x27;,&#x27;);</span><br></pre></td></tr></table></figure><ol start="4"><li>测试成功后，注册永久函数</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#建立hdfs文件夹</span><br><span class="line">hdfs dfs -mkdir /out/hive_udf_jars</span><br><span class="line">#上传</span><br><span class="line">hdfs dfs -put HiveUDF-1.0-SNAPSHOT.jar /out/hive_udf_jars/</span><br><span class="line">#注册</span><br><span class="line">create function split_distinct as &#x27;split_distinct&#x27; using jar &#x27;hdfs://xbsafe102/out/hive_udf_jars/HiveUDF-1.0-SNAPSHOT.jar&#x27;;</span><br><span class="line">#删除函数</span><br><span class="line">drop function split_distinct;</span><br><span class="line">#注意更新jar包需要重启hive或者spark-sql客户端！！！！！</span><br></pre></td></tr></table></figure>]]></content>
       
       
       
         <tags>
             
-            <tag> DATABASE,HIVE,OP </tag>
+            <tag> Code </tag>
+            
+            <tag> Hadoop </tag>
+            
+            <tag> Hive </tag>
+            
+            <tag> Java </tag>
             
         </tags>
       
@@ -2490,6 +2471,25 @@
     
     
     <entry>
+      <title>hive常用操作</title>
+      <link href="/2022/09/07/cyb-mds/bigdata/Hive/hive%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/"/>
+      <url>/2022/09/07/cyb-mds/bigdata/Hive/hive%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/</url>
+      
+        <content type="html"><![CDATA[<p>[toc]</p><h6 id="建分区表"><a href="#建分区表" class="headerlink" title="建分区表"></a>建分区表</h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> `ods_o_mdt_huawei_log_mdt_h_fenqu`(         </span><br><span class="line">  `recloggrpttimestamp` string,                    </span><br><span class="line">  `measstarabsolutetimestamp` string</span><br><span class="line">  )</span><br><span class="line">PARTITIONED <span class="keyword">BY</span> (    </span><br><span class="line">  `dayid` string,   </span><br><span class="line">  `hourid` string)  </span><br><span class="line"><span class="type">ROW</span> FORMAT SERDE    </span><br><span class="line">  <span class="string">&#x27;org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe&#x27;</span>  </span><br><span class="line"><span class="keyword">WITH</span> SERDEPROPERTIES (                             </span><br><span class="line">  <span class="string">&#x27;field.delim&#x27;</span><span class="operator">=</span><span class="string">&#x27;,&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;serialization.format&#x27;</span><span class="operator">=</span><span class="string">&#x27;,&#x27;</span>)                      </span><br><span class="line">STORED <span class="keyword">AS</span> INPUTFORMAT                              </span><br><span class="line">  <span class="string">&#x27;org.apache.hadoop.mapred.TextInputFormat&#x27;</span>       </span><br><span class="line">OUTPUTFORMAT        </span><br><span class="line">  <span class="string">&#x27;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&#x27;</span> </span><br><span class="line">LOCATION            </span><br><span class="line">  <span class="string">&#x27;hdfs://192.168.1.34:9000/apps/hive/warehouse/hiveods.db/ods_o_mdt_huawei_log_mdt_h&#x27;</span> </span><br><span class="line">TBLPROPERTIES (     </span><br><span class="line">  <span class="string">&#x27;bucketing_version&#x27;</span><span class="operator">=</span><span class="string">&#x27;2&#x27;</span>,                         </span><br><span class="line">  <span class="string">&#x27;last_modified_by&#x27;</span><span class="operator">=</span><span class="string">&#x27;ica&#x27;</span>,                        </span><br><span class="line">  <span class="string">&#x27;last_modified_time&#x27;</span><span class="operator">=</span><span class="string">&#x27;1607600876&#x27;</span>,               </span><br><span class="line">  <span class="string">&#x27;transient_lastDdlTime&#x27;</span><span class="operator">=</span><span class="string">&#x27;1607600876&#x27;</span>)</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> DATABASE,HIVE,OP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>hive开发过程中遇到的一些问题</title>
       <link href="/2022/09/07/cyb-mds/bigdata/Hive/hive%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
       <url>/2022/09/07/cyb-mds/bigdata/Hive/hive%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
@@ -2507,6 +2507,27 @@
             <tag> Hive </tag>
             
             <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>centos7安装hbase1.1.4</title>
+      <link href="/2022/09/07/cyb-mds/bigdata/Hbase/centos7%E5%AE%89%E8%A3%85hbase1.1.4/"/>
+      <url>/2022/09/07/cyb-mds/bigdata/Hbase/centos7%E5%AE%89%E8%A3%85hbase1.1.4/</url>
+      
+        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[TOC]</p><h3 id="准备软件"><a href="#准备软件" class="headerlink" title="准备软件"></a>准备软件</h3><pre><code>hbase-1.1.4-bin.tar.gz</code></pre><h3 id="安装步奏"><a href="#安装步奏" class="headerlink" title="安装步奏"></a>安装步奏</h3><pre><code>#解压tar zxvf hbase-1.1.4-bin.tar.gz#修改环境变量   vi /etc/profile# Hbase Environment Variablesexport HBASE_HOME=/usr/local/hbase-1.1.4export PATH=$HBASE_HOME/bin:$PATHsource /etc/profile生效。#修改hbase-env.sh，添加：vi conf/hbase-env.shexport JAVA_HOME=/usr/local/jdk_1.7#修改配置文件vi conf/hbase-site.xml&lt;configuration&gt;    &lt;property&gt;            &lt;name&gt;hbase.rootdir&lt;/name&gt;            &lt;value&gt;hdfs://192.168.15.131:9000/hbase&lt;/value&gt;    &lt;/property&gt;    &lt;property&gt;            &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;            &lt;value&gt;true&lt;/value&gt;    &lt;/property&gt;&lt;/configuration&gt;</code></pre>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Bigdata </tag>
+            
+            <tag> Hbase </tag>
             
         </tags>
       
@@ -2547,27 +2568,6 @@
         <tags>
             
             <tag> Bigdata,Hbase </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>centos7安装hbase1.1.4</title>
-      <link href="/2022/09/07/cyb-mds/bigdata/Hbase/centos7%E5%AE%89%E8%A3%85hbase1.1.4/"/>
-      <url>/2022/09/07/cyb-mds/bigdata/Hbase/centos7%E5%AE%89%E8%A3%85hbase1.1.4/</url>
-      
-        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[TOC]</p><h3 id="准备软件"><a href="#准备软件" class="headerlink" title="准备软件"></a>准备软件</h3><pre><code>hbase-1.1.4-bin.tar.gz</code></pre><h3 id="安装步奏"><a href="#安装步奏" class="headerlink" title="安装步奏"></a>安装步奏</h3><pre><code>#解压tar zxvf hbase-1.1.4-bin.tar.gz#修改环境变量   vi /etc/profile# Hbase Environment Variablesexport HBASE_HOME=/usr/local/hbase-1.1.4export PATH=$HBASE_HOME/bin:$PATHsource /etc/profile生效。#修改hbase-env.sh，添加：vi conf/hbase-env.shexport JAVA_HOME=/usr/local/jdk_1.7#修改配置文件vi conf/hbase-site.xml&lt;configuration&gt;    &lt;property&gt;            &lt;name&gt;hbase.rootdir&lt;/name&gt;            &lt;value&gt;hdfs://192.168.15.131:9000/hbase&lt;/value&gt;    &lt;/property&gt;    &lt;property&gt;            &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;            &lt;value&gt;true&lt;/value&gt;    &lt;/property&gt;&lt;/configuration&gt;</code></pre>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Bigdata </tag>
-            
-            <tag> Hbase </tag>
             
         </tags>
       
@@ -2618,27 +2618,6 @@
     
     
     <entry>
-      <title>flume安装</title>
-      <link href="/2022/09/07/cyb-mds/bigdata/Flume-NG/flume%E5%AE%89%E8%A3%85/"/>
-      <url>/2022/09/07/cyb-mds/bigdata/Flume-NG/flume%E5%AE%89%E8%A3%85/</url>
-      
-        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[toc]</p><p>添加agent节点 </p><p>在BDS部署</p><p>配置环境变量</p><h6 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h6><p><code>cp flume-env.sh.template flume-env.sh</code></p><p>加入jdk和hadoop的环境变量</p><p><code>flume-ng version</code>验证</p><p>创建agent.conf</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#source</span></span><br><span class="line">a1.sources = sysSrc</span><br><span class="line">a1.sources.sysSrc.type=syslogudp</span><br><span class="line">a1.sources.sysSrc.bind=<span class="number">0.0</span>.<span class="number">0.0</span></span><br><span class="line">a1.sources.sysSrc.port=<span class="number">514</span></span><br><span class="line">a1.sources.sysSrc.channels=fileChannel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#channel</span></span><br><span class="line">a1.channels = fileChannel</span><br><span class="line">a1.channels.fileChannel.type =memory</span><br><span class="line">a1.channels.fileChannel.capacity=<span class="number">100000</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#sink</span></span><br><span class="line">a1.sinks = kafkaSink</span><br><span class="line">a1.sinks.kafkaSink.channel=fileChannel</span><br><span class="line">a1.sinks.kafkaSink.type=org.apache.flume.sink.kafka.KafkaSink</span><br><span class="line">a1.sinks.kafkaSink.brokerList=BDS:<span class="number">9092</span>,BDS<span class="literal">-1</span>:<span class="number">9092</span>,BDS<span class="literal">-2</span>:<span class="number">9092</span></span><br><span class="line">a1.sinks.kafkaSink.custom.partition.key=kafkaPartition</span><br><span class="line">a1.sinks.kafkaSink.topic=flumetest</span><br><span class="line">a1.sinks.kafkaSink.serializer.class=kafka.serializer.StringEncoder</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>启动</p><p><code>bin/flume-ng agent --conf conf --conf-file conf/agent.conf --name a1 -Dflume.root.logger=INFO,console</code></p><p>启动消费者</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt/cloudera/parcels/KAFKA<span class="literal">-2</span>.<span class="number">1.1</span><span class="literal">-1</span>.<span class="number">2.1</span>.<span class="number">1</span>.p0.<span class="number">18</span>/lib/kafka</span><br><span class="line"></span><br><span class="line">bin/kafka<span class="literal">-console-consumer</span>.sh <span class="literal">--zookeeper</span> BDS:<span class="number">2181</span>,BDS<span class="literal">-1</span>:<span class="number">2181</span>,BDS<span class="literal">-2</span>:<span class="number">2181</span> <span class="literal">--topic</span> flumetest <span class="literal">--from-beginning</span></span><br></pre></td></tr></table></figure><p>使用测试工具发送信息进行测试 查看消费者是否收到</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Bigdata </tag>
-            
-            <tag> Flume-NG </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>windows安装elasticsearch</title>
       <link href="/2022/09/07/cyb-mds/bigdata/ES/windows%E5%AE%89%E8%A3%85elasticsearch/"/>
       <url>/2022/09/07/cyb-mds/bigdata/ES/windows%E5%AE%89%E8%A3%85elasticsearch/</url>
@@ -2652,6 +2631,27 @@
             <tag> Bigdata </tag>
             
             <tag> ES </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>flume安装</title>
+      <link href="/2022/09/07/cyb-mds/bigdata/Flume-NG/flume%E5%AE%89%E8%A3%85/"/>
+      <url>/2022/09/07/cyb-mds/bigdata/Flume-NG/flume%E5%AE%89%E8%A3%85/</url>
+      
+        <content type="html"><![CDATA[<p>&#x3D;&#x3D;作者：YB-Chi&#x3D;&#x3D;</p><p>[toc]</p><p>添加agent节点 </p><p>在BDS部署</p><p>配置环境变量</p><h6 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h6><p><code>cp flume-env.sh.template flume-env.sh</code></p><p>加入jdk和hadoop的环境变量</p><p><code>flume-ng version</code>验证</p><p>创建agent.conf</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#source</span></span><br><span class="line">a1.sources = sysSrc</span><br><span class="line">a1.sources.sysSrc.type=syslogudp</span><br><span class="line">a1.sources.sysSrc.bind=<span class="number">0.0</span>.<span class="number">0.0</span></span><br><span class="line">a1.sources.sysSrc.port=<span class="number">514</span></span><br><span class="line">a1.sources.sysSrc.channels=fileChannel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#channel</span></span><br><span class="line">a1.channels = fileChannel</span><br><span class="line">a1.channels.fileChannel.type =memory</span><br><span class="line">a1.channels.fileChannel.capacity=<span class="number">100000</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#sink</span></span><br><span class="line">a1.sinks = kafkaSink</span><br><span class="line">a1.sinks.kafkaSink.channel=fileChannel</span><br><span class="line">a1.sinks.kafkaSink.type=org.apache.flume.sink.kafka.KafkaSink</span><br><span class="line">a1.sinks.kafkaSink.brokerList=BDS:<span class="number">9092</span>,BDS<span class="literal">-1</span>:<span class="number">9092</span>,BDS<span class="literal">-2</span>:<span class="number">9092</span></span><br><span class="line">a1.sinks.kafkaSink.custom.partition.key=kafkaPartition</span><br><span class="line">a1.sinks.kafkaSink.topic=flumetest</span><br><span class="line">a1.sinks.kafkaSink.serializer.class=kafka.serializer.StringEncoder</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>启动</p><p><code>bin/flume-ng agent --conf conf --conf-file conf/agent.conf --name a1 -Dflume.root.logger=INFO,console</code></p><p>启动消费者</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt/cloudera/parcels/KAFKA<span class="literal">-2</span>.<span class="number">1.1</span><span class="literal">-1</span>.<span class="number">2.1</span>.<span class="number">1</span>.p0.<span class="number">18</span>/lib/kafka</span><br><span class="line"></span><br><span class="line">bin/kafka<span class="literal">-console-consumer</span>.sh <span class="literal">--zookeeper</span> BDS:<span class="number">2181</span>,BDS<span class="literal">-1</span>:<span class="number">2181</span>,BDS<span class="literal">-2</span>:<span class="number">2181</span> <span class="literal">--topic</span> flumetest <span class="literal">--from-beginning</span></span><br></pre></td></tr></table></figure><p>使用测试工具发送信息进行测试 查看消费者是否收到</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Bigdata </tag>
+            
+            <tag> Flume-NG </tag>
             
         </tags>
       
